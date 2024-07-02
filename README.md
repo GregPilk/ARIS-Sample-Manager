@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+ARIS Lab Sample Management System
+The ARIS Lab Sample Management System is an application designed to automate the process of data entry for laboratory samples related to water testing. This system aims to streamline the workflow of collecting, recording, and managing sample data, enhancing efficiency and accuracy in laboratory operations.
 
-## Getting Started
+Features
+Automated Data Entry: The system automates the process of entering data for lab samples, reducing manual errors and saving time for laboratory personnel.
 
-First, run the development server:
+Scanner Integration: Integrated scanner functionality allows for quick and easy digitization of sample information from physical documents.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Printer Integration: The system can generate printed reports or labels for processed samples, facilitating organization and documentation.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Secure Database: Data related to lab samples is stored in a secure SQLite database, ensuring confidentiality and integrity of the information.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Getting Started
+To use the ARIS Lab Sample Management System, follow these steps:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Clone the repository to your local environment.
+Install the necessary dependencies specified in the project's documentation.
+Run the application on your preferred development environment.
+Alternatively, you can access a live demo of the application hosted on the SAIT network by visiting the following URL: ARIS Lab Sample Management System Demo
 
-## Learn More
+Contributing
+Contributions to the ARIS Lab Sample Management System are welcome! If you have suggestions for new features, bug fixes, or improvements, please open an issue or submit a pull request on the GitHub repository.
 
-To learn more about Next.js, take a look at the following resources:
+License
+This project is licensed under the MIT License.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Acknowledgments
+Special thanks to the team at SAIT for their support and feedback during the development of this system.
