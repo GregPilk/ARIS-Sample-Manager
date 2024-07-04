@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Record {
+  chainOfCustody               Int      @id @map("_id")
+  reportToCompany              String
+  reportToContact              String
+  reportToPhone                String
+  reportToStreet               String
+  reportToCity                 String
+  reportToPostal               String
+  invoiceToSameAsReport        String
+  invoiceToCopyOfInvoice       String
+  invoiceToCompany             String
+  invoiceToContact             String
+  reportRecipientFormat        String
+  mergeQCReports               String
+  selectDistribution           String
+  reportRecipientEmailOne      String
+  reportRecipientEmailTwo      String
+  reportRecipientEmailThree    String
+  invoiceRecipientDistribution String
+  invoiceRecipientEmailOne     String
+  invoiceRecipientEmailTwo     String
+  samples                      Sample[]
+}
+
+model Sample {
+  sampleID             Int     @id @map("_id")
+  type                 String
+  tests                Test[]
+  Record               Record? @relation(fields: [recordChainOfCustody], references: [chainOfCustody])
+  recordChainOfCustody Int?
+}
+
+model Test {
+  id             String  @id @map("_id") @db.ObjectId
+  name           String
+  ph             Int?
+  conductivity   Int?
+  hpic           Int?
+  ic             Int?
+  alkalinity     Int?
+  toc            Int?
+  tic            Int?
+  icp            Int?
+  tss            Int?
+  completedBy    String
+  Sample         Sample? @relation(fields: [sampleSampleID], references: [sampleID])
+  sampleSampleID Int?
+}
