@@ -20,29 +20,40 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #626b66;
+  position: relative;
+  overflow: hidden;
+}
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-image: url('../public/images/nw-aris-energy-730x487.png');
-  /* background-size: cover; Scales the image to cover the entire div */
-  /* background-position: center; Centers the image */
   background-repeat: round;
+  /* Adjust the opacity here */
+  opacity: 0.3;
+  z-index: -1;
 }
 .nav-bar{
-  background-color: #712886;
-  background-image: url('../public/images/ARIS_background.png');
+  background-image: linear-gradient(to right, #a32896 50%, #712886), url('../public/images/ARIS_background.png');
   background-blend-mode: multiply;
   border-bottom: 2px solid #1a2431;
 }
 .nav-custom{
   border: 1px solid #a0b6a8; /* Example border color */
   border-radius: 20px; /* Rounded border */
-  padding: 0 0px 0 8px;
+  padding: 0 0px 0 10px;
   height: 32px;
-  width: 150px;
+  width: auto;
 }
 .nav-image{
   border: 1px solid #a0b6a8; 
   border-radius: 20px;
   height: 32px;
   width: 32px; 
+  margin-left: 4px;
 }
 .flex-container{
   display: flex;
@@ -71,18 +82,21 @@ body {
   justify-content: flex-start;
   align-items: center;
   height: 100vh;
-  margin-top: 32px;
+  margin-top: 48px;
 }
 .page-pop{
-  background-color: #00ABE8;
-  background-image: url('../public/images/ARIS_background.png');
+  background-image: linear-gradient(to bottom, #6ed0f3 10%, #00ABE8), url('../public/images/ARIS_background.png');
   background-blend-mode: multiply;
   border: 2px solid #1a2431;
   border-radius: 6px;
   box-shadow: 4px 8px 8px 0px rgba(1, 19, 5, 0.4);
-  margin-top: 24px;
-  height: 700px;
-  width: 1080px;
+  height: auto;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 36px;
+  justify-content: center;
+  align-items: center;
 }
 .page-flat{
   background-color: #168f44;
@@ -92,20 +106,47 @@ body {
   height: 100vh;
   width: 100%;
 }
+.page-button-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 60%;
+  width: 90%;
+}
+.page-button{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: #e2e8f0; 
+  color: #000; 
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 2rem 0.75rem; 
+  margin: 0.50rem 0.50rem; 
+  border-radius: 0.375rem; 
+  border: 1px solid #000;
+  font-size: 2rem; 
+  line-height: 2.5rem; 
+  width: 40%;
+}
+.page-button:hover {
+  background-color: #cbd5e0; /* Tailwind's gray-400 */
+}
 
 .title {
   background-color: rgb(181, 184, 183);
-  border-bottom: 2px groove #1a2431;
+  border-bottom: 3px groove #1a2431;
+  border-left: 3px groove #5f6f83;
+  border-right: 3px groove #1b2531;
   border-radius: 0 0 6px 6px; 
+  background-color:  #AE122A;
   background-image: url('../public/images/ARIS_background.png');
   background-blend-mode: hard-light;
   font-size: 3rem;
   text-align: center;
   font-family: 'Franklin Gothic', monospace;
-  color: #1a2431;
-  padding: 6px 0px;
-  margin-bottom: 20px;
-  width: 100%;
+  color: #e2e8f0;
+  margin-top: 10px;
+  width: 900px;
 }
 
 .login-container {
@@ -181,6 +222,7 @@ body {
   cursor: pointer;
 }
 
+
 .welcome .actions button:hover, .welcome .actions a:hover {
   background-color: #0056b3;
 }
@@ -214,4 +256,81 @@ body {
   border: 2px solid #ccc;
   height: 48px;
   width: 48px;
+}
+.input-box {
+  background-color: #e2e8f0;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  /* margin: 1.75rem; */
+  /* margin: 28px; */
+  padding: 0.5rem;
+  height: 200px;
+  width: 650px;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(248, 116, 116, 0.05);
+  border-width: 2px;
+  border-color: #000000;
+}
+.input-fields{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  max-height: 140px;
+  width: 100%;
+}
+.column-fields{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+}
+.special-box {
+  background-color: #e2e8f0;
+  align-items: center;
+  /* justify-content: center; */
+  display: flex;
+  flex-direction: column;
+  /* height: 350px; */
+  width: 400px;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(248, 116, 116, 0.05);
+  border-width: 2px;
+  border-color: #000000;
+}
+.itty-box {
+  background-color: #e2e8f0;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  height: 140px;
+  width: 400px;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(248, 116, 116, 0.05);
+  border-width: 2px;
+  border-color: #000000;
+}
+
+.submit-button {
+  color: #e2e8f0;
+  font-weight: bold;
+  font-size: 2rem;
+  margin-top: 1.25rem; 
+  padding: 0.5rem 2.25rem;
+  border-radius: 0.25rem; 
+  transition: transform 300ms ease-in-out; 
+  background-image: linear-gradient(to right, #00ABE8, #2981a1);
+  border: 2px solid #1a2431;
+  box-shadow: 4px 4px 8px 0px rgba(1, 19, 5, 0.4);
+}
+
+.submit-button:hover {
+  transform: scale(1.03);
+  background-image: linear-gradient(to right, #022a38, #00678d);
 }

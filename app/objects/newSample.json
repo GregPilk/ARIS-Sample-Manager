@@ -1,0 +1,184 @@
+{
+  "reportTo": {
+    "company": {
+      "label": "Company:",
+      "type": "text",
+      "id": "reportToCompany",
+      "name": "reportToCompany",
+      "value": "reportToCompany",
+      "onChange": "setReportToCompany"
+    },
+    "contact": {
+      "label": "Contact:",
+      "type": "text",
+      "id": "reportToContact",
+      "name": "reportToContact",
+      "value": "reportToContact",
+      "onChange": "setReportToContact"
+    },
+    "phone": {
+      "label": "Phone:",
+      "type": "text",
+      "id": "reportToPhone",
+      "name": "reportToPhone",
+      "value": "reportToPhone",
+      "onChange": "setReportToPhone"
+    },
+    "street": {
+      "label": "Street:",
+      "type": "text",
+      "id": "reportToStreet",
+      "name": "reportToStreet",
+      "value": "reportToStreet",
+      "onChange": "setReportToStreet"
+    },
+    "cityProvince": {
+      "label": "City/Province:",
+      "type": "text",
+      "id": "reportToCity",
+      "name": "reportToCity",
+      "value": "reportToCity",
+      "onChange": "setReportToCity"
+    },
+    "postalCode": {
+      "label": "Postal Code:",
+      "type": "text",
+      "id": "reportToPostal",
+      "name": "reportToPostal",
+      "value": "reportToPostal",
+      "onChange": "setReportToPostal"
+    }
+  },
+  "invoiceTo": {
+    "sameAsReportTo": {
+      "label": "Same as Report To:",
+      "type": "radio",
+      "options": [
+        {"id": "sameAsReportToYes", "name": "sameAsReportTo", "value": "Yes", "label": "Yes"},
+        {"id": "sameAsReportToNo", "name": "sameAsReportTo", "value": "No", "label": "No"}
+      ]
+    },
+    "copyOfInvoiceWithReport": {
+      "label": "Copy Invoice with Report:",
+      "type": "radio",
+      "options": [
+        {"id": "copyOfInvoiceWithReportYes", "name": "copyOfInvoiceWithReport", "value": "Yes", "label": "Yes"},
+        {"id": "copyOfInvoiceWithReportNo", "name": "copyOfInvoiceWithReport", "value": "No", "label": "No"}
+      ]
+    },
+    "company": {
+      "label": "Company:",
+      "type": "text",
+      "id": "invoiceToCompany",
+      "name": "invoiceToCompany",
+      "value": "invoiceToCompany",
+      "onChange": "setInvoiceToCompany"
+    },
+    "contact": {
+      "label": "Contact:",
+      "type": "text",
+      "id": "invoiceToContact",
+      "name": "invoiceToContact",
+      "value": "invoiceToContact",
+      "onChange": "setInvoiceToContact"
+    }
+  },
+  "reportRecipients": {
+    "selectReportFormat": {
+      "label": "Report Format:",
+      "type": "radio",
+      "options": [
+        {"id": "reportFormatPDF", "name": "reportFormat", "value": "PDF", "label": "PDF"},
+        {"id": "reportFormatEXCEL", "name": "reportFormat", "value": "EXCEL", "label": "EXCEL"},
+        {"id": "reportFormatEDD", "name": "reportFormat", "value": "EDD", "label": "EDD"}
+      ]
+    },
+    "mergeQCQCIReports": {
+      "label": "Merge QC/QCI:",
+      "type": "radio",
+      "options": [
+        {"id": "mergeReportsYes", "name": "mergeReports", "value": "Yes", "label": "Yes"},
+        {"id": "mergeReportsNo", "name": "mergeReports", "value": "No", "label": "No"},
+        {"id": "mergeReportsNA", "name": "mergeReports", "value": "N/A", "label": "N/A"}
+      ]
+    },
+    "selectDistribution": {
+      "label": "Distribution:",
+      "type": "radio",
+      "options": [
+        {"id": "distributionEmail", "name": "distribution", "value": "Email", "label": "Email"},
+        {"id": "distributionMail", "name": "distribution", "value": "Mail", "label": "Mail"},
+        {"id": "distributionFax", "name": "distribution", "value": "Fax", "label": "Fax"}
+      ]
+    },
+    "email": {
+      "label": "Email:",
+      "type": "text",
+      "id": "reportRecipientEmail",
+      "name": "reportRecipientEmail",
+      "value": "reportRecipientEmail",
+      "onChange": "setReportRecipientEmail"
+    },
+    "email2": {
+      "label": "Email 2:",
+      "type": "text",
+      "id": "reportRecipientEmail2",
+      "name": "reportRecipientEmail2",
+      "value": "reportRecipientEmail2",
+      "onChange": "setReportRecipientEmail2"
+    },
+    "fax": {
+      "label": "Fax:",
+      "type": "text",
+      "id": "reportRecipientFax",
+      "name": "reportRecipientFax",
+      "value": "reportRecipientFax",
+      "onChange": "setReportRecipientFax"
+    }
+  },
+  "invoiceRecipients": {
+    "selectInvoiceDistribution": {
+      "label": "Invoice Distribution:",
+      "type": "radio",
+      "options": [
+        {"id": "invoiceDistributionEmail", "name": "invoiceDistribution", "value": "Email", "label": "Email"},
+        {"id": "invoiceDistributionMail", "name": "invoiceDistribution", "value": "Mail", "label": "Mail"},
+        {"id": "invoiceDistributionFax", "name": "invoiceDistribution", "value": "Fax", "label": "Fax"}
+      ]
+    },
+    "email": {
+      "label": "Email:",
+      "type": "text",
+      "id": "invoiceRecipientEmail",
+      "name": "invoiceRecipientEmail",
+      "value": "invoiceRecipientEmail",
+      "onChange": "setInvoiceRecipientEmail"
+    },
+    "email2": {
+      "label": "Email 2:",
+      "type": "text",
+      "id": "invoiceRecipientEmail2",
+      "name": "invoiceRecipientEmail2",
+      "value": "invoiceRecipientEmail2",
+      "onChange": "setInvoiceRecipientEmail2"
+    },
+    "fax": {
+      "label": "Fax:",
+      "type": "text",
+      "id": "invoiceRecipientFax",
+      "name": "invoiceRecipientFax",
+      "value": "invoiceRecipientFax",
+      "onChange": "setInvoiceRecipientFax"
+    }
+  },
+  "chainOfCustody": {
+    "coc": {
+      "label": "COC:",
+      "type": "text",
+      "id": "chainOfCustodyCOC",
+      "name": "chainOfCustodyCOC",
+      "value": "chainOfCustodyCOC",
+      "onChange": "setChainOfCustodyCOC"
+    }
+  }
+}
