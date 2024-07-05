@@ -2,72 +2,101 @@
 
 import { useState } from "react";
 import Link from "next/link";
-// import { useUserAuth } from "../_utils/auth-context";
 import { FaFlaskVial } from "react-icons/fa6";
-import { HiDocumentSearch, HiSparkles } from "react-icons/hi";
+import { HiDocumentSearch } from "react-icons/hi";
+import { FaElementor } from "react-icons/fa";
 import { MdDashboardCustomize } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
+// import NavigationLink from "./navbar-button";
 
-const Navbar = () => {
-  // const { user, firebaseSignOut } = useUserAuth();
+function NavigationLink({ page, onNavigate }) {
+  var icon;
+  switch (page) {
+    case "New Sample":
+      icon = <FaFlaskVial />;
+      break;
+    case "Find Sample":
+      icon = <HiDocumentSearch />;
+      break;
+    case "New Test":
+      icon = <FaElementor />;
+      break;
+    case "Find Test":
+      icon = <HiDocumentSearch />;
+      break;
+    default:
+      icon = null;
+  }
+
+  return (
+    <div className="flex items-center space-x-1 cursor-pointer">
+      <button onClick={onNavigate}>
+        <div className="flex items-center h-4 hover:scale-110  hover:text-gray-300">
+          <p>{icon}</p>
+          <p className="mx-2">{page}</p>
+        </div>
+      </button>
+      <p> | </p>
+    </div>
+  );
+}
+
+export default function Navbar({ pages, onNavigate }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  // const handleLogout = async () => {
-  //   await firebaseSignOut();
-  // };
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+  const handleNavigate = (page) => {
+    onNavigate(page);
+  };
+
+  const iconSwitch = (page) => {
+    var icon;
+    switch (page) {
+      case "New Sample":
+        return (icon = <FaFlaskVial />);
+      case "Find Sample":
+        return (icon = <HiDocumentSearch />);
+      case "New Test":
+        return (icon = <FaElementor />);
+      case "Find Test":
+        return (icon = <HiDocumentSearch />);
+      default:
+        return (icon = null);
+    }
   };
 
   return (
     <nav className="fixed w-full nav-bar p-4 flex justify-between items-center left-0 top-0 z-50">
       {/* Left Section - Logo */}
       <div className="flex items-center space-x-4">
-        <Link href="/" className="text-white font-bold text-lg">
+        <Link
+          href="/"
+          className="text-white font-bold text-lg"
+          onClick={(e) => {
+            e.preventDefault(); // Prevent the default link behavior
+            window.location.reload(); // Reload the page
+          }}
+        >
           ARIS
         </Link>
       </div>
-
       {/* Middle Section - Navigation Links */}
-      <div className="flex items-center space-x-4">
-        <Link
-          href="/pages/dashboard"
-          className="flex items-center text-white hover:text-gray-300"
-        >
-          <MdDashboardCustomize className="mr-2" />
-          Dashboard
-        </Link>
-        <p> | </p>
-        <div className="flex items-center space-x-1 hover:scale-110">
-          <Link
-            href="/pages/input/new-sample"
-            className="flex items-center text-white hover:text-gray-300"
+      <div className="flex text-xl text-white items-center space-x-1 cursor-pointer">
+        {pages.map((page, index) => (
+          <div
+            className="flex items-center cursor-pointer"
+            key={index}
+            onClick={() => handleNavigate(page)}
           >
-            <FaFlaskVial className="mr-2" />
-            New Sample
-          </Link>
-        </div>
-        <p> | </p>
-        <div className="flex items-center space-x-1 hover:scale-110">
-          <Link
-            href="/pages/output/find-sample"
-            className="flex items-center text-white hover:text-gray-300"
-          >
-            <HiDocumentSearch className="mr-2" />
-            Find Sample
-          </Link>
-        </div>
-        <p> | </p>
-        <div className="flex items-center space-x-1 hover:scale-110">
-          <Link
-            href="/pages/sarahSkeleton/app"
-            className="flex items-center text-white hover:text-gray-300"
-          >
-            <HiSparkles className="mr-2" />
-            Skeleton
-          </Link>
-        </div>
+            <div className="flex items-center mx-2 hover:scale-110 hover:text-gray-300">
+              <p>{iconSwitch(page)}</p>
+              <p className="mx-2">{page}</p>
+            </div>
+            <p>|</p>
+          </div>
+        ))}
       </div>
 
       {/* Right Section - User Information and Dropdown */}
@@ -101,6 +130,4 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}
