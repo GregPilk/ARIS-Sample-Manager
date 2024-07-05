@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Record {
-  chainOfCustody               Int      @id @map("_id")
+  chainOfCustody               String      @id @map("_id")
   reportToCompany              String
   reportToContact              String
   reportToPhone                String
@@ -38,7 +38,7 @@ model Record {
 }
 
 model Sample {
-  sampleID             Int     @id @map("_id")
+  sampleID             String     @id @map("_id")
   type                 String
   tests                Test[]
   Record               Record? @relation(fields: [recordChainOfCustody], references: [chainOfCustody])
@@ -46,18 +46,58 @@ model Sample {
 }
 
 model Test {
-  id             String  @id @map("_id") @db.ObjectId
-  name           String
-  ph             Int?
-  conductivity   Int?
-  hpic           Int?
-  ic             Int?
-  alkalinity     Int?
-  toc            Int?
-  tic            Int?
-  icp            Int?
-  tss            Int?
-  completedBy    String
-  Sample         Sample? @relation(fields: [sampleSampleID], references: [sampleID])
-  sampleSampleID Int?
+  id                          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name                        String
+  completedBy                 String
+  Sample                      Sample? @relation(fields: [sampleSampleID], references: [sampleID])
+  sampleSampleID              Int?
+  
+  // required for Ph and Conductivity - note this is a hand written result
+  ph                          String?
+  conductivity                String?
+
+  // required for TSS                 - note this is a hand written result
+  tssInMgl                    String?
+
+  //required for IC 
+  determinationStart          String?
+  ident                       String?
+  sampleType                  String?
+  methodName                  String?
+  infoOne                     String?
+  anionsChlorideConcentration String?
+  anionsSulfateConcentration  String?
+
+  //required for TICTOC
+  type                        String?
+  analogy                     String?
+  resultTOC                   String?
+  resultTC                    String?
+  resultIC                    String?
+  resultPOC                   String?
+  resultNPOC                  String?
+  resultTN                    String?
+  unit                        String?
+  vial                        String?
+
+  //required for Alkalinity
+  methodName                  String?
+  ID1value                    String?
+  RS01name                    String?
+  RS01value                   String?
+  RS01unit                    String?
+  sampleSizeValue             String?
+  unitValue                   String?
+  remarks                     String?
+  RS02name                    String?
+  RS02value                   String?
+  RS02unit                    String?
+  RS02meanValue               String?
+  //determinationStart - also required for IC
+
+  //required for ICP (Metals)
+
+
+
+
 }
