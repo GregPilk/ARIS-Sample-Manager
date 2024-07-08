@@ -42,7 +42,7 @@ model Sample {
   type                 String
   tests                Test[]
   Record               Record? @relation(fields: [recordChainOfCustody], references: [chainOfCustody])
-  recordChainOfCustody Int?
+  recordChainOfCustody String?
 }
 
 model Test {
@@ -50,7 +50,7 @@ model Test {
   name                        String
   completedBy                 String
   Sample                      Sample? @relation(fields: [sampleSampleID], references: [sampleID])
-  sampleSampleID              Int?
+  sampleSampleID              String?
   
   // required for Ph and Conductivity - note this is a hand written result
   ph                          String?
@@ -81,7 +81,6 @@ model Test {
   vial                        String?
 
   //required for Alkalinity
-  methodName                  String?
   ID1value                    String?
   RS01name                    String?
   RS01value                   String?
@@ -93,7 +92,8 @@ model Test {
   RS02value                   String?
   RS02unit                    String?
   RS02meanValue               String?
-  //determinationStart - also required for IC
+  //determinationStart        - also required for IC
+  //methodName                - also required for IC                  
 
   //required for ICP (Metals)
 
