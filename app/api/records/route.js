@@ -44,19 +44,40 @@ export const POST = async (request) => {
 
       tests.forEach((test) => {
         const {
-          id,
           name,
-          ph,
-          conductivity,
-          hpic,
-          ic,
-          alkalinity,
-          toc,
-          tic,
-          icp,
-          tss,
           completedBy,
           sampleSampleID,
+          ph,
+          conductivity,
+          tssInMgl,
+          determinationStart,
+          ident,
+          sampleType,
+          methodName,
+          infoOne,
+          anionsChlorideConcentration,
+          anionsSulfateConcentration,
+          type,
+          analogy,
+          resultTOC,
+          resultTC,
+          resultIC,
+          resultPOC,
+          resultNPOC,
+          resultTN,
+          unit,
+          vial,
+          ID1value,
+          RS01name,
+          RS01value,
+          RS01unit,
+          sampleSizeValue,
+          unitValue,
+          remarks,
+          RS02name,
+          RS02value,
+          RS02unit,
+          RS02meanValue
         } = test;
       });
     });
@@ -92,7 +113,6 @@ export const POST = async (request) => {
             // this needs to be reworked to match the schema
             tests: {
               create: sample.tests.map((test) => ({
-                id: test.id,
                 name: test.name,
                 completedBy: test.completedBy,
                 sampleSampleID: test.sampleSampleID,

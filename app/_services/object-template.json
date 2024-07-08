@@ -1,5 +1,5 @@
 {
-  "chainOfCustody": 123456456456,
+  "chainOfCustody": "123456",
   "reportToCompany": "Company Name",
   "reportToContact": "Name",
   "reportToPhone": "123-456-7890",
@@ -21,82 +21,113 @@
   "invoiceRecipientEmailTwo": "person4@email.com",
   "samples": [
     {
-      "sampleID": 123456765,
+      "sampleID": "SAIT-123456",
       "type" : "Water",
       "tests": [
         {
-          "id": "507f1f77bcf86cd799439011",
           "name": "PH/Conductivity",
-          "ph": 7.0,
-          "conductivity": 100,
+          "ph": "",
+          "conductivity": "",
           "completedBy": "Jane Doe"
         },
         {
-          "id":"507f1f77bcf86cd799439511", 
-          "name": "HPIC/IC",
-          "hpic": 100,
-          "ic": 100,
-          "completedBy": "Jane Doe"
-        },
-        {
-          "id": "507f1f77bcf86cd799439035",
-          "name": "alkalinity",
-          "alkalinity": 100,
-          "completedBy": "Jane Doe"
-        },
-        {
-          "id": "507f1f77bcf86cd789439031",
-          "name": "TOCTIC",
-          "toc": 100,
-          "tic": 100,
-          "completedBy": "Jane Doe"
-        },
-        {
-          "id": "507f1f77bcf86cd799439089",
-          "name": "ICP",
-          "icp": 100,
-          "completedBy": "Jane Doe"
-        },
-        {
-          "id": "507f1f77bcf86cd799439009",
           "name": "TSS",
-          "tss": 100,
+          "TssInMgl": "",
+          "completedBy": "Jane Doe"
+        },
+        {
+          "name": "IC",
+          "determinationStart": "",
+          "ident": "",
+          "sampleType": "",
+          "methodName": "",
+          "infoOne": "",
+          "anionsChlorideConcentration": "",
+          "anionsSulfateConcentration": "",
+          "completedBy": "Jane Doe"
+        },
+        {
+          "name": "TICTOC",
+          "type": "",
+          "analogy": "",
+          "resultTOC": "",
+          "resultTC": "",
+          "resultIC": "",
+          "resultPOC": "",
+          "resultNPOC": "",
+          "resultTN": "",
+          "unit": "",
+          "vial": "",
+          "completedBy": "Jane Doe"
+        },
+        {
+          "name": "Alkalinity",
+          "ID1value": "",
+          "RS01name": "",
+          "RS01value": "",
+          "RS01unit": "",
+          "sampleSizeValue": "",
+          "unitValue": "",
+          "remarks": "",
+          "RS02name": "",
+          "RS02value": "",
+          "RS02unit": "",
+          "RS02meanValue": "",
           "completedBy": "Jane Doe"
         }
       ]
     },
     {
-      "sampleID": 789012567,
+      "sampleID": "SAIT-123",
       "type" : "Water",
       "tests": [
         {
-          "id": "507f1f77bcf86cd799439045",
-          "name": "PH/Conductivity",
-          "ph": 9.0,
-          "conductivity": 200,
-          "completedBy": "John Doe"
+          "name": "IC",
+          "determinationStart": "",
+          "ident": "",
+          "sampleType": "",
+          "methodName": "",
+          "infoOne": "",
+          "anionsChlorideConcentration": "",
+          "anionsSulfateConcentration": "",
+          "completedBy": "Jane Doe"
         },
         {
-          "id": "507f1f77bcf86cd799439076",
-          "name": "TOCTIC",
-          "toc": 200,
-          "tic": 200,
-          "completedBy": "John Doe"
+          "name": "TICTOC",
+          "type": "",
+          "analogy": "",
+          "resultTOC": "",
+          "resultTC": "",
+          "resultIC": "",
+          "resultPOC": "",
+          "resultNPOC": "",
+          "resultTN": "",
+          "unit": "",
+          "vial": "",
+          "completedBy": "Jane Doe"
         },
         {
-          "id": "507f1f77bcf86cd799439055",
-          "name": "ICP",
-          "icp": 200,
-          "completedBy": "John Doe"
+          "name": "Alkalinity",
+          "ID1value": "",
+          "RS01name": "",
+          "RS01value": "",
+          "RS01unit": "",
+          "sampleSizeValue": "",
+          "unitValue": "",
+          "remarks": "",
+          "RS02name": "",
+          "RS02value": "",
+          "RS02unit": "",
+          "RS02meanValue": "",
+          "completedBy": "Jane Doe"
         },
         {
-          "id": "507f1f77bcf86cd799439086",
           "name": "TSS",
-          "tss": 200,
-          "completedBy": "John Doe"
+          "tssInMgl": "",
+          "completedBy": "Jane Doe"
         }
       ]
-    }
+    }   
   ]
 }
 
