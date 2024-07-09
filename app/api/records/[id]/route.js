@@ -1,4 +1,4 @@
-// http://localhost:3000/api/records/123456456456
+// http://localhost:3000/api/records/123456
 import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 
@@ -12,13 +12,6 @@ export const GET = async (request, { params }) => {
     let { id } = params;
 
     if (!id) {
-      return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
-    }
-
-    // Convert id to integer.. this is needed because the id from params is a string
-    // COC is stored as an integer in the database
-    id = parseInt(id);
-    if (isNaN(id)) {
       return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
     }
 
@@ -67,13 +60,6 @@ export const PATCH = async (request, { params }) => {
       return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
     }
 
-    // Convert id to integer.. this is needed because the id from params is a string
-    // COC is stored as an integer in the database
-    id = parseInt(id);
-    if (isNaN(id)) {
-      return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
-    }
-
     const record = await prisma.record.findUnique({
       where: {
         chainOfCustody: id,
@@ -106,3 +92,66 @@ export const PATCH = async (request, { params }) => {
 };
 
 
+// Added by: Nick
+// Date: 2024-07-08
+// This is the DELETE request that will be sent to MongoDB
+// This will delete 1 record from the database using the COC number
+// This will delete all the samples and tests data associated with the record.
+// following instructions from https://www.youtube.com/watch?v=KvesFlTVCaI
+export const DELETE = async (request, { params }) => {
+  try {
+    let { id } = params;
+
+    if (!id) {
+      return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
+    }
+
+    // Fetch the record with related samples (and their tests)
+    const record = await prisma.record.findUnique({
+      where: {
+        chainOfCustody: id,
+      },
+      include: {
+        samples: {
+          include: {
+            tests: true,
+          },
+        },
+      },
+    });
+
+    if (!record) {
+      return NextResponse.json({ message: "Record not found" }, { status: 404 });
+    }
+
+    // Delete tests for each sample
+    for (const sample of record.samples) {
+      await prisma.test.deleteMany({
+        where: {
+          sampleSampleID: sample.sampleID,
+        },
+      });
+    }
+
+    // Delete samples
+    await prisma.sample.deleteMany({
+      where: {
+        recordChainOfCustody: id,
+      },
+    });
+
+    // Now delete the record itself
+    const deletedRecord = await prisma.record.delete({
+      where: {
+        chainOfCustody: id,
+      },
+    });
+
+    return NextResponse.json(deletedRecord);
+  } catch (err) {
+    return NextResponse.json(
+      { message: "DELETE error", err: err.message },
+      { status: 500 }
+    );
+  }
+};

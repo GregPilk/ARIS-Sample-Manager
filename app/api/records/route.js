@@ -109,8 +109,6 @@ export const POST = async (request) => {
             sampleID: sample.sampleID,
             type: sample.type,
             recordChainOfCustody: sample.recordChainOfCustody,
-
-            // this needs to be reworked to match the schema
             tests: {
               create: sample.tests.map((test) => ({
                 name: test.name,
@@ -139,7 +137,14 @@ export const POST = async (request) => {
                 methodName: test.methodName,
                 ID1value: test.ID1value,
                 RS01name: test.RS01name,
+                RS01value: test.RS01value,
+                RS01unit: test.RS01unit,
+                sampleSizeValue: test.sampleSizeValue,
+                unitValue: test.unitValue,
+                remarks: test.remarks,
                 RS02name: test.RS02name,
+                RS02value: test.RS02value,
+                RS02unit: test.RS02unit,
                 RS02meanValue: test.RS02meanValue,
                 // whatever is needed for metals...
               })),
