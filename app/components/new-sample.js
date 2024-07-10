@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import formData from "../objects/newSample.json";
+import NewTest from "./new-test";
 
 const NewSampleForm = () => {
   const [formValues, setFormValues] = useState({});
@@ -16,7 +17,14 @@ const NewSampleForm = () => {
     };
     setFormValues(updatedValues);
   };
-
+  const tests = [
+    { id: "phConductivity", name: "PH Conductivity" },
+    { id: "hpicIc", name: "HPIC/IC" },
+    { id: "alkalinity", name: "Alkalinity" },
+    { id: "toctic", name: "TOCTIC" },
+    { id: "icp", name: "ICP" },
+    { id: "tss", name: "TSS" },
+  ];
   const renderInputField = (field, section) => {
     if (field.type === "text") {
       return (
@@ -28,7 +36,7 @@ const NewSampleForm = () => {
           </div>
           <div className="text-right">
             <input
-              className="w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
+              className="w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent pl-2" // Added pl-2 for padding on the left
               type={field.type}
               id={field.id}
               name={field.name}
@@ -97,8 +105,8 @@ const NewSampleForm = () => {
                 </div>
               </div>
             </div>
-            <div className="flex">
-              <div className="flex justify-start ml-7">
+            <div className="flex justify-center">
+              <div className="flex justify-start">
                 <div className="special-box mr-7">
                   <h2 className="m-2 mt-4 text-2xl font-bold">
                     Report Recipients
@@ -125,6 +133,32 @@ const NewSampleForm = () => {
                     {Object.values(formData.chainOfCustody).map((field) =>
                       renderInputField(field, "chainOfCustody")
                     )}
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-start ml-7">
+                <div className="special-box mr-7">
+                  <h2 className="m-2 mt-4 text-2xl font-bold">New Tests</h2>
+                  <div className="">
+                    {tests.map((test) => (
+                      <div
+                        key={test.id}
+                        className="flex text-black items-center mb-4 space-x-2"
+                      >
+                        <input
+                          id={test.id}
+                          type="checkbox"
+                          value={test.name}
+                          className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-700 dark:focus:ring-blue-800 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor={test.id}
+                          className="text-lg font-medium text-black"
+                        >
+                          {test.name}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>

@@ -2,83 +2,67 @@
 import { useState } from "react";
 
 export default function NewPH() {
-    const [temp, setTemp] = useState();
-    const [sample, setSample] = useState("");
-    const [ph, setPH] = useState();
-    const [conduct, setConduct] = useState();
-    const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [phTest, setPhTest] = useState({
+    temperature: "",
+    sampleId: "",
+    phLevel: "",
+    conductivity: "",
+  });
 
-    const [phTest, setPhTest] = useState({
-        temperature: undefined,
-        sampleId: "",
-        phLevel: undefined,
-        conductivity: undefined
-    })
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setPhTest((prevState) => ({ ...prevState, [name]: value }));
+  };
 
-    const handleSubmit =(event)=>{
-        console.log("event");
-        event.preventDefault();
-        const newTest = {temperature: temp, sampleId: sample, phLevel: ph, conductivity: conduct};
-        setPhTest(newTest);
-        setSubmitted(true);
-        setTemp("");
-        setSample("");
-        setPH("");
-        setConduct("");
-    }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setSubmitted(true);
+  };
 
-    return(
-        <div>
-            <div>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>
-                            Temperature
-                        </label>
-                        <input type="number" value={temp} onChange={(e) => setTemp(e.target.value)}/>
-                    </div>
-                    <div>
-                        <label>
-                            Sample ID
-                        </label>
-                        <input type="text" value={sample} onChange={(e) => setSample(e.target.value)}/>
-                    </div>
-                    <div>
-                        <label>
-                            PH
-                        </label>
-                        <input type="text" value={ph} onChange={(e) => setPH(e.target.value)}/>
-                    </div>
-                    <div>
-                        <label>
-                            Conductivity
-                        </label>
-                        <input type="text" value={conduct} onChange={(e) => setConduct(e.target.value)}/>
-                    </div>
-                    <div>
-                        <button type="submit">Submit</button>
-                    </div>
-                </form>
+  const inputs = [
+    { label: "Temperature", name: "temperature", type: "number" },
+    { label: "Sample ID", name: "sampleId", type: "text" },
+    { label: "PH", name: "phLevel", type: "text" },
+    { label: "Conductivity", name: "conductivity", type: "text" },
+  ];
 
-                <div>
-                    {submitted && (
-                        <div>
-                            <div>
-                                Temperature: {phTest.temperature}
-                            </div>
-                            <div>
-                                Sample ID: {phTest.sampleId}
-                            </div>
-                            <div>
-                                PH: {phTest.phLevel}
-                            </div>
-                            <div>
-                                Conductivity: {phTest.conductivity}
-                            </div>
-                        </div>
-                    )}
-                </div>
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div className="special-box p-8">
+          {inputs.map((input) => (
+            <div
+              key={input.name}
+              className="grid grid-cols-2 gap-4 items-center"
+            >
+              <label className="font-bold mr-8 text-right">{input.label}</label>
+              <input
+                className="w-full rounded-md m-2 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
+                type={input.type}
+                name={input.name}
+                value={phTest[input.name]}
+                onChange={handleChange}
+              />
             </div>
+          ))}
         </div>
-    )
+
+        <div className="flex justify-center">
+          <button className="submit-button" type="submit">
+            Submit
+          </button>
+        </div>
+      </form>
+
+      {submitted && (
+        <div>
+          <div>Temperature: {phTest.temperature}</div>
+          <div>Sample ID: {phTest.sampleId}</div>
+          <div>PH: {phTest.phLevel}</div>
+          <div>Conductivity: {phTest.conductivity}</div>
+        </div>
+      )}
+    </div>
+  );
 }
