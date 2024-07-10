@@ -8,9 +8,6 @@ import NewTest from "./components/new-test";
 import FindSample from "./components/find-sample";
 import FindTest from "./components/find-test";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { FaFlaskVial } from "react-icons/fa6";
-import { HiDocumentSearch } from "react-icons/hi";
 
 export default function Dashboard() {
   const [selectedPageType, setSelectedPageType] = useState(null);
