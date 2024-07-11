@@ -13,6 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Record model remains the same
 model Record {
   chainOfCustody               String      @id @map("_id")
   reportToCompany              String
@@ -37,29 +38,50 @@ model Record {
   samples                      Sample[]
 }
 
+// Sample model remains the same
 model Sample {
   sampleID             String     @id @map("_id")
   type                 String
   tests                Test[]
-  Record               Record? @relation(fields: [recordChainOfCustody], references: [chainOfCustody])
-  recordChainOfCustody Int?
+  Record               Record @relation(fields: [recordChainOfCustody], references: [chainOfCustody])
+  recordChainOfCustody String
 }
 
+// Base Test model with lists of results
 model Test {
-  id                          String  @id @default(auto()) @map("_id") @db.ObjectId
-  name                        String
-  completedBy                 String
-  Sample                      Sample? @relation(fields: [sampleSampleID], references: [sampleID])
-  sampleSampleID              Int?
-  
-  // required for Ph and Conductivity - note this is a hand written result
-  ph                          String?
-  conductivity                String?
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  sample            Sample   @relation(fields: [sampleID], references: [sampleID])
+  sampleID          String
+  phConResults      PhConResult[]
+  tssResults        TSSResult[]
+  icResults         ICResult[]
+  tictocResults     TICTOCResult[]
+  alkalinityResults AlkalinityResult[]
+}
 
-  // required for TSS                 - note this is a hand written result
-  tssInMgl                    String?
+// PH/Conductivity Result model
+model PhConResult {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  test        Test     @relation(fields: [testID], references: [id])
+  testID      String   @db.ObjectId
+  ph          String?
+  conductivity String?
+}
 
-  //required for IC 
+// TSS Result model
+model TSSResult {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  test        Test     @relation(fields: [testID], references: [id])
+  testID      String   @db.ObjectId
+  tssInMgl    String?
+}
+
+// IC Result model
+model ICResult {
+  id                          String   @id @default(auto()) @map("_id") @db.ObjectId
+  test                        Test     @relation(fields: [testID], references: [id])
+  testID                      String   @db.ObjectId
   determinationStart          String?
   ident                       String?
   sampleType                  String?
@@ -67,20 +89,30 @@ model Test {
   infoOne                     String?
   anionsChlorideConcentration String?
   anionsSulfateConcentration  String?
+}
 
-  //required for TICTOC
-  type                        String?
-  analogy                     String?
-  resultTOC                   String?
-  resultTC                    String?
-  resultIC                    String?
-  resultPOC                   String?
-  resultNPOC                  String?
-  resultTN                    String?
-  unit                        String?
-  vial                        String?
+// TICTOC Result model
+model TICTOCResult {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  test        Test     @relation(fields: [testID], references: [id])
+  testID      String   @db.ObjectId
+  type        String?
+  analogy     String?
+  resultTOC   String?
+  resultTC    String?
+  resultIC    String?
+  resultPOC   String?
+  resultNPOC  String?
+  resultTN    String?
+  unit        String?
+  vial        String?
+}
 
-  //required for Alkalinity
+// Alkalinity Result model
+model AlkalinityResult {
+  id                          String   @id @default(auto()) @map("_id") @db.ObjectId
+  test                        Test     @relation(fields: [testID], references: [id])
+  testID                      String   @db.ObjectId
   methodName                  String?
   ID1value                    String?
   RS01name                    String?
@@ -93,11 +125,5 @@ model Test {
   RS02value                   String?
   RS02unit                    String?
   RS02meanValue               String?
-  //determinationStart - also required for IC
-
-  //required for ICP (Metals)
-
-
-
-
+  determinationStart          String?
 }
