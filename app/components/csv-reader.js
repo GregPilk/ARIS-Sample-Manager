@@ -38,7 +38,7 @@ const CsvReader = ({ onDataParsed }) => {
   };
 
   return (
-    <div>
+    <div className="special-box px-4 py-2">
       <input type="file" accept=".csv" onChange={handleFileUpload} />
       {csvData.length > 0 && (
         <div>
@@ -46,6 +46,7 @@ const CsvReader = ({ onDataParsed }) => {
             <div key={rowIndex} style={{ display: "flex", marginBottom: 10 }}>
               {headers.map((header, colIndex) => (
                 <input
+                  className="border-2 rounded-lg p-3 bg-slate-400 w-52 h-12 text-center hover:bg-slate-500"
                   key={colIndex}
                   style={{
                     borderWidth: 1,

@@ -84,6 +84,13 @@ body::before {
   height: 100vh;
   margin-top: 48px;
 }
+.test-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100vh;
+  margin-top: 48px;
+}
 .page-pop{
   background-image: linear-gradient(to bottom, #6ed0f3 10%, #00ABE8), url('../public/images/ARIS_background.png');
   background-blend-mode: multiply;
@@ -97,6 +104,32 @@ body::before {
   padding-bottom: 36px;
   justify-content: center;
   align-items: center;
+}
+.test-pop{
+  background-image: linear-gradient(to bottom, #6ed0f3 10%, #00ABE8), url('../public/images/ARIS_background.png');
+  background-blend-mode: multiply;
+  border: 2px solid #1a2431;
+  border-radius: 6px;
+  box-shadow: 4px 8px 8px 0px rgba(1, 19, 5, 0.4);
+  height: auto;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 36px;
+}
+.test-input-pop{
+  background-image: linear-gradient(to bottom, #6ed0f3 10%, #00ABE8), url('../public/images/ARIS_background.png');
+  background-blend-mode: multiply;
+  border: 2px solid #1a2431;
+  border-radius: 6px;
+  box-shadow: 4px 8px 8px 0px rgba(1, 19, 5, 0.4);
+  height: auto;
+  width: 49%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
+  padding-bottom: 36px;
 }
 .page-flat{
   background-color: #168f44;
@@ -338,6 +371,20 @@ body::before {
   height: 58px;
   width: 880px;
   margin: -1px 0 32px 0;
+  background-color: #e2e8f0;
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(248, 116, 116, 0.05);
+  border-width: 2px;
+  border-color: #000000;
+}
+.test-navbar {
+  padding: 0 0px 0 10px;
+  height: 58px;
+  width: 680px;
+  margin: -1px 0 0 0;
   background-color: #e2e8f0;
   align-items: center;
   display: flex;
