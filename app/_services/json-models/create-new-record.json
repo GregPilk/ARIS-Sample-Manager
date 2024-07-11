@@ -75,7 +75,7 @@
       "invoiceRecipientEmailTwo": "billing@example.com",
       "samples": [
         {
-          "sampleID": "S987654",
+          "sampleID": "S987654A",
           "type": "Water",
           "tests": [
             {
@@ -89,6 +89,32 @@
             {
               "name": "TICTOC",
               "tictocResults": []
+            }
+          ]
+        },
+        {
+          "sampleID": "S987654B",
+          "type": "Water",
+          "tests": [
+            {
+              "name": "PH/Conductivity",
+              "phConResults": []
+            },
+            {
+              "name": "TSS",
+              "tssResults": []
+            },
+            {
+              "name": "IC",
+              "icResults": []
+            },
+            {
+              "name": "TICTOC",
+              "tictocResults": []
+            },
+            {
+              "name": "Alkalinity",
+              "alkalinityResults": []
             }
           ]
         }

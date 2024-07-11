@@ -1,4 +1,4 @@
-//http://localhost:3000/api/records/123456789
+//http://localhost:3000/api/add-result
 
 import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";

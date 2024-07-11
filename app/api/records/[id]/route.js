@@ -1,3 +1,4 @@
+// url: http://localhost:3000/api/records/987654321
 import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 

@@ -1,5 +1,5 @@
 {
-  "testID": "60a6b1e2e1f1a1b2c3d4e5f6",
+  "testID": "668f21dfb97f706b7685eeb5",
   "resultType": "PhConResult",
   "resultData": {
     "ph": "7.2",
@@ -8,7 +8,7 @@
 }
 
 {
-  "testID": "60a6b1e2e1f1a1b2c3d4e5f6",
+  "testID": "668f21dfb97f706b7685eeb6",
   "resultType": "TSSResult",
   "resultData": {
     "tssInMgl": "200"
@@ -30,7 +30,7 @@
 }
 
 {
-  "testID": "60a6b1e2e1f1a1b2c3d4e5f6",
+  "testID": "668f21dfb97f706b7685eeb7",
   "resultType": "TICTOCResult",
   "resultData": {
     "type": "Type A",
