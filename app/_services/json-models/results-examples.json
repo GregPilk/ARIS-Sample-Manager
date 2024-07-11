@@ -1,0 +1,67 @@
+{
+  "testID": "60a6b1e2e1f1a1b2c3d4e5f6",
+  "resultType": "PhConResult",
+  "resultData": {
+    "ph": "7.2",
+    "conductivity": "1500"
+  }
+}
+
+{
+  "testID": "60a6b1e2e1f1a1b2c3d4e5f6",
+  "resultType": "TSSResult",
+  "resultData": {
+    "tssInMgl": "200"
+  }
+}
+
+{
+  "testID": "60a6b1e2e1f1a1b2c3d4e5f6",
+  "resultType": "ICResult",
+  "resultData": {
+    "determinationStart": "2023-07-09T00:00:00.000Z",
+    "ident": "sample-001",
+    "sampleType": "Water",
+    "methodName": "Method 123",
+    "infoOne": "Info 1",
+    "anionsChlorideConcentration": "30",
+    "anionsSulfateConcentration": "40"
+  }
+}
+
+{
+  "testID": "60a6b1e2e1f1a1b2c3d4e5f6",
+  "resultType": "TICTOCResult",
+  "resultData": {
+    "type": "Type A",
+    "analogy": "Analogy 1",
+    "resultTOC": "10",
+    "resultTC": "20",
+    "resultIC": "5",
+    "resultPOC": "1",
+    "resultNPOC": "4",
+    "resultTN": "8",
+    "unit": "mg/L",
+    "vial": "Vial 1"
+  }
+}
+
+{
+  "testID": "60a6b1e2e1f1a1b2c3d4e5f6",
+  "resultType": "AlkalinityResult",
+  "resultData": {
+    "methodName": "Method 456",
+    "ID1value": "Value 1",
+    "RS01name": "RS01 Name",
+    "RS01value": "RS01 Value",
+    "RS01unit": "RS01 Unit",
+    "sampleSizeValue": "100",
+    "unitValue": "Unit Value",
+    "remarks": "Some remarks",
+    "RS02name": "RS02 Name",
+    "RS02value": "RS02 Value",
+    "RS02unit": "RS02 Unit",
+    "RS02meanValue": "Mean Value",
+    "determinationStart": "2023-07-09T00:00:00.000Z"
+  }
+}

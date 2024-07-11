@@ -1,0 +1,97 @@
+{
+    "Record": {
+      "chainOfCustody": "123456789",
+      "reportToCompany": "Company A",
+      "reportToContact": "John Doe",
+      "reportToPhone": "123-456-7890",
+      "reportToStreet": "123 Main St",
+      "reportToCity": "Cityville",
+      "reportToPostal": "A1B 2C3",
+      "invoiceToSameAsReport": "Yes",
+      "invoiceToCopyOfInvoice": "No",
+      "invoiceToCompany": "Company B",
+      "invoiceToContact": "Jane Smith",
+      "reportRecipientFormat": "PDF",
+      "mergeQCReports": "No",
+      "selectDistribution": "All",
+      "reportRecipientEmailOne": "john.doe@example.com",
+      "reportRecipientEmailTwo": "jane.smith@example.com",
+      "reportRecipientEmailThree": "manager@example.com",
+      "invoiceRecipientDistribution": "All",
+      "invoiceRecipientEmailOne": "accounts@example.com",
+      "invoiceRecipientEmailTwo": "billing@example.com",
+      "samples": [
+        {
+          "sampleID": "S123456",
+          "type": "Water",
+          "tests": [
+            {
+              "name": "PH/Conductivity",
+              "phConResults": []
+            },
+            {
+              "name": "TSS",
+              "tssResults": []
+            },
+            {
+              "name": "IC",
+              "icResults": []
+            },
+            {
+              "name": "TICTOC",
+              "tictocResults": []
+            },
+            {
+              "name": "Alkalinity",
+              "alkalinityResults": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+
+  {
+    "Record": {
+      "chainOfCustody": "987654321",
+      "reportToCompany": "Company A",
+      "reportToContact": "John Doe",
+      "reportToPhone": "123-456-7890",
+      "reportToStreet": "123 Main St",
+      "reportToCity": "Cityville",
+      "reportToPostal": "A1B 2C3",
+      "invoiceToSameAsReport": "Yes",
+      "invoiceToCopyOfInvoice": "No",
+      "invoiceToCompany": "Company B",
+      "invoiceToContact": "Jane Smith",
+      "reportRecipientFormat": "PDF",
+      "mergeQCReports": "No",
+      "selectDistribution": "All",
+      "reportRecipientEmailOne": "john.doe@example.com",
+      "reportRecipientEmailTwo": "jane.smith@example.com",
+      "reportRecipientEmailThree": "manager@example.com",
+      "invoiceRecipientDistribution": "All",
+      "invoiceRecipientEmailOne": "accounts@example.com",
+      "invoiceRecipientEmailTwo": "billing@example.com",
+      "samples": [
+        {
+          "sampleID": "S987654",
+          "type": "Water",
+          "tests": [
+            {
+              "name": "PH/Conductivity",
+              "phConResults": []
+            },
+            {
+              "name": "TSS",
+              "tssResults": []
+            },
+            {
+              "name": "TICTOC",
+              "tictocResults": []
+            }
+          ]
+        }
+      ]
+    }
+  }
