@@ -28,7 +28,7 @@ export default function NewPH() {
   ];
 
   return (
-    <div>
+    <div className="mt-3">
       <form onSubmit={handleSubmit}>
         <div className="special-box p-8">
           {inputs.map((input) => (

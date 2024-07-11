@@ -188,11 +188,12 @@ const CsvData = ({ testType }) => {
 
   return (
     <div>
-      <h1>CSV Reader and Data Handler</h1>
+      {/* <h1>CSV Reader and Data Handler</h1> */}
+      {/* <button onClick={triggerCsvReader}>Upload CSV</button> */}
       <CsvReader onDataParsed={handleDataParsed} />
       {/* Test to see if data is in the correct object */}
       {parsedData.length > 0 && (
-        <div>
+        <div className="special-box py-2">
           <h2>Parsed Data</h2>
           <pre>{JSON.stringify(parsedData, null, 2)}</pre>
         </div>
