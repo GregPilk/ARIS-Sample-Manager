@@ -111,13 +111,13 @@ const CsvData = () => {
 
   return (
     <div>
-      <h1>CSV Reader and Data Handler</h1>
+      {/* <h1>CSV Reader and Data Handler</h1> */}
       {/* <button onClick={triggerCsvReader}>Upload CSV</button> */}
       <CsvReader onDataParsed={handleDataParsed} />
       <input id="csv-file-input" type="file" style={{ display: "none" }} />
 
       {parsedData.length > 0 && (
-        <div>
+        <div className="special-box py-2">
           <h2>Parsed Data</h2>
           <pre>{JSON.stringify(parsedData, null, 2)}</pre>
         </div>

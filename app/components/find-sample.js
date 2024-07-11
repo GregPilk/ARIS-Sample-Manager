@@ -44,7 +44,7 @@ export default function FindSample({ page }) {
               </button>
             </div>
           </form>
-          <p>Please sign in to access this feature.</p>
+          {/* <p>Please sign in to access this feature.</p> */}
           <div className="flex justify-center">
             {data ? (
               <div className="bg-slate-300 w-max flex flex-col justify-center p-4">
