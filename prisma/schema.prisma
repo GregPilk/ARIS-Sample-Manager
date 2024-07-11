@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// Record model remains the same
+model Record {
+  chainOfCustody               String      @id @map("_id")
+  reportToCompany              String
+  reportToContact              String
+  reportToPhone                String
+  reportToStreet               String
+  reportToCity                 String
+  reportToPostal               String
+  invoiceToSameAsReport        String
+  invoiceToCopyOfInvoice       String
+  invoiceToCompany             String
+  invoiceToContact             String
+  reportRecipientFormat        String
+  mergeQCReports               String
+  selectDistribution           String
+  reportRecipientEmailOne      String
+  reportRecipientEmailTwo      String
+  reportRecipientEmailThree    String
+  invoiceRecipientDistribution String
+  invoiceRecipientEmailOne     String
+  invoiceRecipientEmailTwo     String
+  samples                      Sample[]
+}
+
+// Sample model remains the same
+model Sample {
+  sampleID             String     @id @map("_id")
+  type                 String
+  tests                Test[]
+  Record               Record @relation(fields: [recordChainOfCustody], references: [chainOfCustody])
+  recordChainOfCustody String
+}
+
+// Base Test model with lists of results
+model Test {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  sample            Sample   @relation(fields: [sampleID], references: [sampleID])
+  sampleID          String
+  phConResults      PhConResult[]
+  tssResults        TSSResult[]
+  icResults         ICResult[]
+  tictocResults     TICTOCResult[]
+  alkalinityResults AlkalinityResult[]
+}
+
+// PH/Conductivity Result model
+model PhConResult {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  test        Test     @relation(fields: [testID], references: [id])
+  testID      String   @db.ObjectId
+  ph          String?
+  conductivity String?
+}
+
+// TSS Result model
+model TSSResult {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  test        Test     @relation(fields: [testID], references: [id])
+  testID      String   @db.ObjectId
+  tssInMgl    String?
+}
+
+// IC Result model
+model ICResult {
+  id                          String   @id @default(auto()) @map("_id") @db.ObjectId
+  test                        Test     @relation(fields: [testID], references: [id])
+  testID                      String   @db.ObjectId
+  determinationStart          String?
+  ident                       String?
+  sampleType                  String?
+  methodName                  String?
+  infoOne                     String?
+  anionsChlorideConcentration String?
+  anionsSulfateConcentration  String?
+}
+
+// TICTOC Result model
+model TICTOCResult {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  test        Test     @relation(fields: [testID], references: [id])
+  testID      String   @db.ObjectId
+  type        String?
+  analogy     String?
+  resultTOC   String?
+  resultTC    String?
+  resultIC    String?
+  resultPOC   String?
+  resultNPOC  String?
+  resultTN    String?
+  unit        String?
+  vial        String?
+}
+
+// Alkalinity Result model
+model AlkalinityResult {
+  id                          String   @id @default(auto()) @map("_id") @db.ObjectId
+  test                        Test     @relation(fields: [testID], references: [id])
+  testID                      String   @db.ObjectId
+  methodName                  String?
+  ID1value                    String?
+  RS01name                    String?
+  RS01value                   String?
+  RS01unit                    String?
+  sampleSizeValue             String?
+  unitValue                   String?
+  remarks                     String?
+  RS02name                    String?
+  RS02value                   String?
+  RS02unit                    String?
+  RS02meanValue               String?
+  determinationStart          String?
+}
