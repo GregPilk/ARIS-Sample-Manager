@@ -77,46 +77,52 @@ const CsvData = ({ testType }) => {
       dataSet.forEach((data, index) => {
         //if statements checks to see which type of test was selected
         if(testType === "Alkalinity"){
-          updatedData.push({
-            id: "",
-            name: "",
-            phConduct: [{}],
-            hpicIc: [{}],
-            alkalinity: [data],
-            toctic: [{}],
-            icp: [{}],
-            tss: [{}],
-            completedBy: "",
-            sampleSampleID: undefined
-          });        
+          if(dataSet[index].determinationStart != ""){
+            updatedData.push({
+              id: "",
+              name: "",
+              phConduct: [{}],
+              hpicIc: [{}],
+              alkalinity: [data],
+              toctic: [{}],
+              icp: [{}],
+              tss: [{}],
+              completedBy: "",
+              sampleSampleID: undefined
+            });      
+          }
         }
         else if(testType === "TOCTIC"){
-          updatedData.push({
-            id: "",
-            name: "",
-            phConduct: [{}],
-            hpicIc: [{}],
-            alkalinity: [{}],
-            toctic: [data],
-            icp: [{}],
-            tss: [{}],
-            completedBy: "",
-            sampleSampleID: undefined
-          });    
+          if(dataSet[index].type != ""){
+            updatedData.push({
+              id: "",
+              name: "",
+              phConduct: [{}],
+              hpicIc: [{}],
+              alkalinity: [{}],
+              toctic: [data],
+              icp: [{}],
+              tss: [{}],
+              completedBy: "",
+              sampleSampleID: undefined
+            });    
+          }
         }
         else if(testType === "HPIC/IC"){
-          updatedData.push({
-            id: "",
-            name: "",
-            phConduct: [{}],
-            hpicIc: [data],
-            alkalinity: [{}],
-            toctic: [{}],
-            icp: [{}],
-            tss: [{}],
-            completedBy: "",
-            sampleSampleID: undefined
-          });
+          if(dataSet[index].determinationStart != ""){
+            updatedData.push({
+              id: "",
+              name: "",
+              phConduct: [{}],
+              hpicIc: [data],
+              alkalinity: [{}],
+              toctic: [{}],
+              icp: [{}],
+              tss: [{}],
+              completedBy: "",
+              sampleSampleID: undefined
+            });
+          }
         }
         //add else if for icp after meeting with client.
       });
