@@ -99,3 +99,20 @@ export const POST = async (request) => {
         return NextResponse.json({message: "POST error", err}, {status: 500});
     }
 };
+
+
+// Added by: Nick
+// Date: 2024-07-11
+// This is a GET request that will be sent to MongoDB
+// This will get all records from the database
+// This will only return data from the Record collection
+export const GET = async (request) => {
+    try {
+        const records = await prisma.record.findMany();
+        return NextResponse.json(records, {status: 200});
+    } catch (err) {
+        console.log(err);
+        return NextResponse.json({message: "GET error", err}, {status: 500});
+    }
+}
+
