@@ -5,7 +5,7 @@ export default function NewPH() {
   const [submitted, setSubmitted] = useState(false);
   const [phTest, setPhTest] = useState({
     temperature: "",
-    sampleId: "",
+    // sampleId: "",
     phLevel: "",
     conductivity: "",
   });
@@ -22,7 +22,7 @@ export default function NewPH() {
 
   const inputs = [
     { label: "Temperature", name: "temperature", type: "number" },
-    { label: "Sample ID", name: "sampleId", type: "text" },
+    // { label: "Sample ID", name: "sampleId", type: "text" },
     { label: "PH", name: "phLevel", type: "text" },
     { label: "Conductivity", name: "conductivity", type: "text" },
   ];
@@ -49,8 +49,8 @@ export default function NewPH() {
         </div>
 
         <div className="flex justify-center">
-          <button className="submit-button" type="submit">
-            Submit
+          <button className="add-button" type="submit">
+            Add Another PH Test
           </button>
         </div>
       </form>
@@ -58,7 +58,7 @@ export default function NewPH() {
       {submitted && (
         <div>
           <div>Temperature: {phTest.temperature}</div>
-          <div>Sample ID: {phTest.sampleId}</div>
+          {/* <div>Sample ID: {phTest.sampleId}</div> */}
           <div>PH: {phTest.phLevel}</div>
           <div>Conductivity: {phTest.conductivity}</div>
         </div>

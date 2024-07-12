@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Test from "@/app/objects/result.json";
 
 export default function FindSample({ page }) {
   //an empty array that will be filled with the data from the database
@@ -50,7 +51,7 @@ export default function FindSample({ page }) {
               <div className="bg-slate-300 w-max flex flex-col justify-center p-4">
                 <div className="flex justify-center">
                   <p className=" font-extrabold text-2xl">
-                    Chain of Custody ID: {data.chainOfCustody}
+                    Chain of Custody ID: {Testdata.chainOfCustody}
                   </p>
                 </div>
                 <div className="flex flex-row p-2 m-2">

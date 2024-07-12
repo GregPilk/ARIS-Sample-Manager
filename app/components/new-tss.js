@@ -43,12 +43,9 @@ export default function NewTSS() {
             </div>
           ))}
         </div>
-        <div className="flex justify-center mt-4">
-          <button
-            className="submit-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            type="submit"
-          >
-            Submit
+        <div className="flex justify-center">
+          <button className="add-button" type="submit">
+            Add Another TSS Test
           </button>
         </div>
       </form>
