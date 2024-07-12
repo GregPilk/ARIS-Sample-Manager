@@ -106,7 +106,6 @@ export const POST = async (request) => {
 // This is a GET request that will be sent to MongoDB
 // This will get all records from the database
 // This will only return data from the Record collection
-
 export const GET = async (request) => {
     try {
         const records = await prisma.record.findMany();
