@@ -6,18 +6,18 @@ import { FaElementor } from "react-icons/fa";
 export default function PageButton({ page, onClick }) {
   var icon;
   switch (page) {
-    case "New Sample":
+    case "New Chain of Custody":
       icon = <FaFlaskVial className="text-6xl mr-4" />;
       break;
-    case "Find Sample":
+    case "Find Chain of Custody":
       icon = <HiDocumentSearch className="text-6xl mr-4" />;
       break;
-    case "New Test":
+    case "Test Data":
       icon = <FaElementor className="text-6xl mr-4" />;
       break;
-    case "Find Test":
-      icon = <HiDocumentSearch className="text-6xl mr-4" />;
-      break;
+    // case "Find Test":
+    //   icon = <HiDocumentSearch className="text-6xl mr-4" />;
+    //   break;
     default:
       icon = null;
   }
