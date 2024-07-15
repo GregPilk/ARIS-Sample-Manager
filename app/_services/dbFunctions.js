@@ -79,15 +79,12 @@ export const getRecord = async (chainOfCustody) => {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-
     const data = await response.json();
     return data;
   } catch (error) {
     console.error("Failed to fetch record:", error);
     throw error;
   }
-};
-
 };
 
 // Added by: Nick
@@ -97,23 +94,22 @@ export const getRecord = async (chainOfCustody) => {
 // Can be called anywhere in front end by importing
 // Example: import { getAllRecords } from '../_services/dbFunctions';
 export const getAllRecords = async () => {
-    try {
-        const response = await fetch('/api/records', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+  try {
+    const response = await fetch("/api/records", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json(); 
-        return data; 
-    } catch (error) {
-        console.error('Failed to fetch records:', error);
-        throw error;
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
-};
 
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch records:", error);
+    throw error;
+  }
+};
