@@ -79,6 +79,7 @@ export const getRecord = async (chainOfCustody) => {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
+
     const data = await response.json();
     return data;
   } catch (error) {
@@ -86,3 +87,33 @@ export const getRecord = async (chainOfCustody) => {
     throw error;
   }
 };
+
+};
+
+// Added by: Nick
+// Date: 2024-07-11
+// This function will get all records from the database
+// This will only return the data from the Record table
+// Can be called anywhere in front end by importing
+// Example: import { getAllRecords } from '../_services/dbFunctions';
+export const getAllRecords = async () => {
+    try {
+        const response = await fetch('/api/records', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json(); 
+        return data; 
+    } catch (error) {
+        console.error('Failed to fetch records:', error);
+        throw error;
+    }
+};
+
