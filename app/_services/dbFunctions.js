@@ -8,25 +8,25 @@
 // Can be called anywhere in front end by importing
 // Example: import { createRecord } from '../_services/dbFunctions';
 export const createRecord = async (record) => {
-    try {
-        const response = await fetch('/api/records', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ Record: record })
-        });
+  try {
+    const response = await fetch("/api/records", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ Record: record }),
+    });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Failed to create record:', error);
-        throw error;
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to create record:", error);
+    throw error;
+  }
 };
 
 // Added by: Nick
@@ -35,31 +35,30 @@ export const createRecord = async (record) => {
 // Can be called anywhere in front end by importing
 // Example: import { addTestResult } from '../_services/dbFunctions';
 export const addTestResult = async (testID, resultType, resultData) => {
-    try {
-        const response = await fetch('/api/add-result', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                testID,
-                resultType,
-                resultData,
-            })
-        });
+  try {
+    const response = await fetch("/api/add-result", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        testID,
+        resultType,
+        resultData,
+      }),
+    });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Failed to add test result:', error);
-        throw error;
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
-};
 
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to add test result:", error);
+    throw error;
+  }
+};
 
 // Added by: Nick
 // Date: 2024-07-11
@@ -68,26 +67,28 @@ export const addTestResult = async (testID, resultType, resultData) => {
 // Can be called anywhere in front end by importing
 // Example: import { getRecord } from '../_services/dbFunctions';
 export const getRecord = async (chainOfCustody) => {
-    try {
-        const response = await fetch(`/api/records/${chainOfCustody}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+  try {
+    const response = await fetch(`/api/records/${chainOfCustody}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json(); 
-        return data; 
-    } catch (error) {
-        console.error('Failed to fetch record:', error);
-        throw error;
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch record:", error);
+    throw error;
+  }
 };
 
+};
 
 // Added by: Nick
 // Date: 2024-07-11
@@ -115,3 +116,4 @@ export const getAllRecords = async () => {
         throw error;
     }
 };
+

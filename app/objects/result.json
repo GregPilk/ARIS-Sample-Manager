@@ -1,0 +1,215 @@
+
+{
+  "chainOfCustody": "Sample Chain of Custody",
+  "reportToCompany": "Sample Company",
+  "reportToContact": "Sample Contact",
+  "reportToPhone": "123-456-7890",
+  "reportToStreet": "123 Sample Street",
+  "reportToCity": "Sample City",
+  "reportToPostal": "12345",
+  "invoiceToSameAsReport": "yes",
+  "invoiceToCopyOfInvoice": "no",
+  "invoiceToCompany": "Invoice Company",
+  "invoiceToContact": "Invoice Contact",
+  "reportRecipientFormat": "PDF",
+  "mergeQCReports": "yes",
+  "selectDistribution": "Email",
+  "reportRecipientEmailOne": "email1@example.com",
+  "reportRecipientEmailTwo": "email2@example.com",
+  "reportRecipientEmailThree": "email3@example.com",
+  "invoiceRecipientDistribution": "Email",
+  "invoiceRecipientEmailOne": "invoice1@example.com",
+  "invoiceRecipientEmailTwo": "invoice2@example.com",
+  "samples": [
+    {
+      "sampleID": "sample1",
+      "type": "Water",
+      "recordChainOfCustody": "Sample Chain of Custody",
+      "tests": [
+        {
+          "id": "668f2d4a1861993c21c7620f",
+          "name": "PH/Conductivity",
+          "sampleID": "sample1",
+          "phConResults": [
+            {
+              "id": "668f36041861993c21c7621e",
+              "testID": "668f2d4a1861993c21c7620f",
+              "ph": "7.2",
+              "conductivity": "150"
+            },
+            {
+              "id": "668f36051861993c21c7621f",
+              "testID": "668f2d4a1861993c21c7620f",
+              "ph": "7.2",
+              "conductivity": "150"
+            },
+            {
+              "id": "668f36061861993c21c76220",
+              "testID": "668f2d4a1861993c21c7620f",
+              "ph": "7.2",
+              "conductivity": "150"
+            }
+          ],
+          "tssResults": [],
+          "icResults": [],
+          "tictocResults": [],
+          "alkalinityResults": []
+        },
+        {
+          "id": "668f2d4a1861993c21c76210",
+          "name": "TSS",
+          "sampleID": "sample1",
+          "phConResults": [],
+          "tssResults": [
+            {
+              "id": "668f35ec1861993c21c7621b",
+              "testID": "668f2d4a1861993c21c76210",
+              "tssInMgl": "50"
+            },
+            {
+              "id": "668f35ed1861993c21c7621c",
+              "testID": "668f2d4a1861993c21c76210",
+              "tssInMgl": "50"
+            },
+            {
+              "id": "668f35ee1861993c21c7621d",
+              "testID": "668f2d4a1861993c21c76210",
+              "tssInMgl": "50"
+            }
+          ],
+          "icResults": [],
+          "tictocResults": [],
+          "alkalinityResults": []
+        },
+        {
+          "id": "668f2d4a1861993c21c76211",
+          "name": "IC",
+          "sampleID": "sample1",
+          "phConResults": [],
+          "tssResults": [],
+          "icResults": [
+            {
+              "id": "668f35d81861993c21c76218",
+              "testID": "668f2d4a1861993c21c76211",
+              "determinationStart": "2024-07-15",
+              "ident": "sample ident",
+              "sampleType": "sample type",
+              "methodName": "sample method",
+              "infoOne": "info 1",
+              "anionsChlorideConcentration": "5",
+              "anionsSulfateConcentration": "10"
+            },
+            {
+              "id": "668f35d91861993c21c76219",
+              "testID": "668f2d4a1861993c21c76211",
+              "determinationStart": "2024-07-15",
+              "ident": "sample ident",
+              "sampleType": "sample type",
+              "methodName": "sample method",
+              "infoOne": "info 1",
+              "anionsChlorideConcentration": "5",
+              "anionsSulfateConcentration": "10"
+            },
+            {
+              "id": "668f35da1861993c21c7621a",
+              "testID": "668f2d4a1861993c21c76211",
+              "determinationStart": "2024-07-15",
+              "ident": "sample ident",
+              "sampleType": "sample type",
+              "methodName": "sample method",
+              "infoOne": "info 1",
+              "anionsChlorideConcentration": "5",
+              "anionsSulfateConcentration": "10"
+            }
+          ],
+          "tictocResults": [],
+          "alkalinityResults": []
+        },
+        {
+          "id": "668f2d4a1861993c21c76212",
+          "name": "TICTOC",
+          "sampleID": "sample1",
+          "phConResults": [],
+          "tssResults": [],
+          "icResults": [],
+          "tictocResults": [
+            {
+              "id": "668f35b01861993c21c76216",
+              "testID": "668f2d4a1861993c21c76212",
+              "type": "sample type",
+              "analogy": "sample analogy",
+              "resultTOC": "20",
+              "resultTC": "10",
+              "resultIC": "5",
+              "resultPOC": "15",
+              "resultNPOC": "25",
+              "resultTN": "30",
+              "unit": "sample unit",
+              "vial": "sample vial"
+            },
+            {
+              "id": "668f35b21861993c21c76217",
+              "testID": "668f2d4a1861993c21c76212",
+              "type": "sample type",
+              "analogy": "sample analogy",
+              "resultTOC": "20",
+              "resultTC": "10",
+              "resultIC": "5",
+              "resultPOC": "15",
+              "resultNPOC": "25",
+              "resultTN": "30",
+              "unit": "sample unit",
+              "vial": "sample vial"
+            }
+          ],
+          "alkalinityResults": []
+        },
+        {
+          "id": "668f2d4a1861993c21c76213",
+          "name": "Alkalinity",
+          "sampleID": "sample1",
+          "phConResults": [],
+          "tssResults": [],
+          "icResults": [],
+          "tictocResults": [],
+          "alkalinityResults": [
+            {
+              "id": "668f35941861993c21c76214",
+              "testID": "668f2d4a1861993c21c76213",
+              "methodName": "sample method",
+              "ID1value": "100",
+              "RS01name": "sample RS01 name",
+              "RS01value": "200",
+              "RS01unit": "sample RS01 unit",
+              "sampleSizeValue": "sample size value",
+              "unitValue": "sample unit value",
+              "remarks": "sample remarks",
+              "RS02name": "sample RS02 name",
+              "RS02value": "300",
+              "RS02unit": "sample RS02 unit",
+              "RS02meanValue": "400",
+              "determinationStart": "2024-07-15"
+            },
+            {
+              "id": "668f359a1861993c21c76215",
+              "testID": "668f2d4a1861993c21c76213",
+              "methodName": "sample method",
+              "ID1value": "100",
+              "RS01name": "sample RS01 name",
+              "RS01value": "200",
+              "RS01unit": "sample RS01 unit",
+              "sampleSizeValue": "sample size value",
+              "unitValue": "sample unit value",
+              "remarks": "sample remarks",
+              "RS02name": "sample RS02 name",
+              "RS02value": "300",
+              "RS02unit": "sample RS02 unit",
+              "RS02meanValue": "400",
+              "determinationStart": "2024-07-15"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
