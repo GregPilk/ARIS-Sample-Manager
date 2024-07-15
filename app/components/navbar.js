@@ -12,18 +12,18 @@ import { GiHamburgerMenu } from "react-icons/gi";
 function NavigationLink({ page, onNavigate }) {
   var icon;
   switch (page) {
-    case "New Sample":
+    case "New Chain of Custody":
       icon = <FaFlaskVial />;
       break;
-    case "Find Sample":
+    case "Find Chain of Custody":
       icon = <HiDocumentSearch />;
       break;
-    case "New Test":
+    case "Test Data":
       icon = <FaElementor />;
       break;
-    case "Find Test":
-      icon = <HiDocumentSearch />;
-      break;
+    // case "Find Test":
+    //   icon = <HiDocumentSearch />;
+    //   break;
     default:
       icon = null;
   }
@@ -54,14 +54,14 @@ export default function Navbar({ pages, onNavigate }) {
   const iconSwitch = (page) => {
     var icon;
     switch (page) {
-      case "New Sample":
+      case "New Chain of Custody":
         return (icon = <FaFlaskVial />);
-      case "Find Sample":
+      case "Find Chain of Custody":
         return (icon = <HiDocumentSearch />);
-      case "New Test":
+      case "Test Data":
         return (icon = <FaElementor />);
-      case "Find Test":
-        return (icon = <HiDocumentSearch />);
+      // case "Find Test":
+      //   return (icon = <HiDocumentSearch />);
       default:
         return (icon = null);
     }

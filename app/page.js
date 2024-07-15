@@ -12,18 +12,22 @@ import { useEffect, useState } from "react";
 export default function Dashboard() {
   const [selectedPageType, setSelectedPageType] = useState(null);
 
-  const pageTypes = ["New Sample", "Find Sample", "New Test", "Find Test"];
+  const pageTypes = [
+    "New Chain of Custody",
+    "Find Chain of Custody",
+    "Test Data",
+  ];
 
   const renderPageComponent = () => {
     switch (selectedPageType) {
-      case "New Sample":
+      case "New Chain of Custody":
         return <NewSample page={selectedPageType} />;
-      case "New Test":
+      case "Test Data":
         return <NewTest />;
-      case "Find Sample":
+      case "Find Chain of Custody":
         return <FindSample page={selectedPageType} />;
-      case "Find Test":
-        return <FindTest />;
+      // case "Find Test":
+      //   return <FindTest />;
       default:
         return null; // Or any default component you wish to show
     }
