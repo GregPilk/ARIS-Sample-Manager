@@ -4,6 +4,7 @@ import NewTest from "./new-test";
 
 const NewSampleForm = () => {
   const [formValues, setFormValues] = useState({});
+  const [selectedTests, setSelectedTests] = useState([]);
 
   useEffect(() => {
     // Initialize form values here if necessary
@@ -16,6 +17,85 @@ const NewSampleForm = () => {
       [key]: e.target.value,
     };
     setFormValues(updatedValues);
+  };
+
+  const handleCheckboxChange = (event) => {
+    const { id, checked } = event.target;
+    if (checked) {
+      setSelectedTests((prevSelectedTests) => [...prevSelectedTests, id]);
+    } else {
+      setSelectedTests((prevSelectedTests) =>
+        prevSelectedTests.filter((testId) => testId !== id)
+      );
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  
+    // Log chain of custody details
+    console.log("Chain of Custody:");
+    console.log(`Chain of Custody: ${formValues.chainOfCustody?.chainOfCustodyCOC || ""}`);
+    console.log(`Sample Name: ${formValues.chainOfCustody?.sampleName || ""}`);
+    console.log(`Sample Amount: ${formValues.chainOfCustody?.sampleAmount || ""}`);
+  
+    // Log report to details
+    console.log("\nReport To:");
+    console.log(`Company: ${formValues.reportTo?.reportToCompany || ""}`);
+    console.log(`Contact: ${formValues.reportTo?.reportToContact || ""}`);
+    console.log(`Phone: ${formValues.reportTo?.reportToPhone || ""}`);
+    console.log(`Street: ${formValues.reportTo?.reportToStreet || ""}`);
+    console.log(`City/Province: ${formValues.reportTo?.reportToCity || ""}`);
+    console.log(`Postal Code: ${formValues.reportTo?.reportToPostal || ""}`);
+  
+    // Determine invoice details based on user selection
+    console.log("\nInvoice To:");
+    if (formValues.invoiceTo?.sameAsReportTo === 'Yes') {
+      console.log("Same as Report To");
+    }
+    if (formValues.invoiceTo?.copyOfInvoiceWithReport === 'Yes') {
+      console.log("Copy Invoice with Report");
+    }
+    console.log(`Company: ${formValues.invoiceTo?.invoiceToCompany || ""}`);
+    console.log(`Contact: ${formValues.invoiceTo?.invoiceToContact || ""}`);
+
+  
+    // Log report recipients
+    console.log("\nReport Recipients:");
+    console.log(`Report Format: ${formValues.reportRecipients?.reportFormat || ""}`);
+    console.log(`Merge QC/QCI: ${formValues.reportRecipients?.mergeReports || ""}`);
+    console.log(`Distribution: ${formValues.reportRecipients?.distribution || ""}`);
+
+    console.log(`Email: ${formValues.reportRecipients?.reportRecipientEmail || ""}`);
+    console.log(`Email 2: ${formValues.reportRecipients?.reportRecipientEmail2 || ""}`);
+    console.log(`Fax: ${formValues.reportRecipients?.reportRecipientFax || ""}`);
+  
+    // Log invoice recipients
+    console.log("\nInvoice Recipients:");
+    console.log(`Distribution: ${formValues.invoiceRecipients?.invoiceDistribution || ""}`);
+    console.log(`Email: ${formValues.invoiceRecipients?.invoiceRecipientEmail || ""}`);
+    console.log(`Email 2: ${formValues.invoiceRecipients?.invoiceRecipientEmail2 || ""}`);
+    console.log(`Fax: ${formValues.invoiceRecipients?.invoiceRecipientFax || ""}`);
+  
+    // Create samples based on sampleAmount value
+    const sampleAmount = parseInt(formValues.chainOfCustody?.sampleAmount || 0);
+    if (!isNaN(sampleAmount) && sampleAmount > 0) {
+      console.log(`\nCreating ${sampleAmount} samples:`);
+      for (let i = 1; i <= sampleAmount; i++) {
+        const sampleName = `${formValues.chainOfCustody?.sampleName}${i}`;
+        console.log(`${sampleName}:`);
+        selectedTests.forEach((testId) => {
+          const test = tests.find((test) => test.id === testId);
+          if (test) {
+            console.log(`  - Test: ${test.name}`);
+            // You can add more details or processing related to each test if needed
+          }
+        });
+      }
+    } else {
+      console.log("Invalid sample amount or not specified.");
+    }
+    console.log(formValues);
   };
 
   const tests = [
@@ -108,7 +188,7 @@ const NewSampleForm = () => {
             <h1>Chain of Custody - New Sample</h1>
           </header>
         </div>
-        <form className="mt-2">
+        <form className="mt-2" onSubmit={handleSubmit}>
           <div className="short-wide-box">
             <h2 className="m-2 text-2xl font-bold"> Chain of Custody</h2>
               <div className="horizontal-fields">
@@ -173,6 +253,8 @@ const NewSampleForm = () => {
                           type="checkbox"
                           value={test.name}
                           className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-700 dark:focus:ring-blue-800 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          onChange={handleCheckboxChange}
+                          checked={selectedTests.includes(test.id)}
                         />
                         <label
                           htmlFor={test.id}
