@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import formData from "../objects/newSample.json";
 import NewTest from "./new-test";
+import { createRecord } from "../_services/dbFunctions";
 
 const NewSampleForm = () => {
   const [formValues, setFormValues] = useState({});
+  const [selectedTests, setSelectedTests] = useState([]);
 
   useEffect(() => {
     // Initialize form values here if necessary
@@ -17,20 +19,172 @@ const NewSampleForm = () => {
     };
     setFormValues(updatedValues);
   };
+
+  const handleCheckboxChange = (event) => {
+    const { id, checked } = event.target;
+    if (checked) {
+      setSelectedTests((prevSelectedTests) => [...prevSelectedTests, id]);
+    } else {
+      setSelectedTests((prevSelectedTests) =>
+        prevSelectedTests.filter((testId) => testId !== id)
+      );
+    }
+  };
+
+  const handleSubmit = (e) => {
+
+    e.preventDefault();
+
+        // Log chain of custody details
+        console.log("Chain of Custody:");
+        console.log(`Chain of Custody: ${formValues.chainOfCustody?.chainOfCustodyCOC || ""}`);
+        console.log(`Sample Name: ${formValues.chainOfCustody?.sampleName || ""}`);
+        console.log(`Sample Amount: ${formValues.chainOfCustody?.sampleAmount || ""}`);
+      
+        // Log report to details
+        console.log("\nReport To:");
+        console.log(`Company: ${formValues.reportTo?.reportToCompany || ""}`);
+        console.log(`Contact: ${formValues.reportTo?.reportToContact || ""}`);
+        console.log(`Phone: ${formValues.reportTo?.reportToPhone || ""}`);
+        console.log(`Street: ${formValues.reportTo?.reportToStreet || ""}`);
+        console.log(`City/Province: ${formValues.reportTo?.reportToCity || ""}`);
+        console.log(`Postal Code: ${formValues.reportTo?.reportToPostal || ""}`);
+      
+        // Determine invoice details based on user selection
+        console.log("\nInvoice To:");
+        if (formValues.invoiceTo?.sameAsReportTo === 'Yes') {
+          console.log("Same as Report To");
+        }
+        if (formValues.invoiceTo?.copyOfInvoiceWithReport === 'Yes') {
+          console.log("Copy Invoice with Report");
+        }
+        console.log(`Company: ${formValues.invoiceTo?.invoiceToCompany || ""}`);
+        console.log(`Contact: ${formValues.invoiceTo?.invoiceToContact || ""}`);
+    
+      
+        // Log report recipients
+        console.log("\nReport Recipients:");
+        console.log(`Report Format: ${formValues.reportRecipients?.reportFormat || ""}`);
+        console.log(`Merge QC/QCI: ${formValues.reportRecipients?.mergeReports || ""}`);
+        console.log(`Distribution: ${formValues.reportRecipients?.distribution || ""}`);
+    
+        console.log(`Email: ${formValues.reportRecipients?.reportRecipientEmail || ""}`);
+        console.log(`Email 2: ${formValues.reportRecipients?.reportRecipientEmail2 || ""}`);
+        console.log(`Fax: ${formValues.reportRecipients?.reportRecipientFax || ""}`);
+      
+        // Log invoice recipients
+        console.log("\nInvoice Recipients:");
+        console.log(`Distribution: ${formValues.invoiceRecipients?.invoiceDistribution || ""}`);
+        console.log(`Email: ${formValues.invoiceRecipients?.invoiceRecipientEmail || ""}`);
+        console.log(`Email 2: ${formValues.invoiceRecipients?.invoiceRecipientEmail2 || ""}`);
+        console.log(`Fax: ${formValues.invoiceRecipients?.invoiceRecipientFax || ""}`);
+
+    const newRecord = {
+      chainOfCustody: formValues.chainOfCustody.chainOfCustodyCOC,
+      reportToCompany: formValues.reportTo.reportToCompany,
+      reportToContact: formValues.reportTo.reportToContact,
+      reportToPhone: formValues.reportTo.reportToPhone,
+      reportToStreet: formValues.reportTo.reportToStreet,
+      reportToCity: formValues.reportTo.reportToCity,
+      reportToPostal: formValues.reportTo.reportToPostal,
+      invoiceToSameAsReport: formValues.invoiceTo.sameAsReportTo,
+      invoiceToCopyOfInvoice: formValues.invoiceTo.copyOfInvoiceWithReport,
+      invoiceToCompany: formValues.invoiceTo.invoiceToCompany,
+      invoiceToContact: formValues.invoiceTo.invoiceToContact,
+      reportRecipientFormat: formValues.reportRecipients.reportFormat,
+      mergeQCReports: formValues.reportRecipients.mergeReports,
+      selectDistribution: formValues.reportRecipients.distribution,
+      reportRecipientEmailOne: formValues.reportRecipients.reportRecipientEmail,
+      reportRecipientEmailTwo: formValues.invoiceRecipients?.invoiceRecipientEmail2,
+      reportRecipientEmailThree: "need to add a 3rd email input",
+      invoiceRecipientDistribution: formValues.invoiceRecipients.invoiceDistribution,
+      invoiceRecipientEmailOne: formValues.invoiceRecipients.invoiceRecipientEmail,
+      invoiceRecipientEmailTwo: formValues.invoiceRecipients.invoiceRecipientEmail2,
+      samples:[]
+    }
+
+    // Create samples based on sampleAmount value
+    const sampleAmount = parseInt(formValues.chainOfCustody?.sampleAmount || 0);
+    if (!isNaN(sampleAmount) && sampleAmount > 0) {
+      console.log(`\nCreating ${sampleAmount} samples:`);
+      for (let i = 1; i <= sampleAmount; i++) {
+
+        const sample = {
+          sampleID: "",
+          type: "water",
+          tests: []
+        }
+
+        const sampleName = `${formValues.chainOfCustody?.sampleName}${i}`;
+        sample.sampleID = sampleName;
+        console.log(`${sampleName}:`);
+        
+        selectedTests.forEach((testId) => {
+
+          const test = tests.find((test) => test.id === testId);
+
+          if (test.name === "PH/Conductivity") {
+            const newTest = {
+              name: test.name,
+              phConResults : []
+            }
+             sample.tests.push(newTest);
+          }
+          if (test.name === "TSS") {
+            const newTest = {
+              name: test.name,
+              tssResults : []
+            }
+            sample.tests.push(newTest);
+          }
+          if (test.name === "IC") {
+            const newTest = {
+              name: test.name,
+              icResults : []
+            }
+            sample.tests.push(newTest);
+          }
+          if (test.name === "Alkalinity") {
+            const newTest = {
+              name: test.name,
+              alkalinityResults : []
+            }
+            sample.tests.push(newTest);
+          }
+          if (test.name === "TICTOC") {
+            const newTest = {
+              name: test.name,
+              tictocResults : []
+            }
+            sample.tests.push(newTest);
+          }
+        });
+        newRecord.samples.push(sample);
+      }
+    } else {
+      console.log("Invalid sample amount or not specified.");
+    }
+    console.log(formValues);
+    console.log(newRecord);
+    window.alert("Form submitted successfully!");
+    createRecord(newRecord);
+    // setFormValues({}); // Clear form values after submission
+  };
+
   const tests = [
-    { id: "phConductivity", name: "PH Conductivity" },
-    { id: "hpicIc", name: "HPIC/IC" },
-    { id: "alkalinity", name: "Alkalinity" },
-    { id: "toctic", name: "TOCTIC" },
-    { id: "icp", name: "ICP" },
-    { id: "tss", name: "TSS" },
+    { id: "PH/Conductivity", name: "PH/Conductivity" },
+    { id: "TSS", name: "TSS" },
+    { id: "IC", name: "IC" },
+    { id: "Alkalinity", name: "Alkalinity" },
+    { id: "TICTOC", name: "TICTOC" },
   ];
+
   const renderInputField = (field, section) => {
     if (field.type === "text") {
       return (
         <div className="flex justify-between w-72 m-2" key={field.id}>
-          <div className="text-left">
-            <label className="font-bold" htmlFor={field.id}>
+          <div className="text-center">
+            <label className="font-bold mr-2" htmlFor={field.id}>
               {field.label}
             </label>
           </div>
@@ -50,7 +204,7 @@ const NewSampleForm = () => {
       return (
         <div className="flex justify-between w-80 m-2" key={field.label}>
           <div className="w-40">
-            <label className="font-bold" htmlFor={field.id}>
+            <label className="font-bold mr-2" htmlFor={field.id}>
               {field.label}
             </label>
           </div>
@@ -74,7 +228,29 @@ const NewSampleForm = () => {
           </div>
         </div>
       );
-    }
+      } else if (field.type === "int") {
+        return (
+          <div className="flex justify-between m-2" key={field.label}>
+            <div className="">
+              <label className="font-bold mr-2" htmlFor={field.id}>
+                {field.label}
+              </label>
+            </div>
+            <div className="flex justify-around flex-grow">
+              <input
+                className="w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent pl-2"
+                type="number"
+                id={field.id}
+                name={field.name}
+                value={formValues[section]?.[field.name] || ""}
+                onChange={(e) => handleChange(e, section, field.name)}
+                step="1"
+                min="0"
+              />
+            </div>
+          </div>
+        );
+      }
   };
 
   return (
@@ -85,7 +261,15 @@ const NewSampleForm = () => {
             <h1>New Chain of Custody</h1>
           </header>
         </div>
-        <form>
+        <form className="mt-2" onSubmit={handleSubmit}>
+          <div className="short-wide-box">
+            <h2 className="m-2 text-2xl font-bold"> Chain of Custody</h2>
+              <div className="horizontal-fields">
+                {Object.values(formData.chainOfCustody).map((field) =>
+                  renderInputField(field, "chainOfCustody")
+                  )}
+              </div>
+          </div>
           <div className="flex flex-col">
             <div className="flex">
               <div className="input-box m-7">
@@ -118,20 +302,12 @@ const NewSampleForm = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col">
+              <div className="flex justify-start">
                 <div className="special-box">
                   <h2 className="m-2 text-2xl font-bold">Invoice Recipients</h2>
                   <div className="column-fields">
                     {Object.values(formData.invoiceRecipients).map((field) =>
                       renderInputField(field, "invoiceRecipients")
-                    )}
-                  </div>
-                </div>
-                <div className="itty-box">
-                  <h2 className="m-2 text-2xl font-bold">Chain of Custody</h2>
-                  <div className="input-fields">
-                    {Object.values(formData.chainOfCustody).map((field) =>
-                      renderInputField(field, "chainOfCustody")
                     )}
                   </div>
                 </div>
@@ -150,6 +326,8 @@ const NewSampleForm = () => {
                           type="checkbox"
                           value={test.name}
                           className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-700 dark:focus:ring-blue-800 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          onChange={handleCheckboxChange}
+                          checked={selectedTests.includes(test.id)}
                         />
                         <label
                           htmlFor={test.id}

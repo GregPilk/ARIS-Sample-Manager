@@ -289,16 +289,19 @@ body::before {
   height: 48px;
   width: 48px; */
 }
+
 .yellow-caution:hover{
   background-color: #ece937;
 
 }
+
 .red-error{
   background-color: #dd2909;
   border: 2px solid #ccc;
   height: 48px;
   width: 48px;
 }
+
 .input-box {
   background-color: #e2e8f0;
   align-items: center;
@@ -314,6 +317,7 @@ body::before {
   border-width: 2px;
   border-color: #000000;
 }
+
 .input-fields{
   display: flex;
   flex-direction: column;
@@ -324,6 +328,21 @@ body::before {
   max-height: 140px;
   width: 100%;
 }
+
+
+.horizontal-fields{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;;
+  align-content: center;
+  width: 100%;
+  padding-left: 8rem;
+  padding-right: 8rem;
+  white-space: nowrap;
+  overflow: auto;
+}
+
 .output-box {
   background-color: #abb1b9;
   background-image: url('../public/images/ARIS_background.png');
@@ -339,10 +358,12 @@ body::before {
   border-width: 2px;
   border-color: #000000;
 }
+
 .paper{
   background-image: url('../public/images/ARIS_background.png');
   background-blend-mode: hard-light;
 }
+
 .column-fields{
   display: flex;
   flex-direction: column;
@@ -370,6 +391,20 @@ body::before {
   margin-top: 8px;
   height: 140px;
   width: 400px;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(248, 116, 116, 0.05);
+  border-width: 2px;
+  border-color: #000000;
+}
+
+.short-wide-box {
+  background-color: #e2e8f0;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  height: 100px;
+  width: 1410px;
   border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(248, 116, 116, 0.05);
   border-width: 2px;
