@@ -1,22 +1,44 @@
 "use client";
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import Test from "@/app/objects/result.json";
+import { useState } from "react";
+import { COCSelect } from "@/app/components/find-options";
+import { getRecord, getAllRecords } from "../_services/dbFunctions";
+
+// Created By: Greg
+// Date: 2024-07-15
+// Component to display in tables
+
+const DataSection = ({ title, fields }) => (
+  <div className="flex flex-col px-6 m-2 w-full">
+    <p className="font-bold text-center bg-slate-500 paper py-2 mb-1 rounded-t-md">
+      {title}
+    </p>
+    <table className="table-auto w-full border-collapse rounded-b-md overflow-hidden">
+      <tbody>
+        {fields.map(({ label, value }) => (
+          <tr key={label} className="border-b-2 border-slate-400">
+            <td className="bg-slate-200 paper font-bold px-4 rounded-l-md">
+              {label}:
+            </td>
+            <td className="bg-slate-300 paper p-3 text-right rounded-r-md">
+              {value}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
+// Created By: Nick
+// Date: 2024-04-30
+// Edited By: Greg
+// Date: 2024-07-11
+// The component will be used for finding a Chain of Custody in the database
+// The component will display the Chain of Custody data
 
 export default function FindSample({ page }) {
   //an empty array that will be filled with the data from the database
   const [data, setData] = useState(null);
-
-  //variable to hold the id of the Chain of Custody
-  const [id, setId] = useState("");
-
-  //handle submit searches for the data in database using the Chain of custody as the ID
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const data = await getData(id);
-    setData(data);
-    console.log(data);
-  };
 
   // create a small form with one input field and a submit button
   return (
@@ -25,83 +47,98 @@ export default function FindSample({ page }) {
         <div className="flex justify-center">
           <h1 className="title">{page}</h1>
         </div>
-        <div className="text-black flex justify-center flex-col text-xl mt-16">
-          <form
-            onSubmit={handleSubmit}
-            className="flex justify-center flex-col"
-          >
-            <div className="flex justify-center">
-              <input
-                type="text"
-                value={id}
-                onChange={(e) => setId(e.target.value)}
-                placeholder="Enter Chain of Custody ID"
-                className=" flex border-2 border-gray-500 p-2 m-2 w-1/2"
+        <div className="text-black flex items-center justify-center flex-col text-xl">
+          <div className="input-box m-7 justify-center">
+            <div className="input-fields">
+              <COCSelect
+                getRecord={getRecord}
+                getAllRecords={getAllRecords}
+                setRecord={setData}
               />
             </div>
-            <div className="flex justify-center">
-              <button type="submit" className="submit-button">
-                Find Sample
-              </button>
-            </div>
-          </form>
-          {/* <p>Please sign in to access this feature.</p> */}
+          </div>
           <div className="flex justify-center">
             {data ? (
-              <div className="bg-slate-300 w-max flex flex-col justify-center p-4">
+              <div className="bg-slate-300 w-max output-box justify-center p-4">
                 <div className="flex justify-center">
-                  <p className=" font-extrabold text-2xl">
-                    Chain of Custody ID: {Testdata.chainOfCustody}
+                  <p className="font-extrabold py-2 text-4xl">
+                    {data.chainOfCustody}
                   </p>
                 </div>
                 <div className="flex flex-row p-2 m-2">
-                  <div className="flex flex-col px-6 m-2">
-                    <p className=" font-bold">Report To</p>
-                    <p>Company: {data.reportToCompany}</p>
-                    <p>Contact: {data.reportToContact}</p>
-                    <p>Phone: {data.reportToPhone}</p>
-                    <p>Street: {data.reportToStreet}</p>
-                    <p>City: {data.reportToCity}</p>
-                    <p>Postal: {data.reportToPostal}</p>
-                  </div>
-                  <div className="flex flex-col px-6 m-2">
-                    <p className=" font-bold">Invoice To</p>
-                    <p>Same As Report: {data.invoiceToSameAsReport}</p>
-                    <p>Copy Of Invoice: {data.invoiceToCopyOfInvoice}</p>
-                    <p>Company: {data.invoiceToCompany}</p>
-                    <p>Contact: {data.invoiceToContact}</p>
-                  </div>
-                  <div className="flex flex-col px-6 m-2">
-                    <p className=" font-bold">Report / Recipients</p>
-                    <p>Format: {data.reportRecipientFormat}</p>
-                    <p>Merge QC Reports: {data.mergeQCReports}</p>
-                    <p>Selected Distribution: {data.selectDistribution}</p>
-                    <p>Email One: {data.reportRecipientEmailOne}</p>
-                    <p>Email Two: {data.reportRecipientEmailTwo}</p>
-                    <p>Email Three: {data.reportRecipientEmailThree}</p>
-                  </div>
-                  <div className="flex flex-col px-6 m-2">
-                    <p className=" font-bold">Invoice Recipients</p>
-                    <p>
-                      Recipient Distribution:{" "}
-                      {data.invoiceRecipientDistribution}
-                    </p>
-                    <p>Recipient Email One: {data.invoiceRecipientEmailOne}</p>
-                    <p>Recipient Email Two: {data.invoiceRecipientEmailTwo}</p>
-                  </div>
+                  <DataSection
+                    title="Report To"
+                    fields={[
+                      { label: "Company", value: data.reportToCompany },
+                      { label: "Contact", value: data.reportToContact },
+                      { label: "Phone", value: data.reportToPhone },
+                      { label: "Street", value: data.reportToStreet },
+                      { label: "City", value: data.reportToCity },
+                      { label: "Postal", value: data.reportToPostal },
+                    ]}
+                  />
+                  <DataSection
+                    title="Invoice To"
+                    fields={[
+                      {
+                        label: "Same As Report",
+                        value: data.invoiceToSameAsReport,
+                      },
+                      {
+                        label: "Copy Of Invoice",
+                        value: data.invoiceToCopyOfInvoice,
+                      },
+                      { label: "Company", value: data.invoiceToCompany },
+                      { label: "Contact", value: data.invoiceToContact },
+                    ]}
+                  />
+                  <DataSection
+                    title="Report / Recipients"
+                    fields={[
+                      { label: "Format", value: data.reportRecipientFormat },
+                      { label: "Merge QC Reports", value: data.mergeQCReports },
+                      {
+                        label: "Distribution",
+                        value: data.selectDistribution,
+                      },
+                      {
+                        label: "Email One",
+                        value: data.reportRecipientEmailOne,
+                      },
+                      {
+                        label: "Email Two",
+                        value: data.reportRecipientEmailTwo,
+                      },
+                      {
+                        label: "Email Three",
+                        value: data.reportRecipientEmailThree,
+                      },
+                    ]}
+                  />
+                  <DataSection
+                    title="Invoice Recipients"
+                    fields={[
+                      {
+                        label: "Distribution",
+                        value: data.invoiceRecipientDistribution,
+                      },
+                      {
+                        label: "Email One",
+                        value: data.invoiceRecipientEmailOne,
+                      },
+                      {
+                        label: "Email Two",
+                        value: data.invoiceRecipientEmailTwo,
+                      },
+                    ]}
+                  />
                 </div>
               </div>
             ) : (
               <div className="flex flex-col justify-center">
                 <div className="flex justify-center">
-                  <p>No data found</p>
+                  <p>No Data</p>
                 </div>
-                {/* <Link
-                    href="/pages/dashboard"
-                    className="bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded m-6 w-max"
-                  >
-                    Back to Screens
-                  </Link> */}
               </div>
             )}
           </div>

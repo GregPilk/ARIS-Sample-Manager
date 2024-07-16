@@ -1,14 +1,38 @@
 "use client";
 import { useState } from "react";
 
-export default function NewPH() {
+// Created By: Sarah
+// Date: 2024-06-10
+// Edited By: Greg
+// Date: 2024-07-15
+// The component will be used for adding new PH/Conductivity test data to the database
+// The component will render a form for the user to input the PH and Conductivity test data
+
+export default function NewPH({ record, setOutbound }) {
   const [submitted, setSubmitted] = useState(false);
+  const [outboundResults, setOutboundResults] = useState([]);
   const [phTest, setPhTest] = useState({
-    temperature: "",
-    // sampleId: "",
-    phLevel: "",
+    id: "",
+    ph: "",
     conductivity: "",
   });
+  const extractResults = () => {
+    if (!record || !record.samples) {
+      return [];
+    }
+    const results = [];
+    record.samples.forEach((sample) => {
+      sample.tests.forEach((test) => {
+        var resultPropertyName = "phConResults";
+        if (test[resultPropertyName]) {
+          results.push(...test[resultPropertyName]);
+        }
+      });
+    });
+    return results;
+  };
+
+  const results = extractResults();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -16,20 +40,44 @@ export default function NewPH() {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    setSubmitted(true);
+    event.preventDefault(); // Prevent the form from submitting in the traditional way
+
+    // Create a new object for the outboundResults
+    const newOutboundResult = [
+      {
+        id: results[0].id,
+        ph: phTest.ph,
+        conductivity: phTest.conductivity,
+      },
+    ];
+    // console.log(newOutboundResult);
+
+    // Update the outboundResults state with the new object
+    const updatedOutboundResults = [...outboundResults, ...newOutboundResult];
+    setOutboundResults(updatedOutboundResults);
+
+    // Use the updated array directly
+    setOutbound(updatedOutboundResults);
+    // console.log(updatedOutboundResults);
+
+    // Optionally reset the phTest state or handle other post-submit logic
+    setPhTest({
+      id: "",
+      ph: "",
+      conductivity: "",
+    });
+
+    setSubmitted(true); // Indicate that the form has been submitted
   };
 
   const inputs = [
-    { label: "Temperature", name: "temperature", type: "number" },
-    // { label: "Sample ID", name: "sampleId", type: "text" },
-    { label: "PH", name: "phLevel", type: "text" },
+    { label: "PH", name: "ph", type: "text" },
     { label: "Conductivity", name: "conductivity", type: "text" },
   ];
 
   return (
-    <div className="mt-3">
-      <form onSubmit={handleSubmit}>
+    <div className="flex justify-center my-5">
+      <form>
         <div className="special-box p-8">
           {inputs.map((input) => (
             <div
@@ -47,20 +95,19 @@ export default function NewPH() {
             </div>
           ))}
         </div>
-
         <div className="flex justify-center">
-          <button className="add-button" type="submit">
-            Add Another PH Test
+          <button className="add-button" onClick={handleSubmit}>
+            Add Another Test
           </button>
         </div>
       </form>
 
       {submitted && (
         <div>
-          <div>Temperature: {phTest.temperature}</div>
-          {/* <div>Sample ID: {phTest.sampleId}</div> */}
-          <div>PH: {phTest.phLevel}</div>
+          <div>ID: {results[0].id}</div>
+          <div>PH: {phTest.ph}</div>
           <div>Conductivity: {phTest.conductivity}</div>
+          <pre>{JSON.stringify(outboundResults, null, 2)}</pre>
         </div>
       )}
     </div>

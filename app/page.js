@@ -6,7 +6,6 @@ import PageButton from "./components/page-button";
 import NewSample from "./components/new-sample";
 import NewTest from "./components/new-test";
 import FindSample from "./components/find-sample";
-import FindTest from "./components/find-test";
 import { useEffect, useState } from "react";
 
 export default function Dashboard() {

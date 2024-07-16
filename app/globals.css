@@ -19,8 +19,9 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #626b66;
+  background-color: #201f1f;
   position: relative;
+  overflow-x: hidden;
   /* overflow: hidden; */
 }
 body::before {
@@ -31,7 +32,8 @@ body::before {
   right: 0;
   bottom: 0;
   background-image: url('../public/images/nw-aris-energy-730x487.png');
-  background-repeat: round;
+  /* background-repeat: no-repeat; */
+  background-size: cover;
   /* Adjust the opacity here */
   opacity: 0.3;
   z-index: -1;
@@ -42,18 +44,25 @@ body::before {
   border-bottom: 2px solid #1a2431;
 }
 .nav-custom{
-  border: 1px solid #a0b6a8; /* Example border color */
+  border: 2px solid #a0b6a8; /* Example border color */
   border-radius: 20px; /* Rounded border */
   padding: 0 0px 0 10px;
   height: 32px;
   width: auto;
 }
+.greg{
+  background-image: url('../public/images/bitty-greg.png');
+  background-size: cover;
+}
 .nav-image{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 1px solid #a0b6a8; 
   border-radius: 20px;
   height: 32px;
   width: 32px; 
-  margin-left: 4px;
+  margin-left: 16px;
 }
 .flex-container{
   display: flex;
@@ -124,7 +133,7 @@ body::before {
   border-radius: 6px;
   box-shadow: 4px 8px 8px 0px rgba(1, 19, 5, 0.4);
   height: auto;
-  width: 49%;
+  width: 95vw;
   display: flex;
   flex-direction: column;
   /* justify-content: center;
@@ -280,16 +289,19 @@ body::before {
   height: 48px;
   width: 48px; */
 }
+
 .yellow-caution:hover{
   background-color: #ece937;
 
 }
+
 .red-error{
   background-color: #dd2909;
   border: 2px solid #ccc;
   height: 48px;
   width: 48px;
 }
+
 .input-box {
   background-color: #e2e8f0;
   align-items: center;
@@ -305,6 +317,7 @@ body::before {
   border-width: 2px;
   border-color: #000000;
 }
+
 .input-fields{
   display: flex;
   flex-direction: column;
@@ -315,6 +328,7 @@ body::before {
   max-height: 140px;
   width: 100%;
 }
+
 
 .horizontal-fields{
   display: flex;
@@ -327,6 +341,27 @@ body::before {
   padding-right: 8rem;
   white-space: nowrap;
   overflow: auto;
+}
+
+.output-box {
+  background-color: #abb1b9;
+  background-image: url('../public/images/ARIS_background.png');
+  background-blend-mode: hard-light;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  height: auto;
+  width: 98vw;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(248, 116, 116, 0.05);
+  border-width: 2px;
+  border-color: #000000;
+}
+
+.paper{
+  background-image: url('../public/images/ARIS_background.png');
+  background-blend-mode: hard-light;
 }
 
 .column-fields{
