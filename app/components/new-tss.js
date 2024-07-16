@@ -1,12 +1,30 @@
 "use client";
 import { useState } from "react";
 
-export default function NewTSS() {
+export default function NewTSS({ record, setOutbound }) {
   const [submitted, setSubmitted] = useState(false);
+  const [outboundResults, setOutboundResults] = useState([]);
   const [tssTest, setTssTest] = useState({
-    sampleID: "",
-    tssLevel: "",
+    id: "",
+    tssInMgl: "",
   });
+  const extractResults = () => {
+    if (!record || !record.samples) {
+      return [];
+    }
+    const results = [];
+    record.samples.forEach((sample) => {
+      sample.tests.forEach((test) => {
+        var resultPropertyName = "tssResults";
+        if (test[resultPropertyName]) {
+          results.push(...test[resultPropertyName]);
+        }
+      });
+    });
+    return results;
+  };
+
+  const results = extractResults();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -15,10 +33,31 @@ export default function NewTSS() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    const newOutboundResult = [
+      {
+        id: results[0].id,
+        tssInMgl: tssTest.tssInMgl,
+      },
+    ];
+
+    const updatedOutboundResults = [...outboundResults, ...newOutboundResult];
+    setOutboundResults(updatedOutboundResults);
+
+    // Use the updated array directly
+    setOutbound(updatedOutboundResults);
+    // console.log(updatedOutboundResults);
+
+    // Optionally reset the phTest state or handle other post-submit logic
+    setTssTest({
+      id: "",
+      tssInMgl: "",
+    });
+
     setSubmitted(true);
   };
 
-  const inputs = [{ label: "TSS in mg/L", name: "tssLevel", type: "text" }];
+  const inputs = [{ label: "TSS mg/L", name: "tssInMgl", type: "text" }];
 
   return (
     <div className="flex justify-center my-5">
@@ -42,16 +81,17 @@ export default function NewTSS() {
         </div>
         <div className="flex justify-center">
           <button className="add-button" type="submit">
-            Add Another TSS Test
+            Add Another Test
           </button>
         </div>
       </form>
 
-      {submitted && (
+      {/* {submitted && (
         <div className="mt-4">
-          <div>TSS: {tssTest.tssLevel}</div>
+          <div>TSS: {tssTest.tssInMgl}</div>
+          <pre>{JSON.stringify(outboundResults, null, 2)}</pre>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

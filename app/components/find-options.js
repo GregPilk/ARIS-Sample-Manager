@@ -51,7 +51,6 @@ const COCSelect = ({ getRecord, getAllRecords, setRecord }) => {
 
   return (
     <div className="flex m-7 items-center">
-      {error && <p className="text-red-500">{error}</p>}
       <div className="mr-2 font-bold">
         <label htmlFor="chainOfCustody">Chain of Custody ID:</label>
       </div>

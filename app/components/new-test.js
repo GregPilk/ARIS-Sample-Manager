@@ -10,6 +10,8 @@ import {
   SampleIDSelect,
   TestTypeSelect,
 } from "@/app/components/find-options";
+import ResultsTable from "@/app/components/results-table";
+import OutboundTable from "@/app/components/outbound-table";
 import { getRecord, getAllRecords } from "../_services/dbFunctions";
 import data from "@/app/objects/result.json";
 import { set } from "mongoose";
@@ -26,6 +28,26 @@ const NewTest = () => {
   const [testType, setTestType] = useState("");
   const [selectedSampleID, setSelectedSampleID] = useState("");
   const [record, setRecord] = useState(null);
+  const [outBoundResults, setOutBoundResults] = useState([]);
+
+  const getTestComponent = (testType) => {
+    switch (testType) {
+      case "PH/Conductivity":
+        return <NewPH record={record} setOutbound={setOutBoundResults} />;
+      case "TSS":
+        return <NewTSS record={record} setOutbound={setOutBoundResults} />;
+      case "IC":
+      case "Alkalinity":
+      case "TICTOC":
+      case "ICP":
+        return <CsvData testType={testType} />;
+      default:
+        return null;
+    }
+  };
+  useEffect(() => {
+    setOutBoundResults([]);
+  }, [testType]);
 
   return (
     <div className="test-container">
@@ -61,45 +83,34 @@ const NewTest = () => {
               </div>
             </form>
 
-            {testType == "PH/Conductivity" && (
-              <div>
-                <NewPH />
-              </div>
-            )}
-            {testType == "TSS" && (
-              <div>
-                <NewTSS />
-              </div>
-            )}
-            {(testType == "IC" ||
-              testType == "Alkalinity" ||
-              testType == "TICTOC" ||
-              testType == "ICP") && (
-              <div>
-                <CsvData testType={testType} />
-              </div>
-            )}
+            <div>{getTestComponent(testType)}</div>
           </div>
+          {/* output */}
           <div className="test-input-pop mt-4 py-4 px-1">
             <div className="test-navbar m-7">
-              <div className="mr-2 font-bold">
-                <label>Test Type:</label>
-              </div>
-              <div>
-                <select
-                  className="border-2 rounded-lg p-3 bg-slate-400 w-44 h-12 text-center hover:bg-slate-500"
-                  id="dropdown"
-                  value={testType}
-                  onChange={(event) => setTestType(event.target.value)}
-                >
-                  <option value="">Select a Test</option>
-                  <option value="PH/Conductivity">PH/Conductivity</option>
-                  <option value="HPIC/IC">HPIC/IC</option>
-                  <option value="Alkalinity">Alkalinity</option>
-                  <option value="TOCTIC">TOCTIC</option>
-                  <option value="ICP">ICP</option>
-                  <option value="TSS">TSS</option>
-                </select>
+              <SampleIDSelect
+                CocRecord={record}
+                selectedSampleID={selectedSampleID}
+                setSelectedSampleID={setSelectedSampleID}
+              />
+              <TestTypeSelect
+                key={selectedSampleID}
+                CocRecord={record}
+                testType={testType}
+                setTestType={setTestType}
+                selectedSampleID={selectedSampleID}
+              />
+            </div>
+            <div className="flex flex-col">
+              <ResultsTable record={record} selectedTestType={testType} />
+              <OutboundTable
+                records={outBoundResults}
+                selectedTestType={testType}
+              />
+              <div className="flex justify-center">
+                <button type="submit" className="submit-button">
+                  Submit
+                </button>
               </div>
             </div>
           </div>
