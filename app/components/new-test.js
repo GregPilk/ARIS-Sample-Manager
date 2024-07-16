@@ -41,14 +41,18 @@ const NewTest = ({ getRecord, getAllRecords }) => {
       case "Alkalinity":
       case "TICTOC":
       case "ICP":
-        return <CsvReader record={record} sampleID={selectedSampleID} testType={testType} />;
+        return (
+          <CsvReader
+            record={record}
+            sampleID={selectedSampleID}
+            testType={testType}
+          />
+        );
       default:
         return null;
     }
   };
-  // useEffect(() => {
-  //   setOutBoundResults([]);
-  // }, [selectedSampleID, testType, record]);
+
   useEffect(() => {
     setOutBoundResults([]);
   }, [selectedSampleID, testType, record]);
@@ -59,8 +63,6 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   useEffect(() => {
     setSelectedSampleID("");
   }, [record]);
-
-  // Resets outBoundResults when selectedSampleID changes
 
   const handleDatabasePackage = (data) => {
     const processedData = data.map((item) => {

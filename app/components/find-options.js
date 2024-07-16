@@ -38,7 +38,7 @@ const COCSelect = ({ getRecord, getAllRecords, setRecord }) => {
           const recordData = await getRecord(chainOfCustody);
           setRecord(recordData);
           if (isMounted) setRecord(recordData);
-          console.log(recordData);
+          // console.log(recordData);
         } catch (error) {
           if (isMounted) setError(error.message);
         }
@@ -53,7 +53,7 @@ const COCSelect = ({ getRecord, getAllRecords, setRecord }) => {
   return (
     <div className="flex m-7 items-center">
       <div className="mr-2 font-bold">
-        <label htmlFor="chainOfCustody">Chain of Custody ID:</label>
+        <label htmlFor="chainOfCustody">Chain of Custody:</label>
       </div>
       <div>
         <CustomDropdown
