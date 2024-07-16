@@ -6,7 +6,11 @@ const OutboundTable = ({ records, selectedTestType }) => {
   const headers =
     records.length > 0
       ? Object.keys(records[0]).filter(
-          (key) => key !== "id" && key !== "testID"
+          (key) =>
+            key !== "id" &&
+            key !== "testID" &&
+            key !== "phConResults" &&
+            key !== "tssResults"
         )
       : [];
 

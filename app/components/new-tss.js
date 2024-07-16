@@ -88,7 +88,7 @@ export default function NewTSS({ record, setOutbound }) {
         </div>
         <div className="flex justify-center">
           <button className="add-button" type="submit">
-            Add Another Test
+            Add Test
           </button>
         </div>
       </form>
