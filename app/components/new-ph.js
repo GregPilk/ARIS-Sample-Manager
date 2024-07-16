@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { use, useState, useEffect } from "react";
 
 // Created By: Sarah
 // Date: 2024-06-10
@@ -12,10 +12,16 @@ export default function NewPH({ record, setOutbound }) {
   const [submitted, setSubmitted] = useState(false);
   const [outboundResults, setOutboundResults] = useState([]);
   const [phTest, setPhTest] = useState({
-    id: "",
+    testID: "",
+    phConResults: "",
     ph: "",
     conductivity: "",
   });
+
+  useEffect(() => {
+    setOutboundResults([]);
+  }, [record]);
+
   const extractResults = () => {
     if (!record || !record.samples) {
       return [];
@@ -23,9 +29,8 @@ export default function NewPH({ record, setOutbound }) {
     const results = [];
     record.samples.forEach((sample) => {
       sample.tests.forEach((test) => {
-        var resultPropertyName = "phConResults";
-        if (test[resultPropertyName]) {
-          results.push(...test[resultPropertyName]);
+        if (test.name === "PH/Conductivity") {
+          results.push(test);
         }
       });
     });
@@ -45,7 +50,8 @@ export default function NewPH({ record, setOutbound }) {
     // Create a new object for the outboundResults
     const newOutboundResult = [
       {
-        id: results[0].id,
+        testID: results[0].id,
+        phConResults: "phConResults",
         ph: phTest.ph,
         conductivity: phTest.conductivity,
       },
@@ -60,14 +66,15 @@ export default function NewPH({ record, setOutbound }) {
     setOutbound(updatedOutboundResults);
     // console.log(updatedOutboundResults);
 
-    // Optionally reset the phTest state or handle other post-submit logic
+    // Reset the phTest state or handle other post-submit logic
     setPhTest({
-      id: "",
+      testID: "",
+      phConResults: "phConResults",
       ph: "",
       conductivity: "",
     });
 
-    setSubmitted(true); // Indicate that the form has been submitted
+    setSubmitted(true);
   };
 
   const inputs = [
@@ -102,14 +109,14 @@ export default function NewPH({ record, setOutbound }) {
         </div>
       </form>
 
-      {submitted && (
+      {/* {submitted && (
         <div>
           <div>ID: {results[0].id}</div>
           <div>PH: {phTest.ph}</div>
           <div>Conductivity: {phTest.conductivity}</div>
           <pre>{JSON.stringify(outboundResults, null, 2)}</pre>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

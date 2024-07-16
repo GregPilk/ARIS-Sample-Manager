@@ -6,6 +6,7 @@ import PageButton from "./components/page-button";
 import NewSample from "./components/new-sample";
 import NewTest from "./components/new-test";
 import FindSample from "./components/find-sample";
+import { getRecord, getAllRecords } from "./_services/dbFunctions";
 import { useEffect, useState } from "react";
 
 export default function Dashboard() {
@@ -22,9 +23,15 @@ export default function Dashboard() {
       case "New Chain of Custody":
         return <NewSample page={selectedPageType} />;
       case "Test Data":
-        return <NewTest />;
+        return <NewTest getRecord={getRecord} getAllRecords={getAllRecords} />;
       case "Find Chain of Custody":
-        return <FindSample page={selectedPageType} />;
+        return (
+          <FindSample
+            page={selectedPageType}
+            getRecord={getRecord}
+            getAllRecords={getAllRecords}
+          />
+        );
       // case "Find Test":
       //   return <FindTest />;
       default:
