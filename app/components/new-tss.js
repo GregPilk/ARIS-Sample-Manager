@@ -18,13 +18,10 @@ export default function NewTSS() {
     setSubmitted(true);
   };
 
-  const inputs = [
-    { label: "Sample ID", name: "sampleID", type: "text" },
-    { label: "TSS in mg/L", name: "tssLevel", type: "text" },
-  ];
+  const inputs = [{ label: "TSS in mg/L", name: "tssLevel", type: "text" }];
 
   return (
-    <div>
+    <div className="flex justify-center my-5">
       <form onSubmit={handleSubmit}>
         <div className="special-box p-8">
           {inputs.map((input) => (
@@ -52,7 +49,6 @@ export default function NewTSS() {
 
       {submitted && (
         <div className="mt-4">
-          <div>Sample ID: {tssTest.sampleID}</div>
           <div>TSS: {tssTest.tssLevel}</div>
         </div>
       )}

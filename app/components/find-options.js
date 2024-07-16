@@ -1,4 +1,80 @@
-import React from "react";
+// import React from "react";
+import React, { useState, useEffect } from "react";
+
+// Added by: Greg
+// Date: 2024-07-15
+// Component to select a Chain of Custody ID from the list of records
+// From the list of records, the user can select a Chain of Custody ID
+// The selected Chain of Custody is set as the record in the parent component
+const COCSelect = ({ getRecord, getAllRecords, setRecord }) => {
+  const [error, setError] = useState(null);
+  const [chainOfCustody, setChainOfCustody] = useState("");
+  const [allRecords, setAllRecords] = useState([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchAllRecords = async () => {
+      try {
+        const fetchedRecords = await getAllRecords();
+        if (isMounted) {
+          setAllRecords(fetchedRecords);
+        }
+      } catch (error) {
+        if (isMounted) setError(error.message);
+      }
+    };
+    fetchAllRecords();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchRecord = async () => {
+      if (chainOfCustody) {
+        try {
+          const recordData = await getRecord(chainOfCustody);
+          setRecord(recordData);
+          if (isMounted) setRecord(recordData);
+          console.log(recordData);
+        } catch (error) {
+          if (isMounted) setError(error.message);
+        }
+      }
+    };
+    fetchRecord();
+    return () => {
+      isMounted = false;
+    };
+  }, [chainOfCustody, getRecord]);
+
+  return (
+    <div className="flex m-7 items-center">
+      {error && <p className="text-red-500">{error}</p>}
+      <div className="mr-2 font-bold">
+        <label htmlFor="chainOfCustody">Chain of Custody ID:</label>
+      </div>
+      <div>
+        <input
+          list="cocOptions"
+          id="chainOfCustody"
+          type="text"
+          value={chainOfCustody}
+          onChange={(e) => setChainOfCustody(e.target.value)}
+          placeholder="Enter Chain of Custody ID"
+          required
+          className="border-2 rounded-lg p-3 bg-slate-400 w-80 h-12 text-center hover:bg-slate-500"
+        />
+        <datalist className="" id="cocOptions">
+          {allRecords.map((record) => (
+            <option key={record.chainOfCustody} value={record.chainOfCustody} />
+          ))}
+        </datalist>
+      </div>
+    </div>
+  );
+};
 
 // Added by: Greg
 // Date: 2024-07-11
@@ -10,7 +86,10 @@ const SampleIDSelect = ({
   selectedSampleID,
   setSelectedSampleID,
 }) => {
-  const sampleIDs = CocRecord.samples.map((sample) => sample.sampleID);
+  const sampleIDs =
+    CocRecord && CocRecord.samples
+      ? CocRecord.samples.map((sample) => sample.sampleID)
+      : [];
 
   return (
     <div className="flex m-7 items-center">
@@ -55,6 +134,7 @@ const TestTypeSelect = ({
 
   // Function to check if the testType is present in the selected sample's tests
   const isTestTypeInSelectedSample = (testType) => {
+    if (!CocRecord || !CocRecord.samples) return false;
     const selectedSample = CocRecord.samples.find(
       (sample) => sample.sampleID === selectedSampleID
     );
@@ -91,4 +171,4 @@ const TestTypeSelect = ({
   );
 };
 
-export { SampleIDSelect, TestTypeSelect };
+export { COCSelect, SampleIDSelect, TestTypeSelect };

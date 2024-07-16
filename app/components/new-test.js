@@ -5,9 +5,14 @@ import { useState, useEffect } from "react";
 import CsvData from "@/app/components/csv-data";
 import NewPH from "@/app/components/new-ph";
 import NewTSS from "@/app/components/new-tss";
-import { SampleIDSelect, TestTypeSelect } from "@/app/components/find-options";
-import { getRecord } from "../_services/dbFunctions";
+import {
+  COCSelect,
+  SampleIDSelect,
+  TestTypeSelect,
+} from "@/app/components/find-options";
+import { getRecord, getAllRecords } from "../_services/dbFunctions";
 import data from "@/app/objects/result.json";
+import { set } from "mongoose";
 
 // Created By: Sarah
 // Date: 2024-06-10
@@ -20,6 +25,7 @@ import data from "@/app/objects/result.json";
 const NewTest = () => {
   const [testType, setTestType] = useState("");
   const [selectedSampleID, setSelectedSampleID] = useState("");
+  const [record, setRecord] = useState(null);
 
   return (
     <div className="test-container">
@@ -29,23 +35,24 @@ const NewTest = () => {
             <h1>Test Data</h1>
           </header>
         </div>
-        <div className="flex justify-between">
-          <div className="test-input-pop mt-4 py-4 px-1">
+        <div className="flex flex-col justify-center items-center">
+          <div className="test-input-pop mt-4 mb-8 py-4 px-1">
             <form>
               <div className="flex flex-col">
-                {/* <div className="flex w-max"> */}
                 <div className="test-navbar m-7">
-                  <div className="ml-4 font-bold">
-                    <label>CoC Search:</label>
-                  </div>
+                  <COCSelect
+                    getRecord={getRecord}
+                    getAllRecords={getAllRecords}
+                    setRecord={setRecord} // Pass setRecord down to COCSelect
+                  />
                   <SampleIDSelect
-                    CocRecord={data}
+                    CocRecord={record}
                     selectedSampleID={selectedSampleID}
                     setSelectedSampleID={setSelectedSampleID}
                   />
                   <TestTypeSelect
                     key={selectedSampleID}
-                    CocRecord={data}
+                    CocRecord={record}
                     testType={testType}
                     setTestType={setTestType}
                     selectedSampleID={selectedSampleID}

@@ -28,7 +28,7 @@ export default function NewPH() {
   ];
 
   return (
-    <div className="mt-3">
+    <div className="flex justify-center my-5">
       <form onSubmit={handleSubmit}>
         <div className="special-box p-8">
           {inputs.map((input) => (

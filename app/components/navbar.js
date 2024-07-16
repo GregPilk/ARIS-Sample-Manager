@@ -110,7 +110,7 @@ export default function Navbar({ pages, onNavigate }) {
             <div className="flex-container nav-custom">
               {/* {user.email || "User"} */}
               {"User"}
-              <div className="nav-image"> IM </div>
+              <div className="nav-image greg"> </div>
             </div>
 
             <GiHamburgerMenu className=" scale-150 ml-4" />
