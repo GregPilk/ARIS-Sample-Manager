@@ -1,6 +1,6 @@
 import React from "react";
 
-const ResultsTable = ({ record, selectedTestType }) => {
+const ResultsTable = ({ record, selectedSampleType, selectedTestType }) => {
   const extractResults = () => {
     if (!record || !record.samples) {
       return [];
@@ -8,12 +8,14 @@ const ResultsTable = ({ record, selectedTestType }) => {
     const results = [];
     record.samples.forEach((sample) => {
       sample.tests.forEach((test) => {
-        var resultPropertyName = `${selectedTestType.toLowerCase()}Results`;
-        if (resultPropertyName === "ph/conductivityResults") {
-          resultPropertyName = "phConResults";
-        }
-        if (test[resultPropertyName]) {
-          results.push(...test[resultPropertyName]);
+        if (test.sampleID === selectedSampleType) {
+          var resultPropertyName = `${selectedTestType.toLowerCase()}Results`;
+          if (resultPropertyName === "ph/conductivityResults") {
+            resultPropertyName = "phConResults";
+          }
+          if (test[resultPropertyName]) {
+            results.push(...test[resultPropertyName]);
+          }
         }
       });
     });
@@ -68,7 +70,7 @@ const ResultsTable = ({ record, selectedTestType }) => {
           </tbody>
         </table>
       ) : (
-        <p>No results found for {selectedTestType}.</p>
+        <p className="hidden">No results found for {selectedTestType}.</p>
       )}
     </div>
   );

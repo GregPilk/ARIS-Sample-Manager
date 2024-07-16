@@ -477,3 +477,22 @@ body::before {
   border-width: 2px;
   border-color: #000000;
 }
+.dropdown-options {
+  background-color: #e2e8f0;
+}
+.custom-drop {
+  border-width: 2px;
+  border-style: solid; /* Default border style */
+  border-color: currentColor; /* Default border color */
+  border-radius: 0.5rem; /* 8px for rounded-lg */
+  padding: 0.75rem; /* 12px for p-3 */
+  background-color: #94a3b8; /* bg-slate-400 */
+  width: 20rem; /* 80 * 4 = 320px for w-80 */
+  height: 3rem; /* 12 * 4 = 48px for h-12 */
+  text-align: left;
+  transition: background-color 0.2s; /* Adding transition for smooth hover effect */
+}
+
+.custom-drop:hover {
+  background-color: #7d8da3; /* hover:bg-slate-500 */
+}

@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { COCSelect } from "@/app/components/find-options";
-import { getRecord, getAllRecords } from "../_services/dbFunctions";
 
 // Created By: Greg
 // Date: 2024-07-15
@@ -36,7 +35,7 @@ const DataSection = ({ title, fields }) => (
 // The component will be used for finding a Chain of Custody in the database
 // The component will display the Chain of Custody data
 
-export default function FindSample({ page }) {
+export default function FindSample({ page, getRecord, getAllRecords }) {
   //an empty array that will be filled with the data from the database
   const [data, setData] = useState(null);
 
@@ -137,7 +136,7 @@ export default function FindSample({ page }) {
             ) : (
               <div className="flex flex-col justify-center">
                 <div className="flex justify-center">
-                  <p>No Data</p>
+                  <p className="hidden">No Data</p>
                 </div>
               </div>
             )}
