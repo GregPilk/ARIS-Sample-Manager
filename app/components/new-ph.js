@@ -8,12 +8,12 @@ import { use, useState, useEffect } from "react";
 // The component will be used for adding new PH/Conductivity test data to the database
 // The component will render a form for the user to input the PH and Conductivity test data
 
-export default function NewPH({ record, setOutbound }) {
+export default function NewPH({ record, setOutbound, sampleID }) {
   const [submitted, setSubmitted] = useState(false);
   const [outboundResults, setOutboundResults] = useState([]);
   const [phTest, setPhTest] = useState({
     testID: "",
-    phConResults: "",
+    PhConResults: "",
     ph: "",
     conductivity: "",
   });
@@ -28,11 +28,13 @@ export default function NewPH({ record, setOutbound }) {
     }
     const results = [];
     record.samples.forEach((sample) => {
+      if (sample.sampleID === sampleID) {
       sample.tests.forEach((test) => {
         if (test.name === "PH/Conductivity") {
           results.push(test);
         }
       });
+      }
     });
     return results;
   };
@@ -51,7 +53,7 @@ export default function NewPH({ record, setOutbound }) {
     const newOutboundResult = [
       {
         testID: results[0].id,
-        phConResults: "phConResults",
+        PhConResults: "PhConResults",
         ph: phTest.ph,
         conductivity: phTest.conductivity,
       },
@@ -69,7 +71,7 @@ export default function NewPH({ record, setOutbound }) {
     // Reset the phTest state or handle other post-submit logic
     setPhTest({
       testID: "",
-      phConResults: "phConResults",
+      PhConResults: "PhConResults",
       ph: "",
       conductivity: "",
     });

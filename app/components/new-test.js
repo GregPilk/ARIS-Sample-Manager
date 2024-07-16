@@ -15,6 +15,7 @@ import OutboundTable from "@/app/components/outbound-table";
 // import { getRecord, getAllRecords } from "../_services/dbFunctions";
 import data from "@/app/objects/result.json";
 import { set } from "mongoose";
+import { addTestResult } from "@/app/_services/dbFunctions";
 
 // Created By: Sarah
 // Date: 2024-06-10
@@ -30,13 +31,14 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   const [record, setRecord] = useState(null);
   const [outBoundResults, setOutBoundResults] = useState([]);
   const [databaseData, setDatabaseData] = useState([]);
+  // const [recordReload, setRecordReload] = useState(false);
 
   const getTestComponent = (testType) => {
     switch (testType) {
       case "PH/Conductivity":
-        return <NewPH record={record} setOutbound={setOutBoundResults} />;
+        return <NewPH record={record} setOutbound={setOutBoundResults} sampleID={selectedSampleID} />;
       case "TSS":
-        return <NewTSS record={record} setOutbound={setOutBoundResults} />;
+        return <NewTSS record={record} setOutbound={setOutBoundResults} sampleID={selectedSampleID} />;
       case "IC":
       case "Alkalinity":
       case "TICTOC":
@@ -60,19 +62,17 @@ const NewTest = ({ getRecord, getAllRecords }) => {
     setSelectedSampleID("");
   }, [record]);
 
-  // Resets outBoundResults when selectedSampleID changes
+ 
 
-  const handleDatabasePackage = (data) => {
+  const handleDatabasePackage = async (data) => {
     const processedData = data.map((item) => {
       // Find the result type key
-      const resultTypeKey = Object.keys(item).find((key) =>
-        key.endsWith("Results")
-      );
+      const resultTypeKey = Object.keys(item).find((key) => key.endsWith("Results"));
       // Construct the resultType string
       const resultType = resultTypeKey.replace("Results", "") + "Result";
       // Destructure to separate testID, resultTypeKey, and the rest of the data
       const { testID, [resultTypeKey]: _, ...resultData } = item;
-
+  
       return {
         testID,
         resultType,
@@ -80,8 +80,24 @@ const NewTest = ({ getRecord, getAllRecords }) => {
       };
     });
     console.log(processedData);
-    // Store the processed data in databaseData
-    setDatabaseData(processedData);
+    // Call the function to add the data to the database with processedData
+    await addUserResults(processedData);
+    // setRecordReload(true);
+    alert("Data submitted successfully");
+
+  };
+  
+  const addUserResults = async (databaseData) => {
+    for (const item of databaseData) {
+      try {
+        console.log("this is the item", item);
+        await addTestResult(item.testID, item.resultType, item.resultData);
+        console.log("Test result added to database");
+      } catch (error) {
+        console.error("Failed to add test result:", error);
+        throw error;
+      }
+    }
   };
   return (
     <div className="test-container">
