@@ -1,82 +1,92 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
+import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 
 // Dynamically import CsvReader to prevent SSR issues
-const CsvReader = dynamic(() => import('./csv-reader'), { ssr: false });
+const CsvReader = dynamic(() => import("./csv-reader"), { ssr: false });
 
 const CsvData = ({ testType }) => {
   //useState for parsed data, contains all the fields needed for each test.
-  const [parsedData, setParsedData] = useState([{
-    id: "",
-    name: "",
-    phConduct: [{
-      temperature: undefined,
-      sampleId: "",
-      phLevel: undefined,
-      conductivity: undefined
-    }],
-    hpicIc: [{
-      determinationStart: "",
-      identity: "",
-      sampleType: "",
-      methodName: "",
-      user: "",
-      infoOne: "",
-      anionClCon: "",
-      anionSOCon: ""
-    }],
-    alkalinity: [{
-      determinationStart: "",
-      methodName: "",
-      idOneVal: "",
-      rsOneName: "",
-      rsOneVal: "",
-      rsOneUnit: "",
-      sampleSize: "",
-      unitVal: "",
-      user: "", 
-      remarks: "",
-      rsTwoName: "",
-      rsTwoVal: "",
-      rsTwoUnit: "",
-      rsTwoMean: ""
-    }],
-    toctic: [{
-      type: "",
-      analysis: "",
-      sampleName: "",
-      sampleID: "",
-      resultToc: "",
-      resultTc: "",
-      resultIc: "",
-      resultPoc: "",
-      resultNpoc: "",
-      resultTn: "",
-      unit: "",
-      vial: "",
-      dateTime: ""
-    }],
-    icp: [{
-      
-    }],
-    tss: [{
-      sampleID: "",
-      tssLevel: ""
-    }],
-    completedBy: "",
-    sampleSampleID: undefined
-  }]);
+  const [parsedData, setParsedData] = useState([
+    {
+      id: "",
+      name: "",
+      phConduct: [
+        {
+          // temperature: undefined,
+          // sampleId: "",
+          phLevel: undefined,
+          conductivity: undefined,
+        },
+      ],
+      ic: [
+        {
+          determinationStart: "",
+          identity: "",
+          sampleType: "",
+          methodName: "",
+          user: "",
+          infoOne: "",
+          anionClCon: "",
+          anionSOCon: "",
+        },
+      ],
+      alkalinity: [
+        {
+          determinationStart: "",
+          methodName: "",
+          idOneVal: "",
+          rsOneName: "",
+          rsOneVal: "",
+          rsOneUnit: "",
+          sampleSize: "",
+          unitVal: "",
+          user: "",
+          remarks: "",
+          rsTwoName: "",
+          rsTwoVal: "",
+          rsTwoUnit: "",
+          rsTwoMean: "",
+        },
+      ],
+      tictoc: [
+        {
+          type: "",
+          analysis: "",
+          sampleName: "",
+          sampleID: "",
+          resultToc: "",
+          resultTc: "",
+          resultIc: "",
+          resultPoc: "",
+          resultNpoc: "",
+          resultTn: "",
+          unit: "",
+          vial: "",
+          dateTime: "",
+        },
+      ],
+      icp: [{}],
+      tss: [
+        {
+          // sampleID: "",
+          tssLevel: "",
+        },
+      ],
+      completedBy: "",
+      sampleSampleID: undefined,
+    },
+  ]);
 
   //function used to update the parsedData useState with new data sets
   const DataSet = (dataSet) => {
-    setParsedData(prevData => {
+    setParsedData((prevData) => {
       const updatedData = [...prevData];
       //iterates over new data set and pushes it to the updatedData array
       dataSet.forEach((data, index) => {
         //if statements checks to see which type of test was selected
-        if(testType === "Alkalinity"){
+        if (testType === "Alkalinity") {
           updatedData.push({
             id: "",
             name: "",
@@ -87,10 +97,9 @@ const CsvData = ({ testType }) => {
             icp: [{}],
             tss: [{}],
             completedBy: "",
-            sampleSampleID: undefined
-          });        
-        }
-        else if(testType === "TOCTIC"){
+            sampleSampleID: undefined,
+          });
+        } else if (testType === "TOCTIC") {
           updatedData.push({
             id: "",
             name: "",
@@ -101,10 +110,9 @@ const CsvData = ({ testType }) => {
             icp: [{}],
             tss: [{}],
             completedBy: "",
-            sampleSampleID: undefined
-          });    
-        }
-        else if(testType === "HPIC/IC"){
+            sampleSampleID: undefined,
+          });
+        } else if (testType === "HPIC/IC") {
           updatedData.push({
             id: "",
             name: "",
@@ -115,14 +123,14 @@ const CsvData = ({ testType }) => {
             icp: [{}],
             tss: [{}],
             completedBy: "",
-            sampleSampleID: undefined
+            sampleSampleID: undefined,
           });
         }
         //add else if for icp after meeting with client.
       });
       return updatedData;
     });
-  }
+  };
 
   //function to handle the data from the csv reader
   const handleDataParsed = (csvData, headers) => {
@@ -144,12 +152,10 @@ const CsvData = ({ testType }) => {
         rsTwoUnit: data["RS02.Unit"] || "",
         rsTwoMean: data["RS02.Mean value"] || "",
       }));
-      
+
       //calls DataSet function to set the data above to the useState
       DataSet(newAlkalinityData);
-
-    }
-    else if(testType === "TOCTIC"){
+    } else if (testType === "TOCTIC") {
       const newTocTicData = csvData.map((data) => ({
         type: data["Type"],
         analysis: data["Anal."],
@@ -163,13 +169,11 @@ const CsvData = ({ testType }) => {
         resultTn: data["Result(TN)"],
         unit: data["Unit"],
         vial: data["Vial"],
-        dateTime: data["Date / Time"]
-      }))
+        dateTime: data["Date / Time"],
+      }));
 
       DataSet(newTocTicData);
-
-    }
-    else if(testType === "HPIC/IC"){
+    } else if (testType === "HPIC/IC") {
       const newHpicIc = csvData.map((data) => ({
         determinationStart: data["Determination start"],
         identity: data["Ident"],
@@ -178,26 +182,25 @@ const CsvData = ({ testType }) => {
         user: data["User (short name)"],
         infoOne: data["Info 1"],
         anionClCon: data["Anions.Chloride.Concentration"],
-        anionSOCon: data["Anions.Sulfate.Concentration"]
-      }))
+        anionSOCon: data["Anions.Sulfate.Concentration"],
+      }));
 
       DataSet(newHpicIc);
-
     }
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center my-5">
       {/* <h1>CSV Reader and Data Handler</h1> */}
       {/* <button onClick={triggerCsvReader}>Upload CSV</button> */}
       <CsvReader onDataParsed={handleDataParsed} />
       {/* Test to see if data is in the correct object */}
-      {parsedData.length > 0 && (
+      {/* {parsedData.length > 0 && (
         <div className="special-box py-2">
           <h2>Parsed Data</h2>
           <pre>{JSON.stringify(parsedData, null, 2)}</pre>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -82,7 +82,7 @@ const NewSampleForm = () => {
       <div className="page-pop px-16">
         <div className="flex justify-center">
           <header className="title">
-            <h1>Chain of Custody - New Sample</h1>
+            <h1>New Chain of Custody</h1>
           </header>
         </div>
         <form>
