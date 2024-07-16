@@ -31,6 +31,7 @@ const NewSampleForm = () => {
   };
 
   const handleSubmit = (e) => {
+
     e.preventDefault();
   
     // Log chain of custody details
@@ -96,6 +97,8 @@ const NewSampleForm = () => {
       console.log("Invalid sample amount or not specified.");
     }
     console.log(formValues);
+    window.alert("Form submitted successfully!");
+    // setFormValues({}); // Clear form values after submission
   };
 
   const tests = [

@@ -33,7 +33,7 @@
       "onChange": "setReportToStreet"
     },
     "cityProvince": {
-      "label": "City/Province:",
+      "label": "City/Prov:",
       "type": "text",
       "id": "reportToCity",
       "name": "reportToCity",
