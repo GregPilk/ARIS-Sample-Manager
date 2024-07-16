@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useState, useEffect } from "react";
-import CsvData from "@/app/components/csv-data";
+import CsvReader from "@/app/components/csv-reader";
 import NewPH from "@/app/components/new-ph";
 import NewTSS from "@/app/components/new-tss";
 import {
@@ -41,7 +41,7 @@ const NewTest = ({ getRecord, getAllRecords }) => {
       case "Alkalinity":
       case "TICTOC":
       case "ICP":
-        return <CsvData testType={testType} />;
+        return <CsvReader record={record} sampleID={selectedSampleID} testType={testType} />;
       default:
         return null;
     }
