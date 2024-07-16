@@ -1,73 +1,69 @@
 "use client";
 
-import React, { useState } from "react";
-import Papa from "papaparse";
+import { useState } from 'react';
+import Papa from 'papaparse';
+import { formatResultData } from '../_services/dbResultsFormat';
 
-const CsvReader = ({ onDataParsed }) => {
-  const [csvData, setCsvData] = useState([]);
-  const [headers, setHeaders] = useState([]);
+const CsvReader = ({ record, sampleID, testType }) => {
+  const [csvData, setCsvData] = useState(null);
+
+  const handleSubmit = () => {
+
+    const type = `${testType}Result`;
+  
+    let resultTestID = null;
+    record.samples.forEach((sample) => {
+      if (sample.sampleID === sampleID) {
+        sample.tests.forEach((test) => {
+          if (test.name === testType) {
+            resultTestID = test.id;
+          }
+        });
+      }
+    });
+  
+    // Check if resultTestID and type are defined before proceeding
+    if (resultTestID && type && csvData) {
+      formatResultData(csvData, resultTestID, type);
+      alert('Data saved to database');
+    } else {
+      console.error('Missing data: resultTestID, type, or csvData is undefined');
+    }
+  };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const content = e.target.result;
-        const parsedData = Papa.parse(content, { header: true });
-        setCsvData(parsedData.data);
-        setHeaders(parsedData.meta.fields);
-        onDataParsed(parsedData.data, parsedData.meta.fields); // Pass parsed data to parent
-      };
-      reader.readAsText(file);
+      Papa.parse(file, {
+        header: true,
+        complete: (results) => {
+          console.log('Parsed CSV Data:', results.data); // Log parsed data
+          setCsvData(results.data);
+        },
+        error: (error) => {
+          console.error('Error while parsing CSV file:', error);
+        }
+      });
     }
   };
 
-  const handleInputChange = (value, rowIndex, columnName) => {
-    const newData = [...csvData];
-    newData[rowIndex][columnName] = value;
-    setCsvData(newData);
-  };
-
-  const saveCSV = () => {
-    const csvContent = Papa.unparse(csvData);
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "modified_data.csv";
-    link.click();
-  };
-
   return (
+    <div className='flex w-full justify-center'>
     <div className="special-box font-bold px-4 py-2">
       <input type="file" accept=".csv" onChange={handleFileUpload} />
-      {csvData.length > 0 && (
-        <div>
-          {csvData.map((row, rowIndex) => (
-            <div key={rowIndex} style={{ display: "flex", marginBottom: 10 }}>
-              {headers.map((header, colIndex) => (
-                <input
-                  className="border-2 rounded-lg p-3 bg-slate-400 h-12 text-center hover:bg-slate-500"
-                  key={colIndex}
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ccc",
-                    padding: 5,
-                    flex: 1,
-                    marginRight: 10,
-                  }}
-                  value={row[header]}
-                  onChange={(e) =>
-                    handleInputChange(e.target.value, rowIndex, header)
-                  }
-                />
-              ))}
-            </div>
-          ))}
+      {csvData && (
+        <div className='flex justify-center'>
+          <button onClick={handleSubmit} className='add-button' >Save</button>
+          {/* <h3>Preview</h3> */}
+          {/* <pre>{JSON.stringify(csvData, null, 2)}</pre> */}
         </div>
       )}
-      {csvData.length > 0 && <button onClick={saveCSV}>Save CSV</button>}
+    </div>
     </div>
   );
 };
 
 export default CsvReader;
+
+
+
