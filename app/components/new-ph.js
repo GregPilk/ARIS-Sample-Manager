@@ -106,7 +106,7 @@ export default function NewPH({ record, setOutbound, sampleID }) {
         </div>
         <div className="flex justify-center">
           <button className="add-button" onClick={handleSubmit}>
-            Add Another Test
+            Add Test
           </button>
         </div>
       </form>

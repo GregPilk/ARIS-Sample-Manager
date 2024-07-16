@@ -140,6 +140,15 @@ body::before {
   align-items: center; */
   padding-bottom: 36px;
 }
+.nick-version{
+  height: auto;
+  width: 95vw;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
+  padding-bottom: 36px;
+}
 .page-flat{
   background-color: #168f44;
   background-image: url('../public/images/ARIS_background.png');
@@ -416,18 +425,19 @@ body::before {
   font-weight: bold;
   font-size: 1.5rem; 
   margin-top: 1.25rem;
-  padding: 0.75rem 2rem;
+  padding: 8px 32px;
   border-radius: 0.5rem;
   transition: transform 300ms ease-in-out, box-shadow 300ms ease-in-out;
-  background-image: linear-gradient(to right, #0077B5, #1A8CD8);
+  background-image: linear-gradient(to right, #0b4155, #1A8CD8);
   border: 1px solid #1a2431; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4); 
   cursor: pointer; 
 }
 
 .submit-button:hover {
   transform: scale(1.03);
-  background-image: linear-gradient(to right, #022a38, #00678d);
+  background-image: linear-gradient(to right, #0b4155, #0b4155);
+  box-shadow: 5px 4px 6px 0px rgba(0, 0, 0, 0.6); 
 }
 
 .add-button {
@@ -445,15 +455,14 @@ body::before {
 }
 .add-button:hover {
   transform: scale(1.03);
-  background-image: linear-gradient(to right, #13be30, #036135);
+  background-image: linear-gradient(#036135, #036135);
   box-shadow: 5px 4px 6px 0px rgba(0, 0, 0, 0.6); 
 }
 
 .subnav-bar {
-  padding: 0 0px 0 10px;
   height: 58px;
-  width: 880px;
-  margin: -1px 0 32px 0;
+  width: 800px;
+  margin: 12px 0 32px 0;
   background-color: #e2e8f0;
   align-items: center;
   display: flex;

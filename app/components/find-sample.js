@@ -47,7 +47,7 @@ export default function FindSample({ page, getRecord, getAllRecords }) {
           <h1 className="title">{page}</h1>
         </div>
         <div className="text-black flex items-center justify-center flex-col text-xl">
-          <div className="input-box m-7 justify-center">
+          <div className="subnav-bar paper m-7 justify-center">
             <div className="input-fields">
               <COCSelect
                 getRecord={getRecord}
