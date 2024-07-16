@@ -17,20 +17,21 @@ const NewSampleForm = () => {
     };
     setFormValues(updatedValues);
   };
+
   const tests = [
-    { id: "phConductivity", name: "PH Conductivity" },
-    { id: "hpicIc", name: "HPIC/IC" },
-    { id: "alkalinity", name: "Alkalinity" },
-    { id: "toctic", name: "TOCTIC" },
-    { id: "icp", name: "ICP" },
-    { id: "tss", name: "TSS" },
+    { id: "PH/Conductivity", name: "PH/Conductivity" },
+    { id: "TSS", name: "TSS" },
+    { id: "IC", name: "IC" },
+    { id: "Alkalinity", name: "Alkalinity" },
+    { id: "TICTOC", name: "TICTOC" },
   ];
+
   const renderInputField = (field, section) => {
     if (field.type === "text") {
       return (
         <div className="flex justify-between w-72 m-2" key={field.id}>
-          <div className="text-left">
-            <label className="font-bold" htmlFor={field.id}>
+          <div className="text-center">
+            <label className="font-bold mr-2" htmlFor={field.id}>
               {field.label}
             </label>
           </div>
@@ -50,7 +51,7 @@ const NewSampleForm = () => {
       return (
         <div className="flex justify-between w-80 m-2" key={field.label}>
           <div className="w-40">
-            <label className="font-bold" htmlFor={field.id}>
+            <label className="font-bold mr-2" htmlFor={field.id}>
               {field.label}
             </label>
           </div>
@@ -74,7 +75,29 @@ const NewSampleForm = () => {
           </div>
         </div>
       );
-    }
+      } else if (field.type === "int") {
+        return (
+          <div className="flex justify-between m-2" key={field.label}>
+            <div className="">
+              <label className="font-bold mr-2" htmlFor={field.id}>
+                {field.label}
+              </label>
+            </div>
+            <div className="flex justify-around flex-grow">
+              <input
+                className="w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent pl-2"
+                type="number"
+                id={field.id}
+                name={field.name}
+                value={formValues[section]?.[field.name] || ""}
+                onChange={(e) => handleChange(e, section, field.name)}
+                step="1"
+                min="0"
+              />
+            </div>
+          </div>
+        );
+      }
   };
 
   return (
@@ -85,7 +108,15 @@ const NewSampleForm = () => {
             <h1>Chain of Custody - New Sample</h1>
           </header>
         </div>
-        <form>
+        <form className="mt-2">
+          <div className="short-wide-box">
+            <h2 className="m-2 text-2xl font-bold"> Chain of Custody</h2>
+              <div className="horizontal-fields">
+                {Object.values(formData.chainOfCustody).map((field) =>
+                  renderInputField(field, "chainOfCustody")
+                  )}
+              </div>
+          </div>
           <div className="flex flex-col">
             <div className="flex">
               <div className="input-box m-7">
@@ -118,20 +149,12 @@ const NewSampleForm = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col">
+              <div className="flex justify-start">
                 <div className="special-box">
                   <h2 className="m-2 text-2xl font-bold">Invoice Recipients</h2>
                   <div className="column-fields">
                     {Object.values(formData.invoiceRecipients).map((field) =>
                       renderInputField(field, "invoiceRecipients")
-                    )}
-                  </div>
-                </div>
-                <div className="itty-box">
-                  <h2 className="m-2 text-2xl font-bold">Chain of Custody</h2>
-                  <div className="input-fields">
-                    {Object.values(formData.chainOfCustody).map((field) =>
-                      renderInputField(field, "chainOfCustody")
                     )}
                   </div>
                 </div>

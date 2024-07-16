@@ -173,12 +173,28 @@
   },
   "chainOfCustody": {
     "coc": {
-      "label": "COC:",
+      "label": "Chain of Custody:",
       "type": "text",
       "id": "chainOfCustodyCOC",
       "name": "chainOfCustodyCOC",
       "value": "chainOfCustodyCOC",
       "onChange": "setChainOfCustodyCOC"
+    },
+    "sampleName": {
+      "label": "sample Name:",
+      "type": "text",
+      "id": "sampleName",
+      "name": "sampleName",
+      "value": "sampleName",
+      "onChange": "sampleName"
+    }, 
+    "sampleAmount": {
+      "label": "Amount:",
+      "type": "int",
+      "id": "sampleAmount",
+      "name": "sampleAmount",
+      "value": "sampleAmount",
+      "onChange": "sampleAmount"
     }
   }
 }
