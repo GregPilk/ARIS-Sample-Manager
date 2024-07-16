@@ -12,7 +12,7 @@ import {
 } from "@/app/components/find-options";
 import ResultsTable from "@/app/components/results-table";
 import OutboundTable from "@/app/components/outbound-table";
-import { getRecord, getAllRecords } from "../_services/dbFunctions";
+// import { getRecord, getAllRecords } from "../_services/dbFunctions";
 import data from "@/app/objects/result.json";
 import { set } from "mongoose";
 
@@ -24,11 +24,12 @@ import { set } from "mongoose";
 // The component will render different forms based on the selected test type
 // The component will also display the test data in a table format
 
-const NewTest = () => {
+const NewTest = ({ getRecord, getAllRecords }) => {
   const [testType, setTestType] = useState("");
   const [selectedSampleID, setSelectedSampleID] = useState("");
   const [record, setRecord] = useState(null);
   const [outBoundResults, setOutBoundResults] = useState([]);
+  const [databaseData, setDatabaseData] = useState([]);
 
   const getTestComponent = (testType) => {
     switch (testType) {
@@ -45,10 +46,43 @@ const NewTest = () => {
         return null;
     }
   };
+  // useEffect(() => {
+  //   setOutBoundResults([]);
+  // }, [selectedSampleID, testType, record]);
   useEffect(() => {
     setOutBoundResults([]);
-  }, [testType]);
+  }, [selectedSampleID, testType, record]);
 
+  useEffect(() => {
+    setTestType("");
+  }, [selectedSampleID, record]);
+  useEffect(() => {
+    setSelectedSampleID("");
+  }, [record]);
+
+  // Resets outBoundResults when selectedSampleID changes
+
+  const handleDatabasePackage = (data) => {
+    const processedData = data.map((item) => {
+      // Find the result type key
+      const resultTypeKey = Object.keys(item).find((key) =>
+        key.endsWith("Results")
+      );
+      // Construct the resultType string
+      const resultType = resultTypeKey.replace("Results", "") + "Result";
+      // Destructure to separate testID, resultTypeKey, and the rest of the data
+      const { testID, [resultTypeKey]: _, ...resultData } = item;
+
+      return {
+        testID,
+        resultType,
+        resultData,
+      };
+    });
+    console.log(processedData);
+    // Store the processed data in databaseData
+    setDatabaseData(processedData);
+  };
   return (
     <div className="test-container">
       <div className="test-pop px-4">
@@ -65,7 +99,7 @@ const NewTest = () => {
                   <COCSelect
                     getRecord={getRecord}
                     getAllRecords={getAllRecords}
-                    setRecord={setRecord} // Pass setRecord down to COCSelect
+                    setRecord={setRecord}
                   />
                   <SampleIDSelect
                     CocRecord={record}
@@ -89,6 +123,7 @@ const NewTest = () => {
           <div className="test-input-pop mt-4 py-4 px-1">
             <div className="test-navbar m-7">
               <SampleIDSelect
+                key={record}
                 CocRecord={record}
                 selectedSampleID={selectedSampleID}
                 setSelectedSampleID={setSelectedSampleID}
@@ -102,13 +137,21 @@ const NewTest = () => {
               />
             </div>
             <div className="flex flex-col">
-              <ResultsTable record={record} selectedTestType={testType} />
+              <ResultsTable
+                record={record}
+                selectedSampleType={selectedSampleID}
+                selectedTestType={testType}
+              />
               <OutboundTable
                 records={outBoundResults}
                 selectedTestType={testType}
               />
               <div className="flex justify-center">
-                <button type="submit" className="submit-button">
+                <button
+                  type="submit"
+                  className="submit-button"
+                  onClick={() => handleDatabasePackage(outBoundResults)}
+                >
                   Submit
                 </button>
               </div>

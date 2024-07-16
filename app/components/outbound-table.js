@@ -47,7 +47,7 @@ const OutboundTable = ({ records, selectedTestType }) => {
           </tbody>
         </table>
       ) : (
-        <p>No results found for {selectedTestType}.</p>
+        <p className="hidden">No results found for {selectedTestType}.</p>
       )}
     </div>
   );

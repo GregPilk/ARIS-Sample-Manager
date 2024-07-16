@@ -1,5 +1,6 @@
 // import React from "react";
 import React, { useState, useEffect } from "react";
+import CustomDropdown from "@/app/components/custom-dropdown";
 
 // Added by: Greg
 // Date: 2024-07-15
@@ -55,21 +56,10 @@ const COCSelect = ({ getRecord, getAllRecords, setRecord }) => {
         <label htmlFor="chainOfCustody">Chain of Custody ID:</label>
       </div>
       <div>
-        <input
-          list="cocOptions"
-          id="chainOfCustody"
-          type="text"
-          value={chainOfCustody}
-          onChange={(e) => setChainOfCustody(e.target.value)}
-          placeholder="Enter Chain of Custody ID"
-          required
-          className="border-2 rounded-lg p-3 bg-slate-400 w-80 h-12 text-center hover:bg-slate-500"
+        <CustomDropdown
+          allRecords={allRecords}
+          setChainOfCustody={setChainOfCustody}
         />
-        <datalist className="" id="cocOptions">
-          {allRecords.map((record) => (
-            <option key={record.chainOfCustody} value={record.chainOfCustody} />
-          ))}
-        </datalist>
       </div>
     </div>
   );
@@ -97,13 +87,13 @@ const SampleIDSelect = ({
       </div>
       <div>
         <select
-          className="border-2 rounded-lg p-3 bg-slate-400 w-44 h-12 text-center hover:bg-slate-500"
+          className="custom-drop"
           value={selectedSampleID}
           onChange={(event) => setSelectedSampleID(event.target.value)}
         >
           <option value="">Select a Sample</option>
           {sampleIDs.map((id) => (
-            <option key={id} value={id}>
+            <option className="dropdown-options" key={id} value={id}>
               {id.toUpperCase()}
             </option>
           ))}
@@ -148,7 +138,7 @@ const TestTypeSelect = ({
       </div>
       <div>
         <select
-          className="border-2 rounded-lg p-3 bg-slate-400 w-44 h-12 text-center hover:bg-slate-500"
+          className="custom-drop"
           id="dropdown"
           value={testType}
           onChange={(event) => setTestType(event.target.value)}
@@ -157,7 +147,11 @@ const TestTypeSelect = ({
           {options.map((option) => {
             if (isTestTypeInSelectedSample(option.value)) {
               return (
-                <option key={option.value} value={option.value}>
+                <option
+                  className="dropdown-options"
+                  key={option.value}
+                  value={option.value}
+                >
                   {option.text}
                 </option>
               );
