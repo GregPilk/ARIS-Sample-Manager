@@ -1,12 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 
-export default function NewTSS({ record, setOutbound }) {
+export default function NewTSS({ record, setOutbound, sampleID }) {
   const [submitted, setSubmitted] = useState(false);
   const [outboundResults, setOutboundResults] = useState([]);
   const [tssTest, setTssTest] = useState({
     testID: "",
-    tssResults: "",
+    TSSResults: "",
     tssInMgl: "",
   });
 
@@ -20,11 +20,13 @@ export default function NewTSS({ record, setOutbound }) {
     }
     const results = [];
     record.samples.forEach((sample) => {
-      sample.tests.forEach((test) => {
-        if (test.name === "TSS") {
-          results.push(test);
-        }
-      });
+      if (sample.sampleID === sampleID) {
+        sample.tests.forEach((test) => {
+          if (test.name === "TSS") {
+            results.push(test);
+          }
+        });
+    }
     });
     return results;
   };
@@ -42,7 +44,7 @@ export default function NewTSS({ record, setOutbound }) {
     const newOutboundResult = [
       {
         testID: results[0].id,
-        tssResults: "tssResults",
+        TSSResults: "TSSResults",
         tssInMgl: tssTest.tssInMgl,
       },
     ];
@@ -57,7 +59,7 @@ export default function NewTSS({ record, setOutbound }) {
     // Optionally reset the phTest state or handle other post-submit logic
     setTssTest({
       testID: "",
-      tssResults: "tssResults",
+      TSSResults: "TSSResults",
       tssInMgl: "",
     });
 
