@@ -9,8 +9,8 @@ const OutboundTable = ({ records, selectedTestType }) => {
           (key) =>
             key !== "id" &&
             key !== "testID" &&
-            key !== "phConResults" &&
-            key !== "tssResults"
+            key !== "PhConResults" &&
+            key !== "TSSResults"
         )
       : [];
 
