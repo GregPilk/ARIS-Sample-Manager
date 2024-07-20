@@ -113,3 +113,30 @@ export const getAllRecords = async () => {
     throw error;
   }
 };
+
+// Added by: Nick
+// Date: 2024-07-19
+// This function will get a test from the database using the test ID
+// This will return all results associated with the Test
+// Can be called anywhere in front end by importing
+// Example: import { getTest } from '../_services/dbFunctions';
+export const getTest = async (testID) => {
+  try {
+    const response = await fetch(`/api/tests/${testID}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch test:", error);
+    throw error;
+  }
+};

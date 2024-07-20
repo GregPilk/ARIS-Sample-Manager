@@ -96,7 +96,7 @@ const NewSampleForm = () => {
       selectDistribution: formValues.reportRecipients.distribution,
       reportRecipientEmailOne: formValues.reportRecipients.reportRecipientEmail,
       reportRecipientEmailTwo: formValues.invoiceRecipients?.invoiceRecipientEmail2,
-      reportRecipientEmailThree: "need to add a 3rd email input",
+      reportRecipientEmailThree: "test@email.com",
       invoiceRecipientDistribution: formValues.invoiceRecipients.invoiceDistribution,
       invoiceRecipientEmailOne: formValues.invoiceRecipients.invoiceRecipientEmail,
       invoiceRecipientEmailTwo: formValues.invoiceRecipients.invoiceRecipientEmail2,
@@ -168,7 +168,7 @@ const NewSampleForm = () => {
     console.log(newRecord);
     window.alert("Form submitted successfully!");
     createRecord(newRecord);
-    // setFormValues({}); // Clear form values after submission
+    setFormValues({});
   };
 
   const tests = [
