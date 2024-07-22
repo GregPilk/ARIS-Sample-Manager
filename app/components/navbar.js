@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FaFlaskVial } from "react-icons/fa6";
 import { HiDocumentSearch } from "react-icons/hi";
 import { FaElementor } from "react-icons/fa";
+import { FaBattleNet } from "react-icons/fa";
 import { MdDashboardCustomize } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 // import NavigationLink from "./navbar-button";
@@ -20,6 +21,9 @@ function NavigationLink({ page, onNavigate }) {
       break;
     case "Test Data":
       icon = <FaElementor />;
+      break;
+    case "Admin":
+      icon = <FaBattleNet />;
       break;
     // case "Find Test":
     //   icon = <HiDocumentSearch />;
@@ -60,6 +64,8 @@ export default function Navbar({ pages, onNavigate }) {
         return (icon = <HiDocumentSearch />);
       case "Test Data":
         return (icon = <FaElementor />);
+      case "Admin":
+        return (icon = <FaBattleNet />);
       // case "Find Test":
       //   return (icon = <HiDocumentSearch />);
       default:

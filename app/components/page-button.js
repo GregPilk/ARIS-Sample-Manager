@@ -2,6 +2,7 @@ import React from "react";
 import { FaFlaskVial } from "react-icons/fa6";
 import { HiDocumentSearch } from "react-icons/hi";
 import { FaElementor } from "react-icons/fa";
+import { FaBattleNet } from "react-icons/fa";
 
 export default function PageButton({ page, onClick }) {
   var icon;
@@ -18,6 +19,9 @@ export default function PageButton({ page, onClick }) {
     // case "Find Test":
     //   icon = <HiDocumentSearch className="text-6xl mr-4" />;
     //   break;
+    case "Admin":
+      icon = <FaBattleNet className="text-6xl mr-4" />;
+      break;
     default:
       icon = null;
   }

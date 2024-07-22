@@ -6,6 +6,7 @@ import PageButton from "./components/page-button";
 import NewSample from "./components/new-sample";
 import NewTest from "./components/new-test";
 import FindSample from "./components/find-sample";
+import AdminPage from "./pages/admin";
 import { getRecord, getAllRecords } from "./_services/dbFunctions";
 import { useEffect, useState } from "react";
 
@@ -16,6 +17,7 @@ export default function Dashboard() {
     "New Chain of Custody",
     "Find Chain of Custody",
     "Test Data",
+    "Admin",
   ];
 
   const renderPageComponent = () => {
@@ -32,6 +34,8 @@ export default function Dashboard() {
             getAllRecords={getAllRecords}
           />
         );
+      case "Admin":
+        return <AdminPage />;
       // case "Find Test":
       //   return <FindTest />;
       default:
@@ -60,6 +64,11 @@ export default function Dashboard() {
                       onClick={() => setSelectedPageType(pageType)}
                     />
                   ))}
+                  <Link className="page-button" href="/admin">
+                    <div className="flex items-center">
+                      <p>Admin</p>
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>
