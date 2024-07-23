@@ -1,5 +1,9 @@
 import React from "react";
 
+// Added by: Greg
+// Date: 2024-07-16
+// This component is used to display the results of a test for a given sample type.
+
 const ResultsTable = ({ record, selectedSampleType, selectedTestType }) => {
   const extractResults = () => {
     if (!record || !record.samples) {

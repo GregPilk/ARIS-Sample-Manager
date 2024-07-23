@@ -1,13 +1,34 @@
 "use client";
 import { useState } from "react";
-import Navbar from "../components/navbar";
-import PageButton from "../components/page-button";
-import Link from "next/link";
+import ChangeRequest from "../components/change-request";
 
 export default function AdminPage() {
-  const [testChangeRequest, setTestChangeRequest] = useState([]);
-  const [testChangeApproval, setTestChangeApproval] = useState([]);
-  const [selectedPageType, setSelectedPageType] = useState(null);
+  const [testChangeRequest, setTestChangeRequest] = useState([
+    {
+      id: 1,
+      chainOfCustody: "Chain 1",
+      sampleID: "Sample 1",
+      previousResult: "Negative",
+      changedResult: "Positive",
+    },
+    {
+      id: 2,
+      chainOfCustody: "Chain 2",
+      sampleID: "Sample 2",
+      previousResult: "Positive",
+      changedResult: "Negative",
+    },
+  ]);
+
+  const handleAccept = (id) => {
+    console.log(`Accepted request with ID: ${id}`);
+    // Implement acceptance logic here
+  };
+
+  const handleReject = (id) => {
+    console.log(`Rejected request with ID: ${id}`);
+    // Implement rejection logic here
+  };
 
   return (
     <div className="page-container">
@@ -17,7 +38,16 @@ export default function AdminPage() {
             <h1>Admin</h1>
           </header>
         </div>
-        <div className="flex justify-center"></div>
+        <div className="flex justify-center items-center">
+          <div className="mr-4 input-box hover:bg-slate-400 paper">
+            <p>More Information</p>
+          </div>
+          <ChangeRequest
+            requests={testChangeRequest}
+            onAccept={handleAccept}
+            onReject={handleReject}
+          />
+        </div>
       </div>
     </div>
   );

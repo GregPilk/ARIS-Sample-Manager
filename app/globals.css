@@ -166,9 +166,10 @@ body::before {
 }
 .page-button{
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   flex-wrap: wrap;
   background-color: #e2e8f0; 
+  transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out;
   color: #000; 
   font-family: Arial, Helvetica, sans-serif;
   padding: 2rem 0.75rem; 
@@ -180,7 +181,9 @@ body::before {
   width: 40%;
 }
 .page-button:hover {
-  background-color: #cbd5e0; /* Tailwind's gray-400 */
+  transform: scale(1.01);
+  background-color: #cbd5e0;
+  box-shadow: 5px 4px 6px 0px rgba(0, 0, 0, 0.2);  
 }
 
 .title {
@@ -459,6 +462,7 @@ body::before {
   box-shadow: 5px 4px 6px 0px rgba(0, 0, 0, 0.6); 
 }
 
+
 .subnav-bar {
   height: 58px;
   width: 800px;
@@ -486,6 +490,7 @@ body::before {
   border-width: 2px;
   border-color: #000000;
 }
+
 .dropdown-options {
   background-color: #e2e8f0;
 }
@@ -504,4 +509,49 @@ body::before {
 
 .custom-drop:hover {
   background-color: #7d8da3; /* hover:bg-slate-500 */
+}
+
+
+
+.edit-bar {
+  height: 48px;
+  width: 200px;
+  /* margin: 12px 0 32px 0; */
+  background-color: #e2e8f0;
+  background-image: linear-gradient(to bottom, #e2e8f0, #585c61);
+  align-items: center;
+  justify-content: space-evenly;
+  display: flex;
+  border-radius: 0.2rem;
+  /* box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(248, 116, 116, 0.05); */
+  /* border-width: 2px;
+  border-top: #585c61;
+  border-left: #585c61; */
+  /* border-color: #000000; */
+}
+.edit-button {
+  color: #e2e8f0;
+  font-weight: bold;
+  font-size: 0.9rem; 
+  padding: 4px 16px;
+  border-radius: 0.5rem;
+  transition: transform 300ms ease-in-out, box-shadow 300ms ease-in-out;
+  background-image: linear-gradient(to right, #036135, #13be30);
+  border: 1px solid #1a2431; 
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4); 
+  cursor: pointer; 
+}
+.edit-button:hover {
+  transform: scale(1.03);
+  background-image: linear-gradient(#036135, #036135);
+  box-shadow: 5px 4px 6px 0px rgba(0, 0, 0, 0.6); 
+}
+.general-button {
+  transition: transform 100ms ease-in-out, box-shadow 100ms ease-in-out;
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1); 
+  cursor: pointer; 
+}
+.general-button:hover {
+  transform: scale(1.01);
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4); 
 }

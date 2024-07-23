@@ -1,8 +1,17 @@
 import React from "react";
+import { useState } from "react";
 
+// Added by: Greg
+// Date: 2024-07-16
+// This component is used to display the results  of a test before it is added to the database.
 const OutboundTable = ({ records, selectedTestType }) => {
+  const [editMode, setEditMode] = useState(false);
+  const [editableRecordIndex, setEditableRecordIndex] = useState(null);
+  // Assuming useState is already imported
+  const [tempRecord, setTempRecord] = useState({});
   // Dynamically determine the headers based on the results
   //   const headers = results.length > 0 ? Object.keys(results[0]) : [];
+  // Negates headers that add nothing to the user experience
   const headers =
     records.length > 0
       ? Object.keys(records[0]).filter(
@@ -13,15 +22,60 @@ const OutboundTable = ({ records, selectedTestType }) => {
             key !== "TSSResults"
         )
       : [];
+  const handleRowClick = (index) => {
+    if (editMode) {
+      setEditableRecordIndex(index);
+      // setTempRecord({ ...records[index] }); // Initialize tempRecord with the values of the clicked record
+    }
+  };
+  const saveEdits = () => {
+    // This assumes you have a method to update the records in the parent component
+    // For example, updateRecords(index, newRecord) where:
+    // - index is the index of the record to update
+    // - newRecord is the updated record object
+    // if (typeof updateRecords === "function") {
+    //   // Assuming updateRecords is passed as a prop
+    //   updateRecords(editableRecordIndex, tempRecord);
+    // }
+    // setTempRecord({}); // Clear the temporary record
+    // setEditMode(false); // Turn off edit mode
+    // setEditableRecordIndex(null); // Reset editable index
+  };
 
   return (
     <div className="mt-8">
+      <div className="flex justify-end">
+        <div className="mr-4">
+          {records.length > 0 ? (
+            <div className="edit-bar paper">
+              <button className="edit-button" type="button" onClick={saveEdits}>
+                Save
+              </button>
+
+              <label className="font-bold flex items-center">
+                <input
+                  type="checkbox"
+                  checked={editMode}
+                  className="mr-2 w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-700 dark:focus:ring-blue-800 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  onChange={() => {
+                    setEditMode(!editMode);
+                    setEditableRecordIndex(null); // Reset editable index when toggling mode
+                  }}
+                />
+                Edit
+              </label>
+            </div>
+          ) : (
+            <p className="hidden">I don't exist{selectedTestType}.</p>
+          )}
+        </div>
+      </div>
       {records.length > 0 ? (
         <table className="table-auto w-full border-collapse rounded-md overflow-hidden shadow-lg">
           <thead className="font-bold text-center bg-slate-600 paper py-2 rounded-t-md">
             <tr>
               {headers.map((header) => (
-                <th key={header} style={{ borderRight: "1px solid white" }}>
+                <th key={header} className="border-r border-white">
                   {header.charAt(0).toUpperCase() + header.slice(1)}
                 </th>
               ))}
@@ -33,17 +87,21 @@ const OutboundTable = ({ records, selectedTestType }) => {
                 key={index}
                 className={`text-center px-4 paper rounded-md ${
                   index % 2 === 0 ? "bg-green-700" : "bg-green-900"
-                }`}
+                } ${editMode ? "cursor-pointer" : ""}`}
+                onClick={() => handleRowClick(index)}
               >
                 {headers.map((header) => (
-                  <td
-                    key={header}
-                    style={{
-                      borderRight: "1px solid white",
-                      borderBottom: "1px solid white",
-                    }}
-                  >
-                    {record[header]}
+                  <td key={header} className="border-r border-b border-white">
+                    {editableRecordIndex === index ? (
+                      <input
+                        type="text"
+                        className="text-center w-auto"
+                        defaultValue={record[header]}
+                        onBlur={() => setEditableRecordIndex(null)} // Optionally, save the edited value here
+                      />
+                    ) : (
+                      record[header]
+                    )}
                   </td>
                 ))}
               </tr>

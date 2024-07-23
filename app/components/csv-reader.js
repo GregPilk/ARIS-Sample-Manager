@@ -4,6 +4,12 @@ import { useState } from "react";
 import Papa from "papaparse";
 import { formatResultData } from "../_services/dbResultsFormat";
 
+// Added by: Ryan and Sarah
+// Date: 2024-06-30
+// This component is used to read a CSV file and save the data to the database.
+// Edited by: Nick
+// Date: 2024-07-16
+
 const CsvReader = ({ record, sampleID, testType }) => {
   const [csvData, setCsvData] = useState(null);
 

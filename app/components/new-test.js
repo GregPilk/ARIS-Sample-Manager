@@ -36,9 +36,21 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   const getTestComponent = (testType) => {
     switch (testType) {
       case "PH/Conductivity":
-        return <NewPH record={record} setOutbound={setOutBoundResults} sampleID={selectedSampleID} />;
+        return (
+          <NewPH
+            record={record}
+            setOutbound={setOutBoundResults}
+            sampleID={selectedSampleID}
+          />
+        );
       case "TSS":
-        return <NewTSS record={record} setOutbound={setOutBoundResults} sampleID={selectedSampleID} />;
+        return (
+          <NewTSS
+            record={record}
+            setOutbound={setOutBoundResults}
+            sampleID={selectedSampleID}
+          />
+        );
       case "IC":
       case "Alkalinity":
       case "TICTOC":
@@ -69,12 +81,14 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   const handleDatabasePackage = async (data) => {
     const processedData = data.map((item) => {
       // Find the result type key
-      const resultTypeKey = Object.keys(item).find((key) => key.endsWith("Results"));
+      const resultTypeKey = Object.keys(item).find((key) =>
+        key.endsWith("Results")
+      );
       // Construct the resultType string
       const resultType = resultTypeKey.replace("Results", "") + "Result";
       // Destructure to separate testID, resultTypeKey, and the rest of the data
       const { testID, [resultTypeKey]: _, ...resultData } = item;
-  
+
       return {
         testID,
         resultType,
@@ -86,9 +100,8 @@ const NewTest = ({ getRecord, getAllRecords }) => {
     await addUserResults(processedData);
     // setRecordReload(true);
     alert("Data submitted successfully");
-
   };
-  
+
   const addUserResults = async (databaseData) => {
     for (const item of databaseData) {
       try {

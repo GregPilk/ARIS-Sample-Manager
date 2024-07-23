@@ -1,6 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 
+// Added by: Ryan and Sarah
+// Date: 2024-06-30
+// This component is used to add a new TSS test to a sample.
+// Edited by: Greg
+// Date: 2024-07-14
 export default function NewTSS({ record, setOutbound, sampleID }) {
   const [submitted, setSubmitted] = useState(false);
   const [outboundResults, setOutboundResults] = useState([]);
@@ -26,7 +31,7 @@ export default function NewTSS({ record, setOutbound, sampleID }) {
             results.push(test);
           }
         });
-    }
+      }
     });
     return results;
   };

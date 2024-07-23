@@ -64,11 +64,6 @@ export default function Dashboard() {
                       onClick={() => setSelectedPageType(pageType)}
                     />
                   ))}
-                  <Link className="page-button" href="/admin">
-                    <div className="flex items-center">
-                      <p>Admin</p>
-                    </div>
-                  </Link>
                 </div>
               </div>
             </div>

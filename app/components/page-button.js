@@ -3,6 +3,11 @@ import { FaFlaskVial } from "react-icons/fa6";
 import { HiDocumentSearch } from "react-icons/hi";
 import { FaElementor } from "react-icons/fa";
 import { FaBattleNet } from "react-icons/fa";
+import { MdAdminPanelSettings } from "react-icons/md";
+
+// Added by: Greg
+// Date: 2024-07-10
+// This component is used to display a button that navigates to a specific component.
 
 export default function PageButton({ page, onClick }) {
   var icon;
@@ -20,7 +25,7 @@ export default function PageButton({ page, onClick }) {
     //   icon = <HiDocumentSearch className="text-6xl mr-4" />;
     //   break;
     case "Admin":
-      icon = <FaBattleNet className="text-6xl mr-4" />;
+      icon = <MdAdminPanelSettings className="text-6xl mr-4" />;
       break;
     default:
       icon = null;
@@ -28,10 +33,11 @@ export default function PageButton({ page, onClick }) {
 
   return (
     <div className="page-button">
-      <button onClick={onClick}>
-        <div className="flex items-center">
+      <button className="w-full " onClick={onClick}>
+        <div className="flex justify-between items-center">
           <p className="">{icon}</p>
-          <p className="">{page}</p>
+          <p className="pr-2">{page}</p>
+          <p className=""></p>
         </div>
       </button>
     </div>
