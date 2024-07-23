@@ -1,6 +1,10 @@
 // These are the functions that interact with the database and the API
-// They are called by the components in the app
-// The functions are asynchronous and return promises
+// These functions can be called from anywhere in the front end
+// Update and delete functions are for admin use only
+// marked with "ADMIN USE ONLY"
+
+
+// R E C O R D    F U N C T I O N S
 
 // Added by: Nick
 // Date: 2024-07-11
@@ -31,7 +35,151 @@ export const createRecord = async (record) => {
 
 // Added by: Nick
 // Date: 2024-07-11
-// This function will add a result to a specified Test in the database
+// This function will get a single record from the database using the chain of custody number
+// This will return all Samples, Tests, and Results associated with the Record
+// Can be called anywhere in front end by importing
+// Example: import { getRecord } from '../_services/dbFunctions';
+export const getRecord = async (chainOfCustody) => {
+  try {
+    const response = await fetch(`/api/records/${chainOfCustody}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch record:", error);
+    throw error;
+  }
+};
+
+// Added by: Nick
+// Date: 2024-07-11
+// This function will get all records from the database
+// This will only return the data from the Record table, this does not include Samples, Tests, or Results
+// Can be called anywhere in front end by importing
+// Example: import { getAllRecords } from '../_services/dbFunctions';
+export const getAllRecords = async () => {
+  try {
+    const response = await fetch("/api/records", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch records:", error);
+    throw error;
+  }
+};
+
+// Added by: Nick
+// Date: 2024-07-22
+// This function will update a record in the database using the chain of custody number
+// Can be called anywhere in front end by importing
+// Example: import { updateRecord } from '../_services/dbFunctions';
+// ADMIN USE ONLY
+export const updateRecord = async (chainOfCustody, record) => {
+  try {
+    const response = await fetch(`/api/records/${chainOfCustody}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ Record: record }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to update record:", error);
+    throw error;
+  }
+};
+
+// T E S T    F U N C T I O N S
+
+// Added by: Nick
+// Date: 2024-07-19
+// This function will get a test from the database using the test ID
+// This will return all results associated with the Test
+// Can be called anywhere in front end by importing
+// Example: import { getTest } from '../_services/dbFunctions';
+export const getTest = async (testID) => {
+  try {
+    const response = await fetch(`/api/tests/${testID}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch test:", error);
+    throw error;
+  }
+};
+
+
+// Added by: Nick
+// Date: 2024-07-22
+// This function will update a test in the database using the test ID
+// Can be called anywhere in front end by importing
+// Example: import { updateTest } from '../_services/dbFunctions';
+// ADMIN USE ONLY
+export const updateTest = async (testID, test) => {
+  try {
+    const response = await fetch(`/api/tests/${testID}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ Test: test }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to update test:", error);
+    throw error;
+  }
+};
+
+
+// R E S U L T    F U N C T I O N S
+
+// Added by: Nick
+// Date: 2024-07-11
+// This function will add a result to the specified Result table in the database
+// Requires the test ID, result type, and result data
 // Can be called anywhere in front end by importing
 // Example: import { addTestResult } from '../_services/dbFunctions';
 export const addTestResult = async (testID, resultType, resultData) => {
@@ -60,83 +208,6 @@ export const addTestResult = async (testID, resultType, resultData) => {
   }
 };
 
-// Added by: Nick
-// Date: 2024-07-11
-// This function will get a record from the database using the chain of custody number
-// This will return all samples, Tests, and Results associated with the Record
-// Can be called anywhere in front end by importing
-// Example: import { getRecord } from '../_services/dbFunctions';
-export const getRecord = async (chainOfCustody) => {
-  try {
-    const response = await fetch(`/api/records/${chainOfCustody}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
 
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Failed to fetch record:", error);
-    throw error;
-  }
-};
-
-// Added by: Nick
-// Date: 2024-07-11
-// This function will get all records from the database
-// This will only return the data from the Record table
-// Can be called anywhere in front end by importing
-// Example: import { getAllRecords } from '../_services/dbFunctions';
-export const getAllRecords = async () => {
-  try {
-    const response = await fetch("/api/records", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Failed to fetch records:", error);
-    throw error;
-  }
-};
-
-// Added by: Nick
-// Date: 2024-07-19
-// This function will get a test from the database using the test ID
-// This will return all results associated with the Test
-// Can be called anywhere in front end by importing
-// Example: import { getTest } from '../_services/dbFunctions';
-export const getTest = async (testID) => {
-  try {
-    const response = await fetch(`/api/tests/${testID}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Failed to fetch test:", error);
-    throw error;
-  }
-};
+// S A M P L E    F U N C T I O N S
