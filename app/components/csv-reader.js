@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Papa from "papaparse";
-import { formatResultData } from "../_services/dbResultsFormat";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
-const CsvReader = ({ record, sampleID, testType }) => {
+const CsvReader = ({ record, sampleID, testType, onDataParsed }) => {
   const [csvData, setCsvData] = useState(null);
 
   const handleSubmit = () => {
@@ -21,14 +22,11 @@ const CsvReader = ({ record, sampleID, testType }) => {
       }
     });
 
-    // Check if resultTestID and type are defined before proceeding
     if (resultTestID && type && csvData) {
-      formatResultData(csvData, resultTestID, type);
+      onDataParsed(csvData); // Pass the parsed data to parent or callback function
       alert("Data saved to database");
     } else {
-      console.error(
-        "Missing data: resultTestID, type, or csvData is undefined"
-      );
+      console.error("Missing data: resultTestID, type, or csvData is undefined");
     }
   };
 
@@ -38,7 +36,7 @@ const CsvReader = ({ record, sampleID, testType }) => {
       Papa.parse(file, {
         header: true,
         complete: (results) => {
-          console.log("Parsed CSV Data:", results.data); // Log parsed data
+          console.log("Parsed CSV Data:", results.data);
           setCsvData(results.data);
         },
         error: (error) => {
@@ -48,18 +46,41 @@ const CsvReader = ({ record, sampleID, testType }) => {
     }
   };
 
+  const exportToCSV = () => {
+    const csvContent = Papa.unparse(csvData);
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "updated_data.csv";
+    link.click();
+  };
+
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Test Results", 14, 16);
+    doc.autoTable({
+      head: [Object.keys(csvData[0] || {})],
+      body: csvData.map((row) => Object.values(row)),
+    });
+    doc.save("updated_data.pdf");
+  };
+
   return (
     <div className="flex flex-col mt-4 items-center w-full justify-center">
       <div className="special-box font-bold px-4 py-2">
         <input type="file" accept=".csv" onChange={handleFileUpload} />
       </div>
       {csvData && (
-        <div className="flex justify-center">
-          <button onClick={handleSubmit} className="add-button">
+        <div className="flex flex-col items-center">
+          <button onClick={handleSubmit} className="add-button m-2">
             Save
           </button>
-          {/* <h3>Preview</h3> */}
-          {/* <pre>{JSON.stringify(csvData, null, 2)}</pre> */}
+          <button onClick={exportToCSV} className="add-button m-2">
+            Export to CSV
+          </button>
+          <button onClick={exportToPDF} className="add-button m-2">
+            Export to PDF
+          </button>
         </div>
       )}
     </div>
