@@ -54,15 +54,16 @@ export const GET = async (request, { params }) => {
 // Added by: Nick
 // Date: 2024-07-22
 // This is the PATCH request that will update a record
-export const PATCH = async (request, { params, body }) => {
+export const PATCH = async (request, { params }) => {
   try {
     let { id } = params;
-
+    const body = await request.json();
+    
     if (!id) {
       return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
     }
 
-    const record = await prisma.record.update({
+    const updatedRecord = await prisma.record.update({
       where: {
         chainOfCustody: id,
       },
@@ -71,8 +72,9 @@ export const PATCH = async (request, { params, body }) => {
       },
     });
 
-    return NextResponse.json(record);
+    return NextResponse.json(updatedRecord);
   } catch (err) {
+    console.error("PATCH error:", err);
     return NextResponse.json(
       { message: "PATCH error", err: err.message },
       { status: 500 }
