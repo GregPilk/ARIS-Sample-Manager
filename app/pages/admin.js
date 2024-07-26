@@ -40,7 +40,7 @@ export default function AdminPage() {
           </header>
         </div>
         <div className="flex mt-8">
-          <div className="mr-4 admin-info hover:bg-slate-400 paper">
+          <div className="mr-4 admin-info paper">
             <h2 className="text-2xl py-2 font-bold">More Information</h2>
             {/* Mock information */}
             <ul className="list-none mt-2">
