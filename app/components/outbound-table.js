@@ -1,17 +1,13 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 // Added by: Greg
 // Date: 2024-07-16
-// This component is used to display the results  of a test before it is added to the database.
-const OutboundTable = ({ records, selectedTestType }) => {
+// This component is used to display the results of a test before it is added to the database.
+const OutboundTable = ({ records, selectedTestType, updateRecords }) => {
   const [editMode, setEditMode] = useState(false);
   const [editableRecordIndex, setEditableRecordIndex] = useState(null);
-  // Assuming useState is already imported
   const [tempRecord, setTempRecord] = useState({});
-  // Dynamically determine the headers based on the results
-  //   const headers = results.length > 0 ? Object.keys(results[0]) : [];
-  // Negates headers that add nothing to the user experience
+
   const headers =
     records.length > 0
       ? Object.keys(records[0]).filter(
@@ -22,24 +18,21 @@ const OutboundTable = ({ records, selectedTestType }) => {
             key !== "TSSResults"
         )
       : [];
+
   const handleRowClick = (index) => {
     if (editMode) {
       setEditableRecordIndex(index);
-      // setTempRecord({ ...records[index] }); // Initialize tempRecord with the values of the clicked record
+      setTempRecord({ ...records[index] }); // Initialize tempRecord with the values of the clicked record
     }
   };
+
   const saveEdits = () => {
-    // This assumes you have a method to update the records in the parent component
-    // For example, updateRecords(index, newRecord) where:
-    // - index is the index of the record to update
-    // - newRecord is the updated record object
-    // if (typeof updateRecords === "function") {
-    //   // Assuming updateRecords is passed as a prop
-    //   updateRecords(editableRecordIndex, tempRecord);
-    // }
-    // setTempRecord({}); // Clear the temporary record
-    // setEditMode(false); // Turn off edit mode
-    // setEditableRecordIndex(null); // Reset editable index
+    if (typeof updateRecords === "function") {
+      updateRecords(editableRecordIndex, tempRecord);
+    }
+    setTempRecord({}); // Clear the temporary record
+    setEditMode(false); // Turn off edit mode
+    setEditableRecordIndex(null); // Reset editable index
   };
 
   return (
@@ -51,7 +44,6 @@ const OutboundTable = ({ records, selectedTestType }) => {
               <button className="edit-button" type="button" onClick={saveEdits}>
                 Save
               </button>
-
               <label className="font-bold flex items-center">
                 <input
                   type="checkbox"
@@ -95,9 +87,13 @@ const OutboundTable = ({ records, selectedTestType }) => {
                     {editableRecordIndex === index ? (
                       <input
                         type="text"
-                        className="text-center w-auto"
-                        defaultValue={record[header]}
-                        onBlur={() => setEditableRecordIndex(null)} // Optionally, save the edited value here
+                        value={tempRecord[header] || ""}
+                        onChange={(e) =>
+                          setTempRecord({
+                            ...tempRecord,
+                            [header]: e.target.value,
+                          })
+                        }
                       />
                     ) : (
                       record[header]
@@ -108,9 +104,7 @@ const OutboundTable = ({ records, selectedTestType }) => {
             ))}
           </tbody>
         </table>
-      ) : (
-        <p className="hidden">No results found for {selectedTestType}.</p>
-      )}
+      ) : null}
     </div>
   );
 };

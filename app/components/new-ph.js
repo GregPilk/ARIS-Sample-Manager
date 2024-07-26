@@ -29,11 +29,11 @@ export default function NewPH({ record, setOutbound, sampleID }) {
     const results = [];
     record.samples.forEach((sample) => {
       if (sample.sampleID === sampleID) {
-      sample.tests.forEach((test) => {
-        if (test.name === "PH/Conductivity") {
-          results.push(test);
-        }
-      });
+        sample.tests.forEach((test) => {
+          if (test.name === "PH/Conductivity") {
+            results.push(test);
+          }
+        });
       }
     });
     return results;
@@ -50,22 +50,21 @@ export default function NewPH({ record, setOutbound, sampleID }) {
     event.preventDefault(); // Prevent the form from submitting in the traditional way
 
     // Create a new object for the outboundResults
-    const newOutboundResult = [
-      {
-        testID: results[0].id,
-        PhConResults: "PhConResults",
-        ph: phTest.ph,
-        conductivity: phTest.conductivity,
-      },
-    ];
-    // console.log(newOutboundResult);
+    const newOutboundResult = {
+      testID: results[0].id,
+      PhConResults: "PhConResults",
+      ph: phTest.ph,
+      conductivity: phTest.conductivity,
+    };
 
     // Update the outboundResults state with the new object
-    const updatedOutboundResults = [...outboundResults, ...newOutboundResult];
-    setOutboundResults(updatedOutboundResults);
+    setOutboundResults((prevOutboundResults) => [
+      ...prevOutboundResults,
+      newOutboundResult,
+    ]);
 
-    // Use the updated array directly
-    setOutbound(updatedOutboundResults);
+    // Optionally, you can also update the parent component's state if needed
+    setOutbound((prevOutbound) => [...prevOutbound, newOutboundResult]);
     // console.log(updatedOutboundResults);
 
     // Reset the phTest state or handle other post-submit logic

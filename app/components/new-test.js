@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import CsvReader from "@/app/components/csv-reader";
 import NewPH from "@/app/components/new-ph";
 import NewTSS from "@/app/components/new-tss";
+import ManualTest from "@/app/components/manual-test";
 import {
   COCSelect,
   SampleIDSelect,
@@ -35,6 +36,17 @@ const NewTest = ({ getRecord, getAllRecords }) => {
 
   const getTestComponent = (testType) => {
     switch (testType) {
+      //This would be used if we refactor the manual test component to be more generic
+      // case "PH/Conductivity":
+      // case "TSS":
+      //   return (
+      //     <ManualTest
+      //       record={record}
+      //       setOutbound={setOutBoundResults}
+      //       sampleID={selectedSampleID}
+      //       testType={testType}
+      //     />
+      //   );
       case "PH/Conductivity":
         return (
           <NewPH
@@ -114,6 +126,12 @@ const NewTest = ({ getRecord, getAllRecords }) => {
       }
     }
   };
+  const updateRecords = (index, newRecord) => {
+    const updatedResults = [...outBoundResults];
+    updatedResults[index] = newRecord;
+    setOutBoundResults(updatedResults);
+  };
+
   return (
     <div className="test-container">
       <div className="test-pop px-4">
@@ -176,6 +194,7 @@ const NewTest = ({ getRecord, getAllRecords }) => {
               <OutboundTable
                 records={outBoundResults}
                 selectedTestType={testType}
+                updateRecords={updateRecords}
               />
               <div className="flex justify-center">
                 <button
