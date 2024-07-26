@@ -136,8 +136,6 @@ body::before {
   width: 95vw;
   display: flex;
   flex-direction: column;
-  /* justify-content: center;
-  align-items: center; */
   padding-bottom: 36px;
 }
 .nick-version{
@@ -145,8 +143,6 @@ body::before {
   width: 95vw;
   display: flex;
   flex-direction: column;
-  /* justify-content: center;
-  align-items: center; */
   padding-bottom: 36px;
 }
 .page-flat{
@@ -511,23 +507,52 @@ body::before {
   background-color: #7d8da3; /* hover:bg-slate-500 */
 }
 
-
+.admin-info{
+  background-color: #e2e8f0;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  width: 40%;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(248, 116, 116, 0.05);
+  border-width: 2px;
+  border-color: #000000;
+}
+.admin-pop{
+  background-image: linear-gradient(to bottom, #6ed0f3 10%, #00ABE8), url('../public/images/ARIS_background.png');
+  background-blend-mode: multiply;
+  border: 2px solid #1a2431;
+  border-radius: 6px;
+  box-shadow: 4px 8px 8px 0px rgba(1, 19, 5, 0.4);
+  height: auto;
+  min-width: 80%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 36px;
+}
+.admin-table-pop{
+  background-image: linear-gradient(to bottom, #6ed0f3 10%, #00ABE8), url('../public/images/ARIS_background.png');
+  background-blend-mode: multiply;
+  border: 2px solid #1a2431;
+  border-radius: 6px;
+  box-shadow: 4px 8px 8px 0px rgba(1, 19, 5, 0.4);
+  height: auto;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 36px;
+}
 
 .edit-bar {
   height: 48px;
   width: 200px;
-  /* margin: 12px 0 32px 0; */
   background-color: #e2e8f0;
   background-image: linear-gradient(to bottom, #e2e8f0, #585c61);
   align-items: center;
   justify-content: space-evenly;
   display: flex;
   border-radius: 0.2rem;
-  /* box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(248, 116, 116, 0.05); */
-  /* border-width: 2px;
-  border-top: #585c61;
-  border-left: #585c61; */
-  /* border-color: #000000; */
 }
 .edit-button {
   color: #e2e8f0;

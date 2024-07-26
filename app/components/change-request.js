@@ -6,8 +6,8 @@ import { MdCancel } from "react-icons/md";
 
 export default function ChangeRequest({ requests, onAccept, onReject }) {
   return (
-    <div className="mt-6 w-full">
-      <div className="test-pop p-4">
+    <div className="w-full">
+      <div className="admin-table-pop p-4">
         <div className="flex border-2 shadow-md border-white bg-slate-400 font-bold mb-2 p-2 justify-start paper w-7/12 rounded-md">
           <h2 className="text-3xl">Current Change Requests</h2>
         </div>
