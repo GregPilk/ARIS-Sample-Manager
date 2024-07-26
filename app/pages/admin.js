@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import ChangeRequest from "../components/change-request";
+import AddUser from "../components/add-user";
 
 export default function AdminPage() {
   const [testChangeRequest, setTestChangeRequest] = useState([
@@ -47,6 +48,12 @@ export default function AdminPage() {
             onAccept={handleAccept}
             onReject={handleReject}
           />
+        </div>
+        <div className="flex  mt-1 justify-center items-center">
+          <div className="mr-4 mt-1 input-box hover:bg-slate-400 paper">
+            <p>More Information</p>
+          </div>
+          <AddUser />
         </div>
       </div>
     </div>
