@@ -15,12 +15,12 @@ function AddUser() {
   return (
     <div className="mt-6 w-full">
       <div className="admin-table-pop p-4">
-        <div className="flex border-2 shadow-md border-white bg-slate-400 font-bold mb-2 p-2 justify-start paper w-7/12 rounded-md">
+        <div className="flex border-2 shadow-md border-white bg-slate-400 font-bold mb-2 p-2 justify-center paper w-7/12 rounded-md">
           <h2 className="text-3xl">Add User</h2>
         </div>
         <div className="flex items-center">
           {" "}
-          <label className="w-28" htmlFor="username">
+          <label className="w-28 font-bold" htmlFor="username">
             Username:
           </label>
           <input
@@ -33,7 +33,7 @@ function AddUser() {
         </div>
         <div className="flex items-center">
           {" "}
-          <label className="w-28" htmlFor="password">
+          <label className="w-28 font-bold" htmlFor="password">
             Password:
           </label>
           <input
