@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import CsvReader from "@/app/components/csv-reader";
 import NewPH from "@/app/components/new-ph";
 import NewTSS from "@/app/components/new-tss";
+import ManualTest from "@/app/components/manual-test";
 import {
   COCSelect,
   SampleIDSelect,
@@ -35,10 +36,33 @@ const NewTest = ({ getRecord, getAllRecords }) => {
 
   const getTestComponent = (testType) => {
     switch (testType) {
+      //This would be used if we refactor the manual test component to be more generic
+      // case "PH/Conductivity":
+      // case "TSS":
+      //   return (
+      //     <ManualTest
+      //       record={record}
+      //       setOutbound={setOutBoundResults}
+      //       sampleID={selectedSampleID}
+      //       testType={testType}
+      //     />
+      //   );
       case "PH/Conductivity":
-        return <NewPH record={record} setOutbound={setOutBoundResults} sampleID={selectedSampleID} />;
+        return (
+          <NewPH
+            record={record}
+            setOutbound={setOutBoundResults}
+            sampleID={selectedSampleID}
+          />
+        );
       case "TSS":
-        return <NewTSS record={record} setOutbound={setOutBoundResults} sampleID={selectedSampleID} />;
+        return (
+          <NewTSS
+            record={record}
+            setOutbound={setOutBoundResults}
+            sampleID={selectedSampleID}
+          />
+        );
       case "IC":
       case "Alkalinity":
       case "TICTOC":
@@ -69,12 +93,14 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   const handleDatabasePackage = async (data) => {
     const processedData = data.map((item) => {
       // Find the result type key
-      const resultTypeKey = Object.keys(item).find((key) => key.endsWith("Results"));
+      const resultTypeKey = Object.keys(item).find((key) =>
+        key.endsWith("Results")
+      );
       // Construct the resultType string
       const resultType = resultTypeKey.replace("Results", "") + "Result";
       // Destructure to separate testID, resultTypeKey, and the rest of the data
       const { testID, [resultTypeKey]: _, ...resultData } = item;
-  
+
       return {
         testID,
         resultType,
@@ -86,9 +112,8 @@ const NewTest = ({ getRecord, getAllRecords }) => {
     await addUserResults(processedData);
     // setRecordReload(true);
     alert("Data submitted successfully");
-
   };
-  
+
   const addUserResults = async (databaseData) => {
     for (const item of databaseData) {
       try {
@@ -101,6 +126,12 @@ const NewTest = ({ getRecord, getAllRecords }) => {
       }
     }
   };
+  const updateRecords = (index, newRecord) => {
+    const updatedResults = [...outBoundResults];
+    updatedResults[index] = newRecord;
+    setOutBoundResults(updatedResults);
+  };
+
   return (
     <div className="test-container">
       <div className="test-pop px-4">
@@ -163,6 +194,7 @@ const NewTest = ({ getRecord, getAllRecords }) => {
               <OutboundTable
                 records={outBoundResults}
                 selectedTestType={testType}
+                updateRecords={updateRecords}
               />
               <div className="flex justify-center">
                 <button

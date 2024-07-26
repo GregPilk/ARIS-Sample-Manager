@@ -5,41 +5,17 @@ import Link from "next/link";
 import { FaFlaskVial } from "react-icons/fa6";
 import { HiDocumentSearch } from "react-icons/hi";
 import { FaElementor } from "react-icons/fa";
+import { FaBattleNet } from "react-icons/fa";
+import { MdAdminPanelSettings } from "react-icons/md";
 import { MdDashboardCustomize } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 // import NavigationLink from "./navbar-button";
 
-function NavigationLink({ page, onNavigate }) {
-  var icon;
-  switch (page) {
-    case "New Chain of Custody":
-      icon = <FaFlaskVial />;
-      break;
-    case "Find Chain of Custody":
-      icon = <HiDocumentSearch />;
-      break;
-    case "Test Data":
-      icon = <FaElementor />;
-      break;
-    // case "Find Test":
-    //   icon = <HiDocumentSearch />;
-    //   break;
-    default:
-      icon = null;
-  }
-
-  return (
-    <div className="flex items-center space-x-1 cursor-pointer">
-      <button onClick={onNavigate}>
-        <div className="flex items-center h-4 hover:scale-110  hover:text-gray-300">
-          <p>{icon}</p>
-          <p className="mx-2">{page}</p>
-        </div>
-      </button>
-      <p> | </p>
-    </div>
-  );
-}
+// Added by: Adam
+// Date: 2024-06-23
+// This component is used to display the navigation bar at the top of the page.
+// Edited by: Greg
+// Date: 2024-07-10
 
 export default function Navbar({ pages, onNavigate }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -60,6 +36,8 @@ export default function Navbar({ pages, onNavigate }) {
         return (icon = <HiDocumentSearch />);
       case "Test Data":
         return (icon = <FaElementor />);
+      case "Admin":
+        return (icon = <MdAdminPanelSettings />);
       // case "Find Test":
       //   return (icon = <HiDocumentSearch />);
       default:
@@ -94,7 +72,8 @@ export default function Navbar({ pages, onNavigate }) {
               <p>{iconSwitch(page)}</p>
               <p className="mx-2">{page}</p>
             </div>
-            <p>|</p>
+            {page !== "Admin" && <p>|</p>}
+            {/* <p>|</p> */}
           </div>
         ))}
       </div>

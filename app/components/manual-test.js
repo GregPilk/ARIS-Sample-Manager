@@ -1,23 +1,29 @@
 "use client";
 import { useState, useEffect } from "react";
 
-// Added by: Ryan and Sarah
-// Date: 2024-06-30
-// This component is used to add a new TSS test to a sample.
-// Edited by: Greg
-// Date: 2024-07-14
-export default function NewTSS({ record, setOutbound, sampleID }) {
+// added by: Greg
+// date: 2024-07-26
+// This component is used to manually add test data to a sample.
+// Meant to replace new-ph.js and new-tss.js but is not yet fully implemented.
+
+export default function ManualTest({
+  record,
+  setOutbound,
+  sampleID,
+  testType,
+}) {
   const [submitted, setSubmitted] = useState(false);
   const [outboundResults, setOutboundResults] = useState([]);
-  const [tssTest, setTssTest] = useState({
+  const [test, setTest] = useState({
     testID: "",
-    TSSResults: "",
-    tssInMgl: "",
+    results: "",
+    value1: "",
+    value2: "",
   });
 
   useEffect(() => {
     setOutboundResults([]);
-  }, [record]);
+  }, [record, testType]);
 
   const extractResults = () => {
     if (!record || !record.samples) {
@@ -27,7 +33,7 @@ export default function NewTSS({ record, setOutbound, sampleID }) {
     record.samples.forEach((sample) => {
       if (sample.sampleID === sampleID) {
         sample.tests.forEach((test) => {
-          if (test.name === "TSS") {
+          if (test.name === testType) {
             results.push(test);
           }
         });
@@ -40,40 +46,38 @@ export default function NewTSS({ record, setOutbound, sampleID }) {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setTssTest((prevState) => ({ ...prevState, [name]: value }));
+    setTest((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent the form from submitting in the traditional way
-
-    // Create a new object for the outboundResults
-    const newOutboundResult = {
-      testID: results[0].id,
-      TSSResults: "TSSResults",
-      tssInMgl: tssTest.tssInMgl,
-    };
-
-    // Update the outboundResults state with the new object
-    setOutboundResults((prevOutboundResults) => [
-      ...prevOutboundResults,
-      newOutboundResult,
-    ]);
-
-    // Optionally, you can also update the parent component's state if needed
-    setOutbound((prevOutbound) => [...prevOutbound, newOutboundResult]);
-    // console.log(updatedOutboundResults);
-
-    // Reset the tssTest state or handle other post-submit logic
-    setTssTest({
+    event.preventDefault();
+    const newOutboundResult = [
+      {
+        testID: results[0].id,
+        results: testType === "PH/Conductivity" ? "PhConResults" : "TSSResults",
+        value1: test.value1,
+        value2: test.value2,
+      },
+    ];
+    const updatedOutboundResults = [...outboundResults, ...newOutboundResult];
+    setOutboundResults(updatedOutboundResults);
+    setOutbound(updatedOutboundResults);
+    setTest({
       testID: "",
-      TSSResults: "TSSResults",
-      tssInMgl: "",
+      results: testType === "PH/Conductivity" ? "PhConResults" : "TSSResults",
+      value1: "",
+      value2: "",
     });
-
     setSubmitted(true);
   };
 
-  const inputs = [{ label: "TSS mg/L", name: "tssInMgl", type: "text" }];
+  const inputs =
+    testType === "PH/Conductivity"
+      ? [
+          { label: "PH", name: "value1", type: "text" },
+          { label: "Conductivity", name: "value2", type: "text" },
+        ]
+      : [{ label: "TSS mg/L", name: "value1", type: "text" }];
 
   return (
     <div className="flex justify-center my-5">
@@ -89,7 +93,7 @@ export default function NewTSS({ record, setOutbound, sampleID }) {
                 className="w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
                 type={input.type}
                 name={input.name}
-                value={tssTest[input.name]}
+                value={test[input.name]}
                 onChange={handleChange}
               />
             </div>
@@ -101,10 +105,9 @@ export default function NewTSS({ record, setOutbound, sampleID }) {
           </button>
         </div>
       </form>
-
       {/* {submitted && (
         <div className="mt-4">
-          <div>TSS: {tssTest.tssInMgl}</div>
+          <div>{testType}: {test.value1} {testType === "PH/Conductivity" && `, Conductivity: ${test.value2}`}</div>
           <pre>{JSON.stringify(outboundResults, null, 2)}</pre>
         </div>
       )} */}
