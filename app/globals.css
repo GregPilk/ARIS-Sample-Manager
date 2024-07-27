@@ -199,6 +199,18 @@ body::before {
   width: 900px;
 }
 
+.boxless-title {
+  font-size: 4rem;
+  text-align: center;
+  font-family: 'Franklin Gothic', monospace;
+  color: #e2e8f0;
+  margin-top: 10px;
+  width: 900px;
+  text-shadow: #000000 2px 2px 2px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
 .login-container {
   display: flex;
   justify-content: center;

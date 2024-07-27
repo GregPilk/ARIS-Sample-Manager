@@ -7,6 +7,7 @@ import NewSample from "./components/new-sample";
 import NewTest from "./components/new-test";
 import FindSample from "./components/find-sample";
 import AdminPage from "./pages/admin";
+import LoginForm from "./components/loginform";
 import { getRecord, getAllRecords } from "./_services/dbFunctions";
 import { useEffect, useState } from "react";
 
@@ -18,6 +19,7 @@ export default function Dashboard() {
     "Find Chain of Custody",
     "Test Data",
     "Admin",
+    "login test"
   ];
 
   const renderPageComponent = () => {
@@ -38,6 +40,8 @@ export default function Dashboard() {
         return <AdminPage />;
       // case "Find Test":
       //   return <FindTest />;
+      case "login test":
+        return <LoginForm />;
       default:
         return null; // Or any default component you wish to show
     }
