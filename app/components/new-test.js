@@ -29,6 +29,7 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   const [databaseData, setDatabaseData] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
+
   const getTestComponent = (testType) => {
     switch (testType) {
       case "PH/Conductivity":
@@ -102,11 +103,15 @@ const NewTest = ({ getRecord, getAllRecords }) => {
 
     const recordData = await getRecord(record.chainOfCustody);
     setRecord(recordData);
+    
+    // setSelectedSampleID(tempSampleID);
+    // console.log("this should be the old sample", selectedSampleID);
 
     setSelectedSampleID(tempSampleID);
     setTestType(tempTestType);
 
     setRefreshKey((prevKey) => prevKey + 1);
+
   };
 
   const addUserResults = async (databaseData) => {
