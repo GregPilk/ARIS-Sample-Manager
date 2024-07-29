@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import formData from "../objects/newSample.json";
 import NewTest from "./new-test";
 import { createRecord } from "../_services/dbFunctions";
+import { set } from "mongoose";
 
 const NewSampleForm = () => {
   const [formValues, setFormValues] = useState({});
   const [selectedTests, setSelectedTests] = useState([]);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     // Initialize form values here if necessary
@@ -31,9 +33,38 @@ const NewSampleForm = () => {
     }
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formValues.chainOfCustody?.chainOfCustodyCOC) {
+      newErrors.chainOfCustodyCOC = "Chain of Custody is required.";
+    }
+    if (!formValues.chainOfCustody?.sampleName) {
+      newErrors.sampleName = "Sample Name is required.";
+    }
+    if (!formValues.chainOfCustody?.sampleAmount || isNaN(formValues.chainOfCustody.sampleAmount)) {
+      newErrors.sampleAmount = "Sample Amount must be a number.";
+    }
+    if (!formValues.reportTo?.reportToCompany) {
+      newErrors.reportToCompany = "Report To Company is required.";
+    }
+
+    return newErrors;
+  };
+
   const handleSubmit = (e) => {
 
     e.preventDefault();
+
+    const validateErrors = validateForm();
+    if (Object.keys(validateErrors).length > 0) {
+      setErrors(validateErrors);
+      return;
+    }
+
+    setErrors({});
+
+
 
         // Log chain of custody details
         console.log("Chain of Custody:");
@@ -180,7 +211,8 @@ const NewSampleForm = () => {
   ];
 
   const renderInputField = (field, section) => {
-    if (field.type === "text") {
+    const error = errors[field.name];
+    if (field.type === "text" || field.type === "int") {
       return (
         <div className="flex justify-between w-72 m-2" key={field.id}>
           <div className="text-center">
@@ -190,13 +222,14 @@ const NewSampleForm = () => {
           </div>
           <div className="text-right">
             <input
-              className="w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent pl-2" // Added pl-2 for padding on the left
-              type={field.type}
+              className="w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent pl-2"
+              type={field.type === "int" ? "number" : field.type}
               id={field.id}
               name={field.name}
               value={formValues[section]?.[field.name] || ""}
               onChange={(e) => handleChange(e, section, field.name)}
             />
+            {error && <div className="text-red-600">{error}</div>}
           </div>
         </div>
       );
@@ -228,29 +261,7 @@ const NewSampleForm = () => {
           </div>
         </div>
       );
-      } else if (field.type === "int") {
-        return (
-          <div className="flex justify-between m-2" key={field.label}>
-            <div className="">
-              <label className="font-bold mr-2" htmlFor={field.id}>
-                {field.label}
-              </label>
-            </div>
-            <div className="flex justify-around flex-grow">
-              <input
-                className="w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent pl-2"
-                type="number"
-                id={field.id}
-                name={field.name}
-                value={formValues[section]?.[field.name] || ""}
-                onChange={(e) => handleChange(e, section, field.name)}
-                step="1"
-                min="0"
-              />
-            </div>
-          </div>
-        );
-      }
+    }
   };
 
   return (
