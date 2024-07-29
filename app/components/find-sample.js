@@ -28,7 +28,7 @@ const DataSection = ({ title, fields }) => (
   </div>
 );
 
-const handleSubmi = () => {
+const handleSubmit = () => {
   console.log("print PDF");
 };
 
@@ -137,7 +137,11 @@ export default function FindSample({ page, getRecord, getAllRecords }) {
                   />
                 </div>
                 <div className="flex justify-center p-2">
-                <button className="submit-button" type="submit" onClick={handleSubmi()}>
+                <button
+                className="submit-button"
+                type="submit"
+                onClick={handleSubmit}
+                >
                 print PDF
                 </button>
                 </div>
