@@ -2,10 +2,14 @@ import React, { useState, useEffect } from "react";
 import formData from "../objects/newSample.json";
 import NewTest from "./new-test";
 import { createRecord } from "../_services/dbFunctions";
+import { set } from "mongoose";
 
 const NewSampleForm = () => {
   const [formValues, setFormValues] = useState({});
   const [selectedTests, setSelectedTests] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorFields, setErrorFields] = useState({});
 
   useEffect(() => {
     // Initialize form values here if necessary
@@ -31,53 +35,127 @@ const NewSampleForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    const newErrors = {};
+    const isPhoneNumberValid = (phone) => {
+      const cleanedPhone = phone.replace(/[\s-]/g, "");
+      return (
+        /^[\d\s-]{9,15}$/.test(phone) &&
+        cleanedPhone.length >= 9 &&
+        cleanedPhone.length <= 10
+      );
+    };
+    const isPostalCodeValid = (postalCode) =>
+      /^[A-Za-z0-9\s-]{5,10}$/.test(postalCode);
 
+    // Report To Validations
+    if (!formValues.reportTo?.reportToCompany) {
+      newErrors.reportToCompany = "Report Company is required.";
+    }
+    if (!formValues.reportTo?.reportToContact) {
+      newErrors.reportToContact = "Report Contact is required.";
+    }
+    if (
+      !formValues.reportTo?.reportToPhone ||
+      !isPhoneNumberValid(formValues.reportTo.reportToPhone)
+    ) {
+      newErrors.reportToPhone =
+        "Report Phone must be all digits and 10-15 characters.";
+    }
+    if (!formValues.reportTo?.reportToStreet) {
+      newErrors.reportToStreet = "Report Street is required.";
+    }
+    if (!formValues.reportTo?.reportToCity) {
+      newErrors.reportToCity = "Report City is required.";
+    }
+    if (
+      !formValues.reportTo?.reportToPostal ||
+      !isPostalCodeValid(formValues.reportTo.reportToPostal)
+    ) {
+      newErrors.reportToPostal =
+        "Report Postal Code is required and must be in a valid format.";
+    }
+
+    // Invoice To Validations
+    if (!formValues.invoiceTo?.invoiceToCompany) {
+      newErrors.invoiceToCompany = "Invoice Company is required.";
+    }
+    if (!formValues.invoiceTo?.invoiceToContact) {
+      newErrors.invoiceToContact = "Invoice Contact is required.";
+    }
+
+    // Report Recipients Validations
+    if (!formValues.reportRecipients?.reportFormat) {
+      newErrors.reportFormat = "Report Format is required.";
+    }
+    if (!formValues.reportRecipients?.mergeReports) {
+      newErrors.mergeReports = "Merge QC/QCI is required.";
+    }
+    if (!formValues.reportRecipients?.distribution) {
+      newErrors.distribution = "Distribution is required.";
+    } else {
+      // Conditional validation based on distribution type
+      if (
+        formValues.reportRecipients.distribution === "Email" &&
+        !formValues.reportRecipients.reportRecipientEmail
+      ) {
+        newErrors.reportRecipientEmail = "Report Email is required.";
+      }
+      if (
+        formValues.reportRecipients.distribution === "Fax" &&
+        !formValues.reportRecipients.reportRecipientFax
+      ) {
+        newErrors.reportRecipientFax = "Report Fax is required.";
+      }
+    }
+
+    // Invoice Recipients Validations
+    if (!formValues.invoiceRecipients?.invoiceDistribution) {
+      newErrors.invoiceDistribution = "Invoice Distribution is required.";
+    } else {
+      // Conditional validation based on invoice distribution type
+      if (
+        formValues.invoiceRecipients.invoiceDistribution === "Email" &&
+        !formValues.invoiceRecipients.invoiceRecipientEmail
+      ) {
+        newErrors.invoiceRecipientEmail = "Invoice Email is required.";
+      }
+      if (
+        formValues.invoiceRecipients.invoiceDistribution === "Fax" &&
+        !formValues.invoiceRecipients.invoiceRecipientFax
+      ) {
+        newErrors.invoiceRecipientFax = "Invoice Fax is required.";
+      }
+    }
+
+    return newErrors;
+  };
+
+  const closeModal = () => {
+    setShowErrorModal(false);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-        // Log chain of custody details
-        console.log("Chain of Custody:");
-        console.log(`Chain of Custody: ${formValues.chainOfCustody?.chainOfCustodyCOC || ""}`);
-        console.log(`Sample Name: ${formValues.chainOfCustody?.sampleName || ""}`);
-        console.log(`Sample Amount: ${formValues.chainOfCustody?.sampleAmount || ""}`);
-      
-        // Log report to details
-        console.log("\nReport To:");
-        console.log(`Company: ${formValues.reportTo?.reportToCompany || ""}`);
-        console.log(`Contact: ${formValues.reportTo?.reportToContact || ""}`);
-        console.log(`Phone: ${formValues.reportTo?.reportToPhone || ""}`);
-        console.log(`Street: ${formValues.reportTo?.reportToStreet || ""}`);
-        console.log(`City/Province: ${formValues.reportTo?.reportToCity || ""}`);
-        console.log(`Postal Code: ${formValues.reportTo?.reportToPostal || ""}`);
-      
-        // Determine invoice details based on user selection
-        console.log("\nInvoice To:");
-        if (formValues.invoiceTo?.sameAsReportTo === 'Yes') {
-          console.log("Same as Report To");
-        }
-        if (formValues.invoiceTo?.copyOfInvoiceWithReport === 'Yes') {
-          console.log("Copy Invoice with Report");
-        }
-        console.log(`Company: ${formValues.invoiceTo?.invoiceToCompany || ""}`);
-        console.log(`Contact: ${formValues.invoiceTo?.invoiceToContact || ""}`);
-    
-      
-        // Log report recipients
-        console.log("\nReport Recipients:");
-        console.log(`Report Format: ${formValues.reportRecipients?.reportFormat || ""}`);
-        console.log(`Merge QC/QCI: ${formValues.reportRecipients?.mergeReports || ""}`);
-        console.log(`Distribution: ${formValues.reportRecipients?.distribution || ""}`);
-    
-        console.log(`Email: ${formValues.reportRecipients?.reportRecipientEmail || ""}`);
-        console.log(`Email 2: ${formValues.reportRecipients?.reportRecipientEmail2 || ""}`);
-        console.log(`Fax: ${formValues.reportRecipients?.reportRecipientFax || ""}`);
-      
-        // Log invoice recipients
-        console.log("\nInvoice Recipients:");
-        console.log(`Distribution: ${formValues.invoiceRecipients?.invoiceDistribution || ""}`);
-        console.log(`Email: ${formValues.invoiceRecipients?.invoiceRecipientEmail || ""}`);
-        console.log(`Email 2: ${formValues.invoiceRecipients?.invoiceRecipientEmail2 || ""}`);
-        console.log(`Fax: ${formValues.invoiceRecipients?.invoiceRecipientFax || ""}`);
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+
+      // Set error fields to trigger red border flash
+      setErrorFields(validationErrors);
+
+      // Remove error styling after 1 second
+      setTimeout(() => {
+        setErrorFields({});
+      }, 1000);
+
+      setShowErrorModal(true);
+      return;
+    }
+
+    setErrors({});
+    setErrorFields({});
 
     const newRecord = {
       chainOfCustody: formValues.chainOfCustody.chainOfCustodyCOC,
@@ -95,67 +173,69 @@ const NewSampleForm = () => {
       mergeQCReports: formValues.reportRecipients.mergeReports,
       selectDistribution: formValues.reportRecipients.distribution,
       reportRecipientEmailOne: formValues.reportRecipients.reportRecipientEmail,
-      reportRecipientEmailTwo: formValues.invoiceRecipients?.invoiceRecipientEmail2,
+      reportRecipientEmailTwo:
+        formValues.invoiceRecipients?.invoiceRecipientEmail2,
       reportRecipientEmailThree: "test@email.com",
-      invoiceRecipientDistribution: formValues.invoiceRecipients.invoiceDistribution,
-      invoiceRecipientEmailOne: formValues.invoiceRecipients.invoiceRecipientEmail,
-      invoiceRecipientEmailTwo: formValues.invoiceRecipients.invoiceRecipientEmail2,
-      samples:[]
-    }
+      invoiceRecipientDistribution:
+        formValues.invoiceRecipients.invoiceDistribution,
+      invoiceRecipientEmailOne:
+        formValues.invoiceRecipients.invoiceRecipientEmail,
+      invoiceRecipientEmailTwo:
+        formValues.invoiceRecipients.invoiceRecipientEmail2,
+      samples: [],
+    };
 
     // Create samples based on sampleAmount value
     const sampleAmount = parseInt(formValues.chainOfCustody?.sampleAmount || 0);
     if (!isNaN(sampleAmount) && sampleAmount > 0) {
       console.log(`\nCreating ${sampleAmount} samples:`);
       for (let i = 1; i <= sampleAmount; i++) {
-
         const sample = {
           sampleID: "",
           type: "water",
-          tests: []
-        }
+          tests: [],
+        };
 
         const sampleName = `${formValues.chainOfCustody?.sampleName}${i}`;
         sample.sampleID = sampleName;
         console.log(`${sampleName}:`);
-        
-        selectedTests.forEach((testId) => {
 
+        selectedTests.forEach((testId) => {
           const test = tests.find((test) => test.id === testId);
 
           if (test.name === "PH/Conductivity") {
             const newTest = {
               name: test.name,
-              phConResults : []
-            }
-             sample.tests.push(newTest);
+              phConResults: [],
+            };
+            sample.tests.push(newTest);
           }
           if (test.name === "TSS") {
             const newTest = {
               name: test.name,
-              tssResults : []
-            }
+              tssResults: [],
+            };
             sample.tests.push(newTest);
           }
           if (test.name === "IC") {
             const newTest = {
               name: test.name,
-              icResults : []
-            }
+              icResults: [],
+            };
             sample.tests.push(newTest);
           }
           if (test.name === "Alkalinity") {
             const newTest = {
               name: test.name,
-              alkalinityResults : []
-            }
+              alkalinityResults: [],
+            };
             sample.tests.push(newTest);
           }
           if (test.name === "TICTOC") {
             const newTest = {
               name: test.name,
-              tictocResults : []
-            }
+              tictocResults: [],
+            };
             sample.tests.push(newTest);
           }
         });
@@ -180,7 +260,22 @@ const NewSampleForm = () => {
   ];
 
   const renderInputField = (field, section) => {
-    if (field.type === "text") {
+    const error = errors[field.name];
+    const hasError = Boolean(error);
+    const [flashClass, setFlashClass] = useState("");
+
+    useEffect(() => {
+      if (hasError) {
+        setFlashClass("input-error");
+        const timer = setTimeout(() => {
+          setFlashClass("");
+        }, 1000); // duration of the flash animation
+
+        return () => clearTimeout(timer);
+      }
+    }, [hasError]);
+
+    if (field.type === "text" || field.type === "int") {
       return (
         <div className="flex justify-between w-72 m-2" key={field.id}>
           <div className="text-center">
@@ -190,8 +285,8 @@ const NewSampleForm = () => {
           </div>
           <div className="text-right">
             <input
-              className="w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent pl-2" // Added pl-2 for padding on the left
-              type={field.type}
+              className={`w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 pl-2 ${flashClass}`}
+              type={field.type === "int" ? "number" : field.type}
               id={field.id}
               name={field.name}
               value={formValues[section]?.[field.name] || ""}
@@ -228,29 +323,7 @@ const NewSampleForm = () => {
           </div>
         </div>
       );
-      } else if (field.type === "int") {
-        return (
-          <div className="flex justify-between m-2" key={field.label}>
-            <div className="">
-              <label className="font-bold mr-2" htmlFor={field.id}>
-                {field.label}
-              </label>
-            </div>
-            <div className="flex justify-around flex-grow">
-              <input
-                className="w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent pl-2"
-                type="number"
-                id={field.id}
-                name={field.name}
-                value={formValues[section]?.[field.name] || ""}
-                onChange={(e) => handleChange(e, section, field.name)}
-                step="1"
-                min="0"
-              />
-            </div>
-          </div>
-        );
-      }
+    }
   };
 
   return (
@@ -264,16 +337,16 @@ const NewSampleForm = () => {
         <form className="mt-2" onSubmit={handleSubmit}>
           <div className="short-wide-box">
             <h2 className="m-2 text-2xl font-bold"> Chain of Custody</h2>
-              <div className="horizontal-fields">
-                {Object.values(formData.chainOfCustody).map((field) =>
-                  renderInputField(field, "chainOfCustody")
-                  )}
-              </div>
+            <div className="horizontal-fields">
+              {Object.values(formData.chainOfCustody).map((field) =>
+                renderInputField(field, "chainOfCustody")
+              )}
+            </div>
           </div>
           <div className="flex flex-col">
             <div className="flex">
               <div className="input-box m-7">
-                <h2 className="m-2 text-2xl font-bold">Report To</h2>
+                <h2 className="m-2 text-2xl font-bold">Report</h2>
                 <div className="input-fields">
                   {Object.values(formData.reportTo).map((field) =>
                     renderInputField(field, "reportTo")
@@ -281,7 +354,7 @@ const NewSampleForm = () => {
                 </div>
               </div>
               <div className="input-box m-7">
-                <h2 className="m-2 text-2xl font-bold">Invoice To</h2>
+                <h2 className="m-2 text-2xl font-bold">Invoice</h2>
                 <div className="input-fields">
                   {Object.values(formData.invoiceTo).map((field) =>
                     renderInputField(field, "invoiceTo")
@@ -349,6 +422,23 @@ const NewSampleForm = () => {
             </div>
           </div>
         </form>
+
+        {/* Modal for errors */}
+        {showErrorModal && (
+          <div className="modal">
+            <div className="modal-content">
+              <span className="close" onClick={closeModal}>
+                &times;
+              </span>
+              <h2>Error</h2>
+              <ul>
+                {Object.values(errors).map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

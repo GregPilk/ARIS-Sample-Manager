@@ -2,6 +2,7 @@
 import { useState } from "react";
 import ChangeRequest from "../components/change-request";
 import AddUser from "../components/add-user";
+import DeleteUser from "../components/delete-user";
 
 export default function AdminPage() {
   const [testChangeRequest, setTestChangeRequest] = useState([
@@ -76,7 +77,16 @@ export default function AdminPage() {
               onAccept={handleAccept}
               onReject={handleReject}
             />
-            <AddUser />
+            <div className="admin-table-pop px-4 mt-4">
+            <div className="flex justify-between">
+            <div className="w-1/2 p-2">
+          <AddUser />
+        </div>
+        <div className="w-1/2 p-2">
+          <DeleteUser />
+        </div>
+            </div>
+            </div>
           </div>
         </div>
       </div>
