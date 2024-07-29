@@ -32,6 +32,8 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   const [record, setRecord] = useState(null);
   const [outBoundResults, setOutBoundResults] = useState([]);
   const [databaseData, setDatabaseData] = useState([]);
+  const [oldSampleID, setOldSampleID] = useState("");
+  const [oldTestType, setOldTestType] = useState("");
   // const [recordReload, setRecordReload] = useState(false);
 
   const getTestComponent = (testType) => {
@@ -83,6 +85,7 @@ const NewTest = ({ getRecord, getAllRecords }) => {
     setOutBoundResults([]);
   }, [selectedSampleID, testType, record]);
 
+  // handles user changes coc
   useEffect(() => {
     setTestType("");
   }, [selectedSampleID, record]);
@@ -112,6 +115,25 @@ const NewTest = ({ getRecord, getAllRecords }) => {
     await addUserResults(processedData);
     // setRecordReload(true);
     alert("Data submitted successfully");
+
+    // Added by Nick to refresh the record data after submitting
+    // 2024-07-28
+    await refreshRecord();
+  };
+
+
+  // Added by Nick
+  // Date: 2024-07-28
+  // This function will refresh the record data after submitting
+  const refreshRecord = async () => {
+    setOldSampleID(selectedSampleID);
+    setOldTestType(testType);
+    
+    const recordData = await getRecord(record.chainOfCustody);
+    setRecord(recordData);
+
+    setSelectedSampleID(oldSampleID);
+    setTestType(oldTestType);
   };
 
   const addUserResults = async (databaseData) => {
