@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 function DeleteUser() {
-    const [username, setUsername] = useState("");
+    const [removeUser, setRemoveUser] = useState("");
     const [password, setPassword] = useState("");
   
     const handleUsernameChange = (event) => {
-      setUsername(event.target.value);
+      setRemoveUser(event.target.value);
     };
   
     const handlePasswordChange = (event) => {
@@ -25,8 +25,8 @@ function DeleteUser() {
               <input
                 className="w-1/2 rounded-md m-2 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
                 type="text"
-                id="username"
-                value={username}
+                id="removeUser"
+                value={removeUser}
                 onChange={handleUsernameChange}
               />
             </div>
@@ -37,7 +37,7 @@ function DeleteUser() {
               <input
                 className="w-1/2 rounded-md m-2 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
                 type="password"
-                id="password"
+                id="password2"
                 value={password}
                 onChange={handlePasswordChange}
               />

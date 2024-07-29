@@ -41,7 +41,7 @@ const LoginForm = () => {
   <header className="boxless-title pb-6">
     <h1>ARIS SAMPLE MANAGER</h1>
   </header>
-  <div className="page-pop px-16 border border-gray-200 rounded-md bg-white shadow-lg">
+  <div className="page-pop px-16 border border-gray-200 rounded-lg bg-white shadow-lg">
     <form className="mt-2 flex flex-col items-center" onSubmit={onSubmit}>
       {error && <div className="text-xl text-red-500 pt-10">{error}</div>}
       <div className="login-box my-2 w-full max-w-md">

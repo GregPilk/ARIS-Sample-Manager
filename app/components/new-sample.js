@@ -8,6 +8,9 @@ const NewSampleForm = () => {
   const [formValues, setFormValues] = useState({});
   const [selectedTests, setSelectedTests] = useState([]);
   const [errors, setErrors] = useState({});
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorFields, setErrorFields] = useState({});
+
 
   useEffect(() => {
     // Initialize form values here if necessary
@@ -35,34 +38,100 @@ const NewSampleForm = () => {
 
   const validateForm = () => {
     const newErrors = {};
+    const isPhoneNumberValid = (phone) => {
+      const cleanedPhone = phone.replace(/[\s-]/g, '');
+      return /^[\d\s-]{9,15}$/.test(phone) && cleanedPhone.length >= 9 && cleanedPhone.length <= 10;
+  };
+    const isPostalCodeValid = (postalCode) => /^[A-Za-z0-9\s-]{5,10}$/.test(postalCode);
 
-    if (!formValues.chainOfCustody?.chainOfCustodyCOC) {
-      newErrors.chainOfCustodyCOC = "Chain of Custody is required.";
-    }
-    if (!formValues.chainOfCustody?.sampleName) {
-      newErrors.sampleName = "Sample Name is required.";
-    }
-    if (!formValues.chainOfCustody?.sampleAmount || isNaN(formValues.chainOfCustody.sampleAmount)) {
-      newErrors.sampleAmount = "Sample Amount must be a number.";
-    }
-    if (!formValues.reportTo?.reportToCompany) {
-      newErrors.reportToCompany = "Report To Company is required.";
-    }
+    // Report To Validations
+if (!formValues.reportTo?.reportToCompany) {
+  newErrors.reportToCompany = "Report Company is required.";
+}
+if (!formValues.reportTo?.reportToContact) {
+  newErrors.reportToContact = "Report Contact is required.";
+}
+if (!formValues.reportTo?.reportToPhone || !isPhoneNumberValid(formValues.reportTo.reportToPhone)) {
+  newErrors.reportToPhone = "Report Phone must be between 9 and 15 digits.";
+}
+if (!formValues.reportTo?.reportToStreet) {
+  newErrors.reportToStreet = "Report Street is required.";
+}
+if (!formValues.reportTo?.reportToCity) {
+  newErrors.reportToCity = "Report City is required.";
+}
+if (!formValues.reportTo?.reportToPostal || !isPostalCodeValid(formValues.reportTo.reportToPostal)) {
+  newErrors.reportToPostal = "Report Postal Code is required and must be in a valid format.";
+}
+
+// Invoice To Validations
+if (!formValues.invoiceTo?.invoiceToCompany) {
+  newErrors.invoiceToCompany = "Invoice Company is required.";
+}
+if (!formValues.invoiceTo?.invoiceToContact) {
+  newErrors.invoiceToContact = "Invoice Contact is required.";
+}
+
+// Report Recipients Validations
+if (!formValues.reportRecipients?.reportFormat) {
+  newErrors.reportFormat = "Report Format is required.";
+}
+if (!formValues.reportRecipients?.mergeReports) {
+  newErrors.mergeReports = "Merge QC/QCI is required.";
+}
+if (!formValues.reportRecipients?.distribution) {
+  newErrors.distribution = "Distribution is required.";
+} else {
+  // Conditional validation based on distribution type
+  if (formValues.reportRecipients.distribution === 'Email' && !formValues.reportRecipients.reportRecipientEmail) {
+      newErrors.reportRecipientEmail = "Report Email is required.";
+  }
+  if (formValues.reportRecipients.distribution === 'Fax' && !formValues.reportRecipients.reportRecipientFax) {
+      newErrors.reportRecipientFax = "Report Fax is required.";
+  }
+}
+
+// Invoice Recipients Validations
+if (!formValues.invoiceRecipients?.invoiceDistribution) {
+  newErrors.invoiceDistribution = "Invoice Distribution is required.";
+} else {
+  // Conditional validation based on invoice distribution type
+  if (formValues.invoiceRecipients.invoiceDistribution === 'Email' && !formValues.invoiceRecipients.invoiceRecipientEmail) {
+      newErrors.invoiceRecipientEmail = "Invoice Email is required.";
+  }
+  if (formValues.invoiceRecipients.invoiceDistribution === 'Fax' && !formValues.invoiceRecipients.invoiceRecipientFax) {
+      newErrors.invoiceRecipientFax = "Invoice Fax is required.";
+  }
+}
 
     return newErrors;
   };
 
+  const closeModal = () => {
+    setShowErrorModal(false);
+  };
+
   const handleSubmit = (e) => {
-
     e.preventDefault();
-
-    const validateErrors = validateForm();
-    if (Object.keys(validateErrors).length > 0) {
-      setErrors(validateErrors);
+  
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      
+      // Set error fields to trigger red border flash
+      setErrorFields(validationErrors);
+      
+      // Remove error styling after 1 second
+      setTimeout(() => {
+        setErrorFields({});
+      }, 1000);
+  
+      setShowErrorModal(true);
       return;
     }
 
     setErrors({});
+    setErrorFields({});
 
 
 
@@ -212,6 +281,20 @@ const NewSampleForm = () => {
 
   const renderInputField = (field, section) => {
     const error = errors[field.name];
+    const hasError = Boolean(error);
+    const [flashClass, setFlashClass] = useState('');
+  
+    useEffect(() => {
+      if (hasError) {
+        setFlashClass('input-error');
+        const timer = setTimeout(() => {
+          setFlashClass('');
+        }, 1000); // duration of the flash animation
+  
+        return () => clearTimeout(timer);
+      }
+    }, [hasError]);
+  
     if (field.type === "text" || field.type === "int") {
       return (
         <div className="flex justify-between w-72 m-2" key={field.id}>
@@ -222,14 +305,13 @@ const NewSampleForm = () => {
           </div>
           <div className="text-right">
             <input
-              className="w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent pl-2"
+              className={`w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 pl-2 ${flashClass}`}
               type={field.type === "int" ? "number" : field.type}
               id={field.id}
               name={field.name}
               value={formValues[section]?.[field.name] || ""}
               onChange={(e) => handleChange(e, section, field.name)}
             />
-            {error && <div className="text-red-600">{error}</div>}
           </div>
         </div>
       );
@@ -263,6 +345,9 @@ const NewSampleForm = () => {
       );
     }
   };
+  
+  
+  
 
   return (
     <div className="page-container">
@@ -360,9 +445,24 @@ const NewSampleForm = () => {
             </div>
           </div>
         </form>
+
+{/* Modal for errors */}
+{showErrorModal && (
+  <div className="modal">
+    <div className="modal-content">
+      <span className="close" onClick={closeModal}>&times;</span>
+      <h2>Error</h2>
+      <ul>
+        {Object.values(errors).map((error, index) => (
+          <li key={index}>{error}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+)}
       </div>
     </div>
   );
-};
+}
 
 export default NewSampleForm;
