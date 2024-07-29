@@ -30,6 +30,17 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const getTestComponent = (testType) => {
+    //This would be used if we refactor the manual test component to be more generic
+    // case "PH/Conductivity":
+    // case "TSS":
+    //   return (
+    //     <ManualTest
+    //       record={record}
+    //       setOutbound={setOutBoundResults}
+    //       sampleID={selectedSampleID}
+    //       testType={testType}
+    //     />
+    //   );
     switch (testType) {
       case "PH/Conductivity":
         return (
