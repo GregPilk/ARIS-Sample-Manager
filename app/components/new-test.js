@@ -32,8 +32,8 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   const [record, setRecord] = useState(null);
   const [outBoundResults, setOutBoundResults] = useState([]);
   const [databaseData, setDatabaseData] = useState([]);
-  const [oldSampleID, setOldSampleID] = useState("");
-  const [oldTestType, setOldTestType] = useState("");
+  const [tempSampleID, setTempSampleID] = useState("");
+  const [tempTestType, setTempTestType] = useState("");
   // const [recordReload, setRecordReload] = useState(false);
 
   const getTestComponent = (testType) => {
@@ -132,12 +132,12 @@ const NewTest = ({ getRecord, getAllRecords }) => {
     
     const recordData = await getRecord(record.chainOfCustody);
     setRecord(recordData);
+    
+    // setSelectedSampleID(tempSampleID);
+    // console.log("this should be the old sample", selectedSampleID);
 
-    setSelectedSampleID(oldSampleID);
-    console.log("this should be the old sample", selectedSampleID);
-
-    setTestType(oldTestType);
-    console.log("this should the old testType", testType);
+    // setTestType(tempTestType);
+    // console.log("this should the old testType", testType);
 
     // record.samples.map((sample) => {
 
