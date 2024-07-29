@@ -65,20 +65,35 @@ const COCSelect = ({ getRecord, getAllRecords, setRecord }) => {
   );
 };
 
+
+
+{/* <SampleIDSelect
+CocRecord={record}
+selectedSampleID={selectedSampleID}
+setSelectedSampleID={setSelectedSampleID}
+/> */}
+
+
+
 // Added by: Greg
 // Date: 2024-07-11
 // Component to select a sample ID from the list of samples from CoC Record
 // This component will be used to select a sample ID from the list of samples
-
 const SampleIDSelect = ({
   CocRecord,
   selectedSampleID,
   setSelectedSampleID,
 }) => {
   const sampleIDs =
-    CocRecord && CocRecord.samples
-      ? CocRecord.samples.map((sample) => sample.sampleID)
-      : [];
+      CocRecord && CocRecord.samples
+        ? CocRecord.samples.map((sample) => sample.sampleID)
+        : [];
+
+    useEffect(() => {
+      if (sampleIDs.length === 1) {
+        setSelectedSampleID(sampleIDs[0]);
+      }
+    }, [sampleIDs, setSelectedSampleID]);  
 
   return (
     <div className="flex m-7 items-center">

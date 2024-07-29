@@ -81,6 +81,7 @@ const NewTest = ({ getRecord, getAllRecords }) => {
     }
   };
 
+  //green list is outbound results
   useEffect(() => {
     setOutBoundResults([]);
   }, [selectedSampleID, testType, record]);
@@ -133,7 +134,21 @@ const NewTest = ({ getRecord, getAllRecords }) => {
     setRecord(recordData);
 
     setSelectedSampleID(oldSampleID);
+    console.log("this should be the old sample", selectedSampleID);
+
     setTestType(oldTestType);
+    console.log("this should the old testType", testType);
+
+    // record.samples.map((sample) => {
+
+    //   if (sample.sampleID === oldSampleID) {
+    //     setSelectedSampleID(sample.sampleID);
+    //     console.log("this should be the old sample", selectedSampleID);
+
+    //     sample.tests.map((test) => {
+    //       if (test.testType === oldTestType) {
+    //         setTestType(test.testType);
+    //         console.log("this should the old testType", testType);
   };
 
   const addUserResults = async (databaseData) => {
