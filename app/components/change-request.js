@@ -49,7 +49,7 @@ export default function ChangeRequest({ requests, onAccept, onReject }) {
                   <div className="flex justify-around py-2">
                   <button
                     className="bg-green-500 hover:bg-green-600 general-button px-1 rounded-md"
-                    onClick={() => onAccept(request.id)}
+                    onClick={() => onAccept(request)}
                   >
                     <MdCheckCircle className="text-2xl" />
                   </button>

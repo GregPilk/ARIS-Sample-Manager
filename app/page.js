@@ -37,7 +37,7 @@ export default function Dashboard() {
           />
         );
       case "Admin":
-        return <AdminPage />;
+        return <AdminPage changeReq={false}/>;
       // case "Find Test":
       //   return <FindTest />;
       case "login test":
