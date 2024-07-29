@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import CsvReader from "@/app/components/csv-reader";
-import NewPH from "@/app/components/new-ph";
-import NewTSS from "@/app/components/new-tss";
+// import NewPH from "@/app/components/new-ph";
+// import NewTSS from "@/app/components/new-tss";
+import { NewPH, NewTSS } from "@/app/components/manual-test";
 import {
   COCSelect,
   SampleIDSelect,
@@ -28,6 +29,7 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   const [outBoundResults, setOutBoundResults] = useState([]);
   const [databaseData, setDatabaseData] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [showSuccessfulSubmit, setShowSuccessfulSubmit] = useState(false);
 
   const getTestComponent = (testType) => {
     //This would be used if we refactor the manual test component to be more generic
@@ -84,6 +86,15 @@ const NewTest = ({ getRecord, getAllRecords }) => {
       setSelectedSampleID("");
     }
   }, [record]);
+  useEffect(() => {
+    if (showSuccessfulSubmit) {
+      const timer = setTimeout(() => {
+        setShowSuccessfulSubmit(false);
+      }, 2000); // 2500 milliseconds = 2.5 seconds
+
+      return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
+    }
+  }, [showSuccessfulSubmit]);
 
   const handleDatabasePackage = async (data) => {
     const processedData = data.map((item) => {
@@ -102,7 +113,8 @@ const NewTest = ({ getRecord, getAllRecords }) => {
     console.log(processedData);
 
     await addUserResults(processedData);
-    alert("Data submitted successfully");
+    setShowSuccessfulSubmit(true);
+    // alert("Data submitted successfully");
 
     await refreshRecord();
   };
@@ -215,6 +227,18 @@ const NewTest = ({ getRecord, getAllRecords }) => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      {/* Modal for Success */}
+      <div
+        className={`fixed inset-x-0 bottom-0 flex justify-center transition-transform duration-300 ease-in-out transform ${
+          showSuccessfulSubmit ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
+        <div className="bg-green-700 paper text-white max-h-10 w-1/5 flex justify-center items-center rounded-t-md">
+          <ul className="text-white text-xl py-2">
+            Successfully Submitted Data
+          </ul>
         </div>
       </div>
     </div>
