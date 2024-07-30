@@ -4,14 +4,16 @@ import { useState } from "react";
 import { COCSelect, SampleIDSelect, TestTypeSelect } from "./find-options";
 import { getRecord, getAllRecords } from "../_services/dbFunctions";
 import AdminPage from "../pages/admin";
-import { updateTestResult } from "../_services/dbFunctions";
+import { updateCoCTestResult } from "../_services/dbFunctions";
 
-export default function EditTest({cocID, sampleID, prevResult, changed, type}){
-    const[editCoC, setEditCoC] = useState(cocID);
-    const[editSampleID, setSampleID] = useState(sampleID + 1);
-    const[previousResult, setEditTest] = useState(prevResult);
-    const[changedResult, setChanged] = useState(changed);
-    const[testType, setType] = useState(type);
+export default function EditTest({requestData}){
+    const[editCoC, setEditCoC] = useState(requestData.chainOfCustody);
+    const[editSampleID, setSampleID] = useState(requestData.sampleID + 1);
+    const[previousResult, setEditTest] = useState(requestData.previousResult);
+    const[changedResult, setChanged] = useState(requestData.changedResult);
+    const[testType, setType] = useState(requestData.testType);
+    const[resultId, setResultID] = useState(requestData.results.resultID);
+    const[resultType, setResultType] = useState("");
 
     const handleEditChange = async (CoC, sampleID, changedResult, testType)=>{
         console.log(CoC);
@@ -49,6 +51,25 @@ export default function EditTest({cocID, sampleID, prevResult, changed, type}){
 
             console.log(type);
 
+            console.log(resultId);
+
+            switch(testType){
+                case "TSS":
+                    setResultType("tssResults");
+                    break;
+                case "PH/Conductivity":
+                    setResultType("phConResults");
+                    break;
+                case "TICTOC":
+                    setResultType("tictocResults");
+                    break;
+                case "Alkalinity":
+                    setResultType("alkalinityResults");
+                case "IC":
+                    setResultType("icResults");
+            }
+
+            updateCoCTestResult(CoC, sampleID, testType, resultType, resultId, changedResult);
             
         }
         catch(error){
@@ -65,7 +86,7 @@ export default function EditTest({cocID, sampleID, prevResult, changed, type}){
             </div>
             <div className="flex flex-col justify-center items-center test-pop mt-20 pt-5">
                 <div>
-                    Chain of Custody: {cocID}
+                    Chain of Custody: {editCoC}
                 </div>
                 <div>
                     Sample ID: {editSampleID}

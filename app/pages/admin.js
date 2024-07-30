@@ -8,39 +8,51 @@ import NewTest from "../components/new-test";
 
 export default function AdminPage({changeReq}) {
   const[changeAccept, setAccept] = useState(changeReq);
-  const[cocID, setCoC] = useState();
-  const[sampleId, setSampleID] = useState();
-  const[changedResult, setChanged] = useState();
-  const[prevResult, setPrevious] = useState();
-  const[typeOfTest, setTest] = useState();
+  // const[cocID, setCoC] = useState();
+  // const[sampleId, setSampleID] = useState();
+  // const[changedResult, setChanged] = useState();
+  // const[prevResult, setPrevious] = useState();
+  // const[typeOfTest, setTest] = useState();
+  const[requestObject, setRequest] = useState({});
 
   const [testChangeRequest, setTestChangeRequest] = useState([
     {
       id: 1,
       chainOfCustody: "Chain 1",
       sampleID: "Sample 1",
-      previousResult: "Negative",
-      changedResult: "Positive",
+      previousResult: "12",
+      changedResult: "10",
       testType: "PH/Conductivity",
+      results:{
+        resultID: "66a79e4f9e36b15dd16fbc93",
+        ph: "12",
+        conductivity: "142",
+      },
     },
     {
       id: 2,
       chainOfCustody: "Chain 2",
       sampleID: "Sample 2",
-      previousResult: "Positive",
-      changedResult: "Negative",
+      previousResult: "542",
+      changedResult: "123",
       testType: "TSS",
+      results:{
+        resultID:"66a7b4d7d5b048e1ae223061",
+        tssInMgl: "542",
+      },
     },
   ]);
 
   const handleAccept = (req) => {
     console.log(`Accepted request with ID: ${req.id}`);
     // Implement acceptance logic here
-    setCoC(req.chainOfCustody);
-    setSampleID(req.sampleID);
-    setPrevious(req.previousResult);
-    setChanged(req.changedResult);
-    setTest(req.testType);
+    // setCoC(req.chainOfCustody);
+    // setSampleID(req.sampleID);
+    // setPrevious(req.previousResult);
+    // setChanged(req.changedResult);
+    // setTest(req.testType);
+
+    setRequest(req);
 
     setAccept(true);
   };
@@ -105,7 +117,7 @@ export default function AdminPage({changeReq}) {
       )}
       {changeAccept == true &&(
         <div>
-          <EditTest cocID={cocID} sampleID={sampleId} prevResult={prevResult} changed={changedResult} type={typeOfTest}/>
+          <EditTest requestData={requestObject}/>
         </div>
       )}
     </div>

@@ -251,6 +251,35 @@ export const updateTestResult = async (resultID, resultType, resultData) => {
   }
 };
 
+// export const updateCoCTestResult = async(coc, sample, testType, resultType, resultId, newData)=>{
+//   try{
+//     console.log(coc);
+//     const response = await fetch(`/api/records/${coc}`,{
+//       method: 'PATCH', 
+//       headers:{
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify({
+//         sample,
+//         testType,
+//         resultType,
+//         resultId,
+//         newData,
+//       })
+//     })
+
+//     if(!response.ok){
+//       throw new Error(`Error: ${response.status}`);
+//     }
+
+//     const data = await response.json();
+//     return data;
+//   }
+//   catch(error){
+//     console.error(`Failed to update test result: ${error}`);
+//   }
+// }
+
 
 
 // S A M P L E    F U N C T I O N S
