@@ -61,6 +61,7 @@ model Test {
 }
 
 // PH/Conductivity Result model
+// need to add temp on new schema push
 model PhConResult {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   test        Test     @relation(fields: [testID], references: [id])
@@ -78,6 +79,7 @@ model TSSResult {
 }
 
 // IC Result model
+// Need to add User(short name) on new schema push
 model ICResult {
   id                          String   @id @default(auto()) @map("_id") @db.ObjectId
   test                        Test     @relation(fields: [testID], references: [id])
@@ -92,6 +94,7 @@ model ICResult {
 }
 
 // TICTOC Result model
+// Need to add sampleName, and date/time on new schema push
 model TICTOCResult {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   test        Test     @relation(fields: [testID], references: [id])
@@ -109,6 +112,7 @@ model TICTOCResult {
 }
 
 // Alkalinity Result model
+// Need to add ID1.Value, User(short name) on new schema push
 model AlkalinityResult {
   id                          String   @id @default(auto()) @map("_id") @db.ObjectId
   test                        Test     @relation(fields: [testID], references: [id])
