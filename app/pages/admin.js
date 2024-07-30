@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
 import ChangeRequest from "../components/change-request";
-import AddUser from "../components/add-user";
-import DeleteUser from "../components/delete-user";
+// import AddUser from "../components/add-user";
+// import DeleteUser from "../components/delete-user";
+import ControlUser from "../components/control-user";
 
 export default function AdminPage() {
   const [testChangeRequest, setTestChangeRequest] = useState([
@@ -20,6 +21,20 @@ export default function AdminPage() {
       previousResult: "Positive",
       changedResult: "Negative",
     },
+    {
+      id: 3,
+      chainOfCustody: "Chain 3",
+      sampleID: "Sample 3",
+      previousResult: "Positive",
+      changedResult: "Negative",
+    },
+    {
+      id: 4,
+      chainOfCustody: "Chain 4",
+      sampleID: "Sample 4",
+      previousResult: "Positive",
+      changedResult: "Negative",
+    },
   ]);
 
   const handleAccept = (id) => {
@@ -31,6 +46,7 @@ export default function AdminPage() {
     console.log(`Rejected request with ID: ${id}`);
     // Implement rejection logic here
   };
+  const [activeTab, setActiveTab] = useState("add");
 
   return (
     <div className="page-container">
@@ -77,15 +93,37 @@ export default function AdminPage() {
               onAccept={handleAccept}
               onReject={handleReject}
             />
-            <div className="admin-table-pop px-4 mt-4">
-            <div className="flex justify-between">
-            <div className="w-1/2 p-2">
-          <AddUser />
-        </div>
-        <div className="w-1/2 p-2">
-          <DeleteUser />
-        </div>
-            </div>
+
+            <div className="mt-8">
+              <div className="tabs">
+                <button
+                  className={`tab paper ${activeTab === "add" ? "active" : ""}`}
+                  onClick={() => setActiveTab("add")}
+                >
+                  Add User
+                </button>
+                <button
+                  className={`tab paper ${
+                    activeTab === "delete" ? "active" : ""
+                  }`}
+                  onClick={() => setActiveTab("delete")}
+                >
+                  Delete User
+                </button>
+                <button
+                  className={`tab paper ${
+                    activeTab === "edit" ? "active" : ""
+                  }`}
+                  onClick={() => setActiveTab("edit")}
+                >
+                  Edit User
+                </button>
+              </div>
+              <div className="tab-content w-full p-2">
+                {activeTab === "add" && <ControlUser type="add" />}
+                {activeTab === "delete" && <ControlUser type="delete" />}
+                {activeTab === "edit" && <ControlUser type="edit" />}
+              </div>
             </div>
           </div>
         </div>

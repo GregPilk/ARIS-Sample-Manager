@@ -181,7 +181,7 @@
       "onChange": "setChainOfCustodyCOC"
     },
     "sampleName": {
-      "label": "sample Name:",
+      "label": "Sample Name:",
       "type": "text",
       "id": "sampleName",
       "name": "sampleName",

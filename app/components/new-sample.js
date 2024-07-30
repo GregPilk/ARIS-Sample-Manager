@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import formData from "../objects/newSample.json";
-import NewTest from "./new-test";
 import { createRecord } from "../_services/dbFunctions";
-import { set } from "mongoose";
 
 const NewSampleForm = () => {
   const [formValues, setFormValues] = useState({});
@@ -425,13 +423,16 @@ const NewSampleForm = () => {
 
         {/* Modal for errors */}
         {showErrorModal && (
-          <div className="modal">
+          <div className="modal show">
             <div className="modal-content">
-              <span className="close" onClick={closeModal}>
-                &times;
-              </span>
-              <h2>Error</h2>
-              <ul>
+              <div className="flex items-center justify-between pb-2">
+                <h2 className="font-bold">Errors</h2>
+                <span className="close" onClick={closeModal}>
+                  &times;
+                </span>
+              </div>
+              <hr />
+              <ul className="text-red-500 py-2">
                 {Object.values(errors).map((error, index) => (
                   <li key={index}>{error}</li>
                 ))}
