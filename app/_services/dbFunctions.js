@@ -254,3 +254,7 @@ export const updateTestResult = async (resultID, resultType, resultData) => {
 
 
 // S A M P L E    F U N C T I O N S
+
+
+// U S E R    F U N C T I O N S
+// Need get all users and delete single user

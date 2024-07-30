@@ -1,5 +1,10 @@
 import { addTestResult } from './dbFunctions';
 
+// Added by Nick Ryan and Sarah
+// Date: 2024-07-11
+// This function will format the data from the CSV file and save it to the database
+// This function will be called in the CsvReader component
+// Example: formatResultData(csvData, resultTestID, type);
 const formatResultData = async (data, resultTestID, type) => {
     const result = {
         testID: resultTestID,
@@ -27,7 +32,39 @@ const formatResultData = async (data, resultTestID, type) => {
             addTestResult(result.testID, result.resultType, result.resultData);
         });
         
-    } else {
+    }
+    else if (type === 'TICTOCResult') { 
+        data.forEach((row) => {
+            result.resultData = {
+                type: row["Type"],
+                analogy: row["Anal."],
+                resultTOC: row["Result(TOC)"],
+                resultTC: row["Result(TC)"],
+                resultIC: row["Result(IC)"],
+                resultPOC: row["Result(POC)"],
+                resultNPOC: row["Result(NPOC)"],
+                resultTN: row["Result(TN)"],
+                unit: row["Unit"],
+                vial: row["Vial"],
+
+            };
+            addTestResult(result.testID, result.resultType, result.resultData);
+        });
+    }
+    else if (type === 'ICResult') {
+        data.forEach((row) => {
+            result.resultData = {
+                determinationStart: row["Determination start"],
+                ident: row["Ident"],
+                methodName: row["Method name"],
+                infoOne: row["Info 1"],
+                anionsChlorideConcentration: row["Anions.Chloride.Concentration"],
+                anionsSulfateConcentration: row["Anions.Sulfate.Concentration"],
+            };
+            addTestResult(result.testID, result.resultType, result.resultData);
+        });
+    }
+    else {
         console.error('Unknown type:', type);
     }
 };
