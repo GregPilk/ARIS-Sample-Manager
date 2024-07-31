@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { COCSelect, SampleIDSelect, TestTypeSelect } from "./find-options";
 import { getRecord, getAllRecords } from "../_services/dbFunctions";
 import AdminPage from "../pages/admin";
@@ -17,63 +17,33 @@ export default function EditTest({requestData}){
     const[resultType, setResultType] = useState("");
     const[newData, setNew] = useState({newObj});
 
-    const handleEditChange = async (CoC, sampleID, changedResult, testType)=>{
-        console.log(CoC);
-        console.log(sampleID);
-        console.log(changedResult);
+    useEffect(() =>{
+        console.log("Use Effect");
+        switch(testType){
+            case "TSS":
+                setResultType("TSSResult");
+                break;
+            case "PH/Conductivity":
+                setResultType("PhConResult");
+                break;
+            case "TICTOC":
+                setResultType("TICTOCResult");
+                break;
+            case "Alkalinity":
+                setResultType("AlkalinityResult");
+            case "IC":
+                setResultType("ICResult");
+        }
+    })
+
+    const handleEditChange =()=>{
         try{
-            const response = await fetch(`/api/records/${CoC}`);
-            
-            if(!response.ok){
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            const sample = data.samples.find(sample => sample.sampleID == editSampleID);
-
-            if(!sample){
-                throw new Error(`Couldn't find sample with ID: ${editSampleID}`);
-            }
-
-            console.log(sample);
-
-            const test = sample.tests.find(test => test.name == testType);
-
-            if(!test){
-                throw new Error(`Couldn't find test with Name: ${testType}`);
-            }
-
-            console.log(test);
-
-            const type = test.tssResults;
-
-            if(!type){
-                throw new Error(`Couldn't find test `);
-            }
-
-            console.log(type);
-
-            console.log(resultId);
-
-            switch(testType){
-                case "TSS":
-                    setResultType("tssResults");
-                    break;
-                case "PH/Conductivity":
-                    setResultType("phConResults");
-                    break;
-                case "TICTOC":
-                    setResultType("tictocResults");
-                    break;
-                case "Alkalinity":
-                    setResultType("alkalinityResults");
-                case "IC":
-                    setResultType("icResults");
-            }
-
-            console.log(newData);
             updateTestResult(resultId, resultType, requestData.newResults);
-            
+
+            console.log("Result Edited");
+
+            window.location.reload();
+
         }
         catch(error){
             console.log(`Failure: ${error}`);
@@ -101,7 +71,7 @@ export default function EditTest({requestData}){
                     New Result: {changedResult}
                 </div>
                 <div className="flex justify-center">
-                    <button type="submit" className="submit-button" onClick={() => handleEditChange(editCoC, editSampleID, changedResult, testType)}>Submit</button>
+                    <button type="submit" className="submit-button" onClick={() => handleEditChange()}>Submit</button>
                 </div>
             </div>
         </div>
