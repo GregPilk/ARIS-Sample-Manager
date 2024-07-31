@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { COCSelect } from "@/app/components/find-options";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 // Created By: Greg
 // Date: 2024-07-15
@@ -28,8 +30,68 @@ const DataSection = ({ title, fields }) => (
   </div>
 );
 
-const handleSubmit = () => {
-  console.log("print PDF");
+const handleExportPDF = (data) => {
+  if (!data) {
+    alert("No data to export");
+    return;
+  }
+
+  const doc = new jsPDF();
+
+  // Add the title
+  doc.setFontSize(20);
+  doc.text("Chain of Custody Report", 10, 10);
+
+  // Add Chain of Custody ID
+  doc.setFontSize(14);
+  doc.text(`Chain of Custody ID: ${data.chainOfCustody}`, 10, 20);
+
+  // Function to add table sections
+  const addTableSection = (title, fields, startY) => {
+    doc.setFontSize(12);
+    doc.text(title, 10, startY);
+    startY += 10;
+    fields.forEach(({ label, value }) => {
+      doc.text(`${label}: ${value}`, 10, startY);
+      startY += 10;
+    });
+    return startY + 10;
+  };
+
+  let startY = 30;
+  startY = addTableSection("Report To", [
+    { label: "Company", value: data.reportToCompany },
+    { label: "Contact", value: data.reportToContact },
+    { label: "Phone", value: data.reportToPhone },
+    { label: "Street", value: data.reportToStreet },
+    { label: "City", value: data.reportToCity },
+    { label: "Postal", value: data.reportToPostal },
+  ], startY);
+
+  startY = addTableSection("Invoice To", [
+    { label: "Same As Report", value: data.invoiceToSameAsReport },
+    { label: "Copy Of Invoice", value: data.invoiceToCopyOfInvoice },
+    { label: "Company", value: data.invoiceToCompany },
+    { label: "Contact", value: data.invoiceToContact },
+  ], startY);
+
+  startY = addTableSection("Report / Recipients", [
+    { label: "Format", value: data.reportRecipientFormat },
+    { label: "Merge QC Reports", value: data.mergeQCReports },
+    { label: "Distribution", value: data.selectDistribution },
+    { label: "Email One", value: data.reportRecipientEmailOne },
+    { label: "Email Two", value: data.reportRecipientEmailTwo },
+    { label: "Email Three", value: data.reportRecipientEmailThree },
+  ], startY);
+
+  startY = addTableSection("Invoice Recipients", [
+    { label: "Distribution", value: data.invoiceRecipientDistribution },
+    { label: "Email One", value: data.invoiceRecipientEmailOne },
+    { label: "Email Two", value: data.invoiceRecipientEmailTwo },
+  ], startY);
+
+  // Save the PDF
+  doc.save("chain_of_custody_report.pdf");
 };
 
 // Created By: Nick
@@ -43,7 +105,6 @@ export default function FindSample({ page, getRecord, getAllRecords }) {
   //an empty array that will be filled with the data from the database
   const [data, setData] = useState(null);
 
-  // create a small form with one input field and a submit button
   return (
     <div className="page-container">
       <div className="page-pop px-80">
@@ -137,13 +198,13 @@ export default function FindSample({ page, getRecord, getAllRecords }) {
                   />
                 </div>
                 <div className="flex justify-center p-2">
-                <button
-                className="submit-button"
-                type="submit"
-                onClick={handleSubmit}
-                >
-                print PDF
-                </button>
+                  <button
+                    className="submit-button"
+                    type="submit"
+                    onClick={() => handleExportPDF(data)}
+                  >
+                    print PDF
+                  </button>
                 </div>
               </div>
             ) : (
