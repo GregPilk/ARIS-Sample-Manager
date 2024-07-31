@@ -226,7 +226,11 @@ export const addTestResult = async (testID, resultType, resultData) => {
 // }
 // Note does not require all fields to be updated, only the ones that need to be changed
 export const updateTestResult = async (resultID, resultType, resultData) => {
+  console.log(resultID);
+    console.log(resultType);
+    console.log(resultData);
   try {
+
     const response = await fetch(`/api/results/${resultID}`, {
       method: "PATCH",
       headers: {

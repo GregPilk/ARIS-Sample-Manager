@@ -4,9 +4,10 @@ import { useState } from "react";
 import { COCSelect, SampleIDSelect, TestTypeSelect } from "./find-options";
 import { getRecord, getAllRecords } from "../_services/dbFunctions";
 import AdminPage from "../pages/admin";
-import { updateCoCTestResult } from "../_services/dbFunctions";
+import { updateTestResult } from "../_services/dbFunctions";
 
 export default function EditTest({requestData}){
+    const {newObj} = requestData.newResults;
     const[editCoC, setEditCoC] = useState(requestData.chainOfCustody);
     const[editSampleID, setSampleID] = useState(requestData.sampleID + 1);
     const[previousResult, setEditTest] = useState(requestData.previousResult);
@@ -14,6 +15,7 @@ export default function EditTest({requestData}){
     const[testType, setType] = useState(requestData.testType);
     const[resultId, setResultID] = useState(requestData.results.resultID);
     const[resultType, setResultType] = useState("");
+    const[newData, setNew] = useState({newObj});
 
     const handleEditChange = async (CoC, sampleID, changedResult, testType)=>{
         console.log(CoC);
@@ -69,7 +71,8 @@ export default function EditTest({requestData}){
                     setResultType("icResults");
             }
 
-            updateCoCTestResult(CoC, sampleID, testType, resultType, resultId, changedResult);
+            console.log(newData);
+            updateTestResult(resultId, resultType, requestData.newResults);
             
         }
         catch(error){

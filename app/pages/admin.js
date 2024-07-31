@@ -28,6 +28,9 @@ export default function AdminPage({changeReq}) {
         ph: "12",
         conductivity: "142",
       },
+      newResults:{
+        ph:"10",
+      }
     },
     {
       id: 2,
@@ -40,6 +43,9 @@ export default function AdminPage({changeReq}) {
         resultID:"66a7b4d7d5b048e1ae223061",
         tssInMgl: "542",
       },
+      newResults:{
+        tssInMgl:"123",
+      }
     },
   ]);
 
