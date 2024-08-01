@@ -76,8 +76,8 @@ export default function AdminPage() {
     try{
       updateTestResult(requestObject.results.resultID, resultType, requestObject.newResults);
       console.log('Data Edit Success');
+      setTestChangeRequest((prevRequests) => prevRequests.filter(req => req.id !== requestObject.id));
       setAccept(false);
-      //Add logic to delete user request from the useState
     }
     catch(error){
       console.log(`Failure: ${error}`);
@@ -97,8 +97,8 @@ export default function AdminPage() {
   const handleReject = (id) => {
     console.log(`Rejected request with ID: ${id}`);
     // Implement rejection logic here
-    //Add logic to delete user request from the useState
-
+    //Deletion is temporary at the moment, will come back when page is refreshed
+    setTestChangeRequest((prevRequests) => prevRequests.filter(req => req.id !== id));
   };
 
   return (
