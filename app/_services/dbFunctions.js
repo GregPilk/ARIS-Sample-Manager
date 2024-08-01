@@ -226,9 +226,6 @@ export const addTestResult = async (testID, resultType, resultData) => {
 // }
 // Note does not require all fields to be updated, only the ones that need to be changed
 export const updateTestResult = async (resultID, resultType, resultData) => {
-  console.log(resultID);
-    console.log(resultType);
-    console.log(resultData);
   try {
 
     const response = await fetch(`/api/results/${resultID}`, {
@@ -254,35 +251,6 @@ export const updateTestResult = async (resultID, resultType, resultData) => {
     throw error;
   }
 };
-
-// export const updateCoCTestResult = async(coc, sample, testType, resultType, resultId, newData)=>{
-//   try{
-//     console.log(coc);
-//     const response = await fetch(`/api/records/${coc}`,{
-//       method: 'PATCH', 
-//       headers:{
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({
-//         sample,
-//         testType,
-//         resultType,
-//         resultId,
-//         newData,
-//       })
-//     })
-
-//     if(!response.ok){
-//       throw new Error(`Error: ${response.status}`);
-//     }
-
-//     const data = await response.json();
-//     return data;
-//   }
-//   catch(error){
-//     console.error(`Failed to update test result: ${error}`);
-//   }
-// }
 
 
 
