@@ -24,7 +24,7 @@ export default function AdminPage() {
       changedResult: "10",
       testType: "PH/Conductivity",
       results:{
-        resultID: "66a79e4f9e36b15dd16fbc93",
+        resultID: "66aad952e7b241e46f354da5",
         ph: "100",
         conductivity: "123",
       },
@@ -53,7 +53,6 @@ export default function AdminPage() {
   ]);
 
   useEffect(() =>{
-    console.log("Use Effect");
     switch(requestObject.testType){
       case "TSS":
         setResultType("TSSResult");
@@ -77,10 +76,16 @@ export default function AdminPage() {
     try{
       updateTestResult(requestObject.results.resultID, resultType, requestObject.newResults);
       console.log('Data Edit Success');
+      setAccept(false);
+      //Add logic to delete user request from the useState
     }
     catch(error){
       console.log(`Failure: ${error}`);
     }
+  }
+
+  const handleCancelChange =()=>{
+    setAccept(false);
   }
 
   const handleAccept = (req) => {
@@ -92,6 +97,8 @@ export default function AdminPage() {
   const handleReject = (id) => {
     console.log(`Rejected request with ID: ${id}`);
     // Implement rejection logic here
+    //Add logic to delete user request from the useState
+
   };
 
   return (
@@ -146,7 +153,9 @@ export default function AdminPage() {
                     <EditTest requestData={requestObject}/>
                     <div>
                       <button className="submit-button" type="submit" onClick={() => handleEditChange()}>Submit</button>
+                      <button className="submit-button" type="submit" onClick={() => handleCancelChange()}>Cancel</button>
                     </div>
+                    
                   </div>
                 </div>
               )}

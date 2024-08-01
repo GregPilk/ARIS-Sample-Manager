@@ -7,49 +7,10 @@ import AdminPage from "../pages/admin";
 import { updateTestResult } from "../_services/dbFunctions";
 
 export default function EditTest({requestData}){
-    const {newObj} = requestData.newResults;
-    const {prevResults} = requestData.previousResults;
     const[editCoC, setEditCoC] = useState(requestData.chainOfCustody);
     const[editSampleID, setSampleID] = useState(requestData.sampleID + 1);
     const[changedResult, setChanged] = useState(requestData.changedResult);
     const[testType, setType] = useState(requestData.testType);
-    const[resultId, setResultID] = useState(requestData.results.resultID);
-    const[resultType, setResultType] = useState("");
-    const[newData, setNew] = useState({newObj});
-    const[prevData, setPrev] = useState({});
-
-    // useEffect(() =>{
-    //     console.log("Use Effect");
-    //     switch(testType){
-    //         case "TSS":
-    //             setResultType("TSSResult");
-    //             break;
-    //         case "PH/Conductivity":
-    //             setResultType("PhConResult");
-    //             break;
-    //         case "TICTOC":
-    //             setResultType("TICTOCResult");
-    //             break;
-    //         case "Alkalinity":
-    //             setResultType("AlkalinityResult");
-    //         case "IC":
-    //             setResultType("ICResult");
-    //     }
-    // })
-
-    // const handleEditChange =()=>{
-    //     try{
-    //         updateTestResult(resultId, resultType, requestData.newResults);
-
-    //         console.log("Result Edited");
-
-    //         window.location.reload();
-
-    //     }
-    //     catch(error){
-    //         console.log(`Failure: ${error}`);
-    //     }
-    // }
 
     return(
         <div>
@@ -98,7 +59,11 @@ export default function EditTest({requestData}){
                         New Result:
                     </div>
                     <div className="w-1/3">
-                        {changedResult}
+                        {Object.keys(requestData.newResults).map((key) => (
+                            <div>
+                                {key}: {requestData.newResults[key]}
+                            </div>
+                        ))}
                     </div>
                 </div>
 
