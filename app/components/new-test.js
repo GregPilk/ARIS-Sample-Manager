@@ -1,11 +1,10 @@
 "use client";
 
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import CsvReader from "@/app/components/csv-reader";
-import NewPH from "@/app/components/new-ph";
-import NewTSS from "@/app/components/new-tss";
-import ManualTest from "@/app/components/manual-test";
+// import NewPH from "@/app/components/new-ph";
+// import NewTSS from "@/app/components/new-tss";
+import { NewPH, NewTSS } from "@/app/components/manual-test";
 import {
   COCSelect,
   SampleIDSelect,
@@ -13,9 +12,6 @@ import {
 } from "@/app/components/find-options";
 import ResultsTable from "@/app/components/results-table";
 import OutboundTable from "@/app/components/outbound-table";
-// import { getRecord, getAllRecords } from "../_services/dbFunctions";
-import data from "@/app/objects/result.json";
-import { set } from "mongoose";
 import { addTestResult } from "@/app/_services/dbFunctions";
 
 // Created By: Sarah
@@ -32,21 +28,22 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   const [record, setRecord] = useState(null);
   const [outBoundResults, setOutBoundResults] = useState([]);
   const [databaseData, setDatabaseData] = useState([]);
-  // const [recordReload, setRecordReload] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [showSuccessfulSubmit, setShowSuccessfulSubmit] = useState(false);
 
   const getTestComponent = (testType) => {
+    //This would be used if we refactor the manual test component to be more generic
+    // case "PH/Conductivity":
+    // case "TSS":
+    //   return (
+    //     <ManualTest
+    //       record={record}
+    //       setOutbound={setOutBoundResults}
+    //       sampleID={selectedSampleID}
+    //       testType={testType}
+    //     />
+    //   );
     switch (testType) {
-      //This would be used if we refactor the manual test component to be more generic
-      // case "PH/Conductivity":
-      // case "TSS":
-      //   return (
-      //     <ManualTest
-      //       record={record}
-      //       setOutbound={setOutBoundResults}
-      //       sampleID={selectedSampleID}
-      //       testType={testType}
-      //     />
-      //   );
       case "PH/Conductivity":
         return (
           <NewPH
@@ -84,21 +81,27 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   }, [selectedSampleID, testType, record]);
 
   useEffect(() => {
-    setTestType("");
-  }, [selectedSampleID, record]);
-  useEffect(() => {
-    setSelectedSampleID("");
+    if (!record) {
+      setTestType("");
+      setSelectedSampleID("");
+    }
   }, [record]);
+  useEffect(() => {
+    if (showSuccessfulSubmit) {
+      const timer = setTimeout(() => {
+        setShowSuccessfulSubmit(false);
+      }, 2000); // 2500 milliseconds = 2.5 seconds
+
+      return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
+    }
+  }, [showSuccessfulSubmit]);
 
   const handleDatabasePackage = async (data) => {
     const processedData = data.map((item) => {
-      // Find the result type key
       const resultTypeKey = Object.keys(item).find((key) =>
         key.endsWith("Results")
       );
-      // Construct the resultType string
       const resultType = resultTypeKey.replace("Results", "") + "Result";
-      // Destructure to separate testID, resultTypeKey, and the rest of the data
       const { testID, [resultTypeKey]: _, ...resultData } = item;
 
       return {
@@ -108,10 +111,25 @@ const NewTest = ({ getRecord, getAllRecords }) => {
       };
     });
     console.log(processedData);
-    // Call the function to add the data to the database with processedData
+
     await addUserResults(processedData);
-    // setRecordReload(true);
-    alert("Data submitted successfully");
+    setShowSuccessfulSubmit(true);
+    // alert("Data submitted successfully");
+
+    await refreshRecord();
+  };
+
+  const refreshRecord = async () => {
+    const tempSampleID = selectedSampleID;
+    const tempTestType = testType;
+
+    const recordData = await getRecord(record.chainOfCustody);
+    setRecord(recordData);
+
+    setSelectedSampleID(tempSampleID);
+    setTestType(tempTestType);
+
+    setRefreshKey((prevKey) => prevKey + 1);
   };
 
   const addUserResults = async (databaseData) => {
@@ -126,6 +144,7 @@ const NewTest = ({ getRecord, getAllRecords }) => {
       }
     }
   };
+
   const updateRecords = (index, newRecord) => {
     const updatedResults = [...outBoundResults];
     updatedResults[index] = newRecord;
@@ -187,6 +206,7 @@ const NewTest = ({ getRecord, getAllRecords }) => {
             </div>
             <div className="flex flex-col">
               <ResultsTable
+                key={refreshKey}
                 record={record}
                 selectedSampleType={selectedSampleID}
                 selectedTestType={testType}
@@ -207,6 +227,18 @@ const NewTest = ({ getRecord, getAllRecords }) => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      {/* Modal for Success */}
+      <div
+        className={`fixed inset-x-0 bottom-0 flex justify-center transition-transform duration-300 ease-in-out transform ${
+          showSuccessfulSubmit ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
+        <div className="bg-green-700 paper text-white max-h-10 w-1/5 flex justify-center items-center rounded-t-md">
+          <ul className="text-white text-xl py-2">
+            Successfully Submitted Data
+          </ul>
         </div>
       </div>
     </div>

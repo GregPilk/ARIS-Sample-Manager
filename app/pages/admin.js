@@ -4,8 +4,11 @@ import ChangeRequest from "../components/change-request";
 import AddUser from "../components/add-user";
 import { getRecord, getAllRecords } from "../_services/dbFunctions";
 import EditTest from "../components/edit-test";
-import NewTest from "../components/new-test";
 import { updateTestResult } from "../_services/dbFunctions";
+
+// import AddUser from "../components/add-user";
+// import DeleteUser from "../components/delete-user";
+import ControlUser from "../components/control-user";
 
 export default function AdminPage() {
   const[changeAccept, setAccept] = useState(false);
@@ -49,6 +52,20 @@ export default function AdminPage() {
       newResults:{
         tssInMgl:"542",
       }
+    },
+    {
+      id: 3,
+      chainOfCustody: "Chain 3",
+      sampleID: "Sample 3",
+      previousResult: "Positive",
+      changedResult: "Negative",
+    },
+    {
+      id: 4,
+      chainOfCustody: "Chain 4",
+      sampleID: "Sample 4",
+      previousResult: "Positive",
+      changedResult: "Negative",
     },
   ]);
 
@@ -100,6 +117,7 @@ export default function AdminPage() {
     //Deletion is temporary at the moment, will come back when page is refreshed
     setTestChangeRequest((prevRequests) => prevRequests.filter(req => req.id !== id));
   };
+  const [activeTab, setActiveTab] = useState("add");
 
   return (
     <div className="page-container">
@@ -140,14 +158,46 @@ export default function AdminPage() {
                 </li>
               </ul>
             </div>
+             
+          <div className="flex flex-col w-full">
+            <ChangeRequest
+              requests={testChangeRequest}
+              onAccept={handleAccept}
+              onReject={handleReject}
+            />
 
-            <div className="flex flex-col w-full">
-              <ChangeRequest
-                requests={testChangeRequest}
-                onAccept={handleAccept}
-                onReject={handleReject}
-              />
-              {changeAccept === true &&(
+            <div className="mt-8">
+              <div className="tabs">
+                <button
+                  className={`tab paper ${activeTab === "add" ? "active" : ""}`}
+                  onClick={() => setActiveTab("add")}
+                >
+                  Add User
+                </button>
+                <button
+                  className={`tab paper ${
+                    activeTab === "delete" ? "active" : ""
+                  }`}
+                  onClick={() => setActiveTab("delete")}
+                >
+                  Delete User
+                </button>
+                <button
+                  className={`tab paper ${
+                    activeTab === "edit" ? "active" : ""
+                  }`}
+                  onClick={() => setActiveTab("edit")}
+                >
+                  Edit User
+                </button>
+              </div>
+              <div className="tab-content w-full p-2">
+                {activeTab === "add" && <ControlUser type="add" />}
+                {activeTab === "delete" && <ControlUser type="delete" />}
+                {activeTab === "edit" && <ControlUser type="edit" />}
+              </div>
+            </div>
+            {changeAccept === true &&(
                 <div>
                   <div>
                     <EditTest requestData={requestObject}/>
@@ -159,8 +209,6 @@ export default function AdminPage() {
                   </div>
                 </div>
               )}
-              <AddUser />
-            </div>
           </div>
         </div>
       </div>

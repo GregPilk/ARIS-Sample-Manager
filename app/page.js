@@ -19,7 +19,7 @@ export default function Dashboard() {
     "Find Chain of Custody",
     "Test Data",
     "Admin",
-    "login test"
+    // "login test",
   ];
 
   const renderPageComponent = () => {

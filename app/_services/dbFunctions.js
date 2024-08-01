@@ -217,13 +217,14 @@ export const addTestResult = async (testID, resultType, resultData) => {
 // ADMIN USE ONLY
 
 // basic structure of the parameters:
-// {
-//   "resultID": "specificResultID",
-//   "resultType": "PhConResult",
-//   "resultData": {
+// 
+// resultID = "specificResultID"
+// resultType = "PhConResult"
+// resultData = 
+//   {
 //     "ph": "7.4",
 //   }
-// }
+// 
 // Note does not require all fields to be updated, only the ones that need to be changed
 export const updateTestResult = async (resultID, resultType, resultData) => {
   try {
@@ -252,5 +253,62 @@ export const updateTestResult = async (resultID, resultType, resultData) => {
 };
 
 
-
 // S A M P L E    F U N C T I O N S
+
+
+// Added by: Nick
+// Date: 2024-07-11
+// This function will get one sample from the database using the sample ID
+// This will return all Tests and Results associated with the Sample
+// Can be called anywhere in front end by importing
+// Example: import { getSample } from '../_services/dbFunctions';
+export const getSample = async (sampleID) => {
+  try {
+    const response = await fetch(`/api/samples/${sampleID}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch sample:", error);
+    throw error;
+  }
+};
+
+// Added by: Nick
+// Date: 2024-07-30
+// This function will get all samples from the database
+// This will return all the data from the Sample table, this includes Tests and Results
+// Can be called anywhere in front end by importing
+// Example: import { getAllSamples } from '../_services/dbFunctions';
+export const getAllSamples = async () => {
+  try {
+    const response = await fetch("/api/samples", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch samples:", error);
+    throw error;
+  }
+};
+
+// U S E R    F U N C T I O N S
+// Need get all users and delete single user

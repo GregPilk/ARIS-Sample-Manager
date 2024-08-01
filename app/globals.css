@@ -206,7 +206,7 @@ body::before {
   color: #e2e8f0;
   margin-top: 10px;
   width: 900px;
-  text-shadow: #000000 2px 2px 2px;
+  text-shadow: #000000 8px 8px 12px;
   font-weight: bold;
   letter-spacing: 2px;
 }
@@ -224,7 +224,7 @@ body::before {
   border: 2px solid #ccc;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 4px 8px 8px 0px rgba(6, 95, 28, 0.9);
+  box-shadow: 4px 8px 8px 0px rgba(49, 61, 52, 0.5);
 }
 
 .welcome h1, .login-form h1 {
@@ -520,11 +520,11 @@ body::before {
 }
 
 .admin-info{
-  background-color: #e2e8f0;
+  background-color: #CBD5E1;
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  height: 77vh;
   width: 40%;
   border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(248, 116, 116, 0.05);
@@ -591,4 +591,102 @@ body::before {
 .general-button:hover {
   transform: scale(1.01);
   box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4); 
+}
+
+/* Modal Styling */
+.modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  max-height: 180px;
+  height: 35%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* padding: 10px; */
+}
+
+.modal-content {
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  position: relative;
+  height: 80%;
+  max-width: 600px;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.close {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  background-color: rgba(134, 133, 133, 0.3);
+  height: 24px;
+  width: 24px;
+  /* top: 10px;
+  right: 10px; */
+  cursor: pointer;
+  font-size: 24px;
+}
+.close:hover {
+  background-color: rgba(134, 133, 133, 0.6);
+}
+
+
+@keyframes flashRed {
+  0% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: red;
+  }
+  100% {
+    border-color: transparent;
+  }
+}
+
+.input-error {
+  border: 2px solid red;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+  animation: flashRed 1s ease-out;
+}
+
+
+.tabs {
+  display: flex;
+  justify-content: center;
+}
+
+.tab {
+  flex: 1;
+  /* width: 100%; */
+  padding: 6px;
+  text-align: center;
+  font-weight:bold;
+  cursor: pointer;
+  border: 1px solid #868585;
+  background-color: #E2E8F0;
+  border-radius: 12px 12px 0px 0px;
+}
+
+.tab.active {
+  background-color: #94A3B8;
+  font-weight: 900;
+}
+
+.tab:not(:last-child) {
+  margin-right: 4px;
+}
+
+.tab-content {
+  background-image: linear-gradient(to bottom, #6ed0f3 10%, #00ABE8), url('../public/images/ARIS_background.png');
+  background-blend-mode: multiply;
+  padding: 16px;
+  border: 2px solid #1a2431;
+  border-radius: 0px 4px 6px 4px;
+  box-shadow: 4px 8px 8px 0px rgba(1, 19, 5, 0.4);
 }
