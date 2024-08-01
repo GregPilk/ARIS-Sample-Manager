@@ -1,65 +1,91 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ChangeRequest from "../components/change-request";
 import AddUser from "../components/add-user";
 import { getRecord, getAllRecords } from "../_services/dbFunctions";
 import EditTest from "../components/edit-test";
 import NewTest from "../components/new-test";
+import { updateTestResult } from "../_services/dbFunctions";
 
 export default function AdminPage() {
   const[changeAccept, setAccept] = useState(false);
-  // const[cocID, setCoC] = useState();
-  // const[sampleId, setSampleID] = useState();
-  // const[changedResult, setChanged] = useState();
-  // const[prevResult, setPrevious] = useState();
-  // const[typeOfTest, setTest] = useState();
+  const[resultType, setResultType] = useState();
   const[requestObject, setRequest] = useState({});
 
   const [testChangeRequest, setTestChangeRequest] = useState([
     {
       id: 1,
-      chainOfCustody: "Chain 1",
+      chainOfCustody: "Chain 3",
       sampleID: "Sample 1",
-      previousResult: "12",
+      previousResults: {
+        ph: "100",
+        conductivity: "123",
+      },
       changedResult: "10",
       testType: "PH/Conductivity",
       results:{
         resultID: "66a79e4f9e36b15dd16fbc93",
-        ph: "12",
-        conductivity: "142",
+        ph: "100",
+        conductivity: "123",
       },
       newResults:{
         ph:"10",
+        conductivity: "321",
       }
     },
     {
       id: 2,
       chainOfCustody: "Chain 2",
       sampleID: "Sample 2",
-      previousResult: "542",
-      changedResult: "123",
+      previousResults: {
+        tssInMgl: "123",
+      },
+      changedResult: "542",
       testType: "TSS",
       results:{
         resultID:"66a7b4d7d5b048e1ae223061",
-        tssInMgl: "542",
+        tssInMgl: "123",
       },
       newResults:{
-        tssInMgl:"123",
+        tssInMgl:"542",
       }
     },
   ]);
 
+  useEffect(() =>{
+    console.log("Use Effect");
+    switch(requestObject.testType){
+      case "TSS":
+        setResultType("TSSResult");
+        break;
+      case "PH/Conductivity":
+        setResultType("PhConResult");
+        break;
+      case "TICTOC":
+        setResultType("TICTOCResult");
+        break;
+      case "Alkalinity":
+        setResultType("AlkalinityResult");
+        break;
+      case "IC":
+        setResultType("ICResult");
+        break;
+    }
+  }, [requestObject]);
+
+  const handleEditChange =()=>{
+    try{
+      updateTestResult(requestObject.results.resultID, resultType, requestObject.newResults);
+      console.log('Data Edit Success');
+    }
+    catch(error){
+      console.log(`Failure: ${error}`);
+    }
+  }
+
   const handleAccept = (req) => {
     console.log(`Accepted request with ID: ${req.id}`);
-    // Implement acceptance logic here
-    // setCoC(req.chainOfCustody);
-    // setSampleID(req.sampleID);
-    // setPrevious(req.previousResult);
-    // setChanged(req.changedResult);
-    // setTest(req.testType);
-
     setRequest(req);
-
     setAccept(true);
   };
 
@@ -118,6 +144,9 @@ export default function AdminPage() {
                 <div>
                   <div>
                     <EditTest requestData={requestObject}/>
+                    <div>
+                      <button className="submit-button" type="submit" onClick={() => handleEditChange()}>Submit</button>
+                    </div>
                   </div>
                 </div>
               )}
