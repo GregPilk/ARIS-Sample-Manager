@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import ChangeRequest from "../components/change-request";
-import AddUser from "../components/add-user";
 import { getRecord, getAllRecords } from "../_services/dbFunctions";
 import EditTest from "../components/edit-test";
 import { updateTestResult } from "../_services/dbFunctions";
@@ -165,7 +164,18 @@ export default function AdminPage() {
               onAccept={handleAccept}
               onReject={handleReject}
             />
-
+            {changeAccept === true &&(
+                <div>
+                  <div>
+                    <EditTest requestData={requestObject}/>
+                    <div>
+                      <button className="submit-button" type="submit" onClick={() => handleEditChange()}>Submit</button>
+                      <button className="submit-button" type="submit" onClick={() => handleCancelChange()}>Cancel</button>
+                    </div>
+                    
+                  </div>
+                </div>
+              )}
             <div className="mt-8">
               <div className="tabs">
                 <button
@@ -197,21 +207,10 @@ export default function AdminPage() {
                 {activeTab === "edit" && <ControlUser type="edit" />}
               </div>
             </div>
-            {changeAccept === true &&(
-                <div>
-                  <div>
-                    <EditTest requestData={requestObject}/>
-                    <div>
-                      <button className="submit-button" type="submit" onClick={() => handleEditChange()}>Submit</button>
-                      <button className="submit-button" type="submit" onClick={() => handleCancelChange()}>Cancel</button>
-                    </div>
-                    
-                  </div>
-                </div>
-              )}
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
