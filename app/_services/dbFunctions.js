@@ -311,4 +311,115 @@ export const getAllSamples = async () => {
 };
 
 // U S E R    F U N C T I O N S
-// Need get all users and delete single user
+
+// Added by: Nick
+// Date: 2024-08-01
+// This function will get a user from the database using the user ID
+// Can be called anywhere in front end by importing
+// Example: import { getUser } from '../_services/dbFunctions';
+// ADMIN USE ONLY
+export const getUser = async (userID) => {
+  try {
+    const response = await fetch(`/api/users/${userID}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch user:", error);
+    throw error;
+  }
+};
+
+
+// Added by: Nick
+// Date: 2024-08-01
+// This function will get all users from the database
+// Can be called anywhere in front end by importing
+// Example: import { getAllUsers } from '../_services/dbFunctions';
+// ADMIN USE ONLY
+export const getAllUsers = async () => {
+  try {
+    const response = await fetch("/api/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch users:", error);
+    throw error;
+  }
+};
+
+
+// Added by: Nick
+// Date: 2024-08-01
+// This function will update a user in the database using the user ID
+// Can be called anywhere in front end by importing
+// Example: import { updateUser } from '../_services/dbFunctions';
+// ADMIN USE ONLY
+export const updateUser = async (userID, user) => {
+  try {
+    const response = await fetch(`/api/users/${userID}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to update user:", error);
+    throw error;
+  }
+};
+
+
+// Added by: Nick
+// Date: 2024-08-01
+// This function will delete a user from the database using the user ID
+// Can be called anywhere in front end by importing
+// Example: import { deleteUser } from '../_services/dbFunctions';
+// ADMIN USE ONLY
+export const deleteUser = async (userID) => {
+  try {
+    const response = await fetch(`/api/users/${userID}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to delete user:", error);
+    throw error;
+  }
+};
