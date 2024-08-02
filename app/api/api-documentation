@@ -1,0 +1,49 @@
+Added by: Nick
+Date: 2024-08-02
+
+Updated by: Nick
+Date: 2024-08-02
+
+This document outline the structure of the API used in our application.
+Provides a high level overview of the routes and their functionality.
+
+
+## Records
+    records/route.js
+        - GET - Get all records, this will not include any related samples, tests or results
+        - POST - Create a new record, this will also create the related samples and tests associated with the record
+
+    records/[id]/route.js
+        - GET - Get a record by id, this will include all related samples, tests and results
+        - PATCH - Update a record by id
+
+
+## Results
+    results/route.js
+        - POST - Create a new result
+
+    results/[id]/route.js
+        - PATCH - Update a result by id
+
+
+## Samples
+    samples/route.js
+        - GET - Get all samples, this will include all related tests or results
+
+    samples/[id]/route.js
+        - GET - Get a sample by id, this will include all related tests and results
+
+
+## Tests
+     tests/[id]/route.js
+        - GET - Get a test by id, this will include all related results
+
+
+## Users
+    users/route.js
+        - GET - Get all users
+        - POST - Create a new user
+
+    users/[id]/route.js
+        - PATCH - Update a user by id
+        - DELETE - Delete a user by id
