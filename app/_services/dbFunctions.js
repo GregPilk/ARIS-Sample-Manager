@@ -3,7 +3,6 @@
 // Update and delete functions are for admin use only
 // marked with "ADMIN USE ONLY"
 
-
 // R E C O R D    F U N C T I O N S
 
 // Added by: Nick
@@ -144,7 +143,6 @@ export const getTest = async (testID) => {
   }
 };
 
-
 // Added by: Nick
 // Date: 2024-07-22
 // This function will update a test in the database using the test ID
@@ -173,7 +171,6 @@ export const updateTest = async (testID, test) => {
   }
 };
 
-
 // R E S U L T    F U N C T I O N S
 
 // Added by: Nick
@@ -197,7 +194,10 @@ export const addTestResult = async (testID, resultType, resultData) => {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      const errorText = await response.text();
+      throw new Error(
+        `HTTP error! Status: ${response.status}, Response: ${errorText}`
+      );
     }
 
     const data = await response.json();
@@ -208,7 +208,6 @@ export const addTestResult = async (testID, resultType, resultData) => {
   }
 };
 
-
 // Added by: Nick
 // Date: 2024-07-23
 // This function will update a result in the database using the result ID and result type
@@ -217,14 +216,14 @@ export const addTestResult = async (testID, resultType, resultData) => {
 // ADMIN USE ONLY
 
 // basic structure of the parameters:
-// 
+//
 // resultID = "specificResultID"
 // resultType = "PhConResult"
-// resultData = 
+// resultData =
 //   {
 //     "ph": "7.4",
 //   }
-// 
+//
 // Note does not require all fields to be updated, only the ones that need to be changed
 export const updateTestResult = async (resultID, resultType, resultData) => {
   try {
@@ -252,9 +251,7 @@ export const updateTestResult = async (resultID, resultType, resultData) => {
   }
 };
 
-
 // S A M P L E    F U N C T I O N S
-
 
 // Added by: Nick
 // Date: 2024-07-11
@@ -339,7 +336,6 @@ export const getUser = async (userID) => {
   }
 };
 
-
 // Added by: Nick
 // Date: 2024-08-01
 // This function will get all users from the database
@@ -366,7 +362,6 @@ export const getAllUsers = async () => {
     throw error;
   }
 };
-
 
 // Added by: Nick
 // Date: 2024-08-01
@@ -396,7 +391,6 @@ export const updateUser = async (userID, user) => {
   }
 };
 
-
 // Added by: Nick
 // Date: 2024-08-01
 // This function will delete a user from the database using the user ID
@@ -420,6 +414,33 @@ export const deleteUser = async (userID) => {
     return data;
   } catch (error) {
     console.error("Failed to delete user:", error);
+    throw error;
+  }
+};
+
+// Added by: Greg
+// Date: 2024-08-03
+// This function will add a user to the database
+// Can be called anywhere in front end by importing
+// Example: import { addUser } from '../_services/dbFunctions';
+export const addUser = async (user) => {
+  try {
+    const response = await fetch("/api/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to create user:", error);
     throw error;
   }
 };

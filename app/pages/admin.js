@@ -4,15 +4,12 @@ import ChangeRequest from "../components/change-request";
 import { getRecord, getAllRecords } from "../_services/dbFunctions";
 import EditTest from "../components/edit-test";
 import { updateTestResult } from "../_services/dbFunctions";
-
-// import AddUser from "../components/add-user";
-// import DeleteUser from "../components/delete-user";
 import ControlUser from "../components/control-user";
 
 export default function AdminPage() {
-  const[changeAccept, setAccept] = useState(false);
-  const[resultType, setResultType] = useState();
-  const[requestObject, setRequest] = useState({});
+  const [changeAccept, setAccept] = useState(false);
+  const [resultType, setResultType] = useState();
+  const [requestObject, setRequest] = useState({});
 
   const [testChangeRequest, setTestChangeRequest] = useState([
     {
@@ -25,15 +22,15 @@ export default function AdminPage() {
       },
       changedResult: "10",
       testType: "PH/Conductivity",
-      results:{
+      results: {
         resultID: "66aad952e7b241e46f354da5",
         ph: "100",
         conductivity: "123",
       },
-      newResults:{
-        ph:"10",
+      newResults: {
+        ph: "10",
         conductivity: "321",
-      }
+      },
     },
     {
       id: 2,
@@ -44,13 +41,13 @@ export default function AdminPage() {
       },
       changedResult: "542",
       testType: "TSS",
-      results:{
-        resultID:"66a7b4d7d5b048e1ae223061",
+      results: {
+        resultID: "66a7b4d7d5b048e1ae223061",
         tssInMgl: "123",
       },
-      newResults:{
-        tssInMgl:"542",
-      }
+      newResults: {
+        tssInMgl: "542",
+      },
     },
     {
       id: 3,
@@ -68,8 +65,8 @@ export default function AdminPage() {
     },
   ]);
 
-  useEffect(() =>{
-    switch(requestObject.testType){
+  useEffect(() => {
+    switch (requestObject.testType) {
       case "TSS":
         setResultType("TSSResult");
         break;
@@ -88,21 +85,26 @@ export default function AdminPage() {
     }
   }, [requestObject]);
 
-  const handleEditChange =()=>{
-    try{
-      updateTestResult(requestObject.results.resultID, resultType, requestObject.newResults);
-      console.log('Data Edit Success');
-      setTestChangeRequest((prevRequests) => prevRequests.filter(req => req.id !== requestObject.id));
+  const handleEditChange = () => {
+    try {
+      updateTestResult(
+        requestObject.results.resultID,
+        resultType,
+        requestObject.newResults
+      );
+      console.log("Data Edit Success");
+      setTestChangeRequest((prevRequests) =>
+        prevRequests.filter((req) => req.id !== requestObject.id)
+      );
       setAccept(false);
-    }
-    catch(error){
+    } catch (error) {
       console.log(`Failure: ${error}`);
     }
-  }
+  };
 
-  const handleCancelChange =()=>{
+  const handleCancelChange = () => {
     setAccept(false);
-  }
+  };
 
   const handleAccept = (req) => {
     console.log(`Accepted request with ID: ${req.id}`);
@@ -114,68 +116,80 @@ export default function AdminPage() {
     console.log(`Rejected request with ID: ${id}`);
     // Implement rejection logic here
     //Deletion is temporary at the moment, will come back when page is refreshed
-    setTestChangeRequest((prevRequests) => prevRequests.filter(req => req.id !== id));
+    setTestChangeRequest((prevRequests) =>
+      prevRequests.filter((req) => req.id !== id)
+    );
   };
   const [activeTab, setActiveTab] = useState("add");
 
   return (
     <div className="page-container">
-      <div>
-        <div className="admin-pop px-16">
-          <div className="flex justify-center">
-            <header className="title">
-              <h1>Admin</h1>
-            </header>
+      <div className="admin-pop px-16">
+        <div className="flex justify-center">
+          <header className="title">
+            <h1>Admin</h1>
+          </header>
+        </div>
+        <div className="flex mt-8">
+          <div className="mr-4 admin-info paper">
+            <h2 className="text-2xl py-2 font-bold">More Information</h2>
+            {/* Mock information */}
+            <ul className="list-none mt-2">
+              <li>
+                <strong>Total Users:</strong> 150
+              </li>
+              <li>
+                <strong>Pending Requests:</strong> 25
+              </li>
+              <li>
+                <strong>System Status:</strong> Operational
+              </li>
+              <li>
+                <strong>Last Backup:</strong> 2024-07-20 14:35
+              </li>
+              <li>
+                <strong>Active Sessions:</strong> 45
+              </li>
+              <li>
+                <strong>Recent Logins:</strong>
+                <ul className="list-none pl-5 mt-1">
+                  <li>user1@example.com - 2024-07-21 09:15</li>
+                  <li>user2@example.com - 2024-07-21 08:45</li>
+                  <li>user3@example.com - 2024-07-21 08:30</li>
+                </ul>
+              </li>
+            </ul>
           </div>
-          <div className="flex mt-8">
-            <div className="mr-4 admin-info paper">
-              <h2 className="text-2xl py-2 font-bold">More Information</h2>
-              {/* Mock information */}
-              <ul className="list-none mt-2">
-                <li>
-                  <strong>Total Users:</strong> 150
-                </li>
-                <li>
-                  <strong>Pending Requests:</strong> 25
-                </li>
-                <li>
-                  <strong>System Status:</strong> Operational
-                </li>
-                <li>
-                  <strong>Last Backup:</strong> 2024-07-20 14:35
-                </li>
-                <li>
-                  <strong>Active Sessions:</strong> 45
-                </li>
-                <li>
-                  <strong>Recent Logins:</strong>
-                  <ul className="list-none pl-5 mt-1">
-                    <li>user1@example.com - 2024-07-21 09:15</li>
-                    <li>user2@example.com - 2024-07-21 08:45</li>
-                    <li>user3@example.com - 2024-07-21 08:30</li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-             
+
           <div className="flex flex-col w-full">
             <ChangeRequest
               requests={testChangeRequest}
               onAccept={handleAccept}
               onReject={handleReject}
             />
-            {changeAccept === true &&(
+            {changeAccept === true && (
+              <div>
                 <div>
+                  <EditTest requestData={requestObject} />
                   <div>
-                    <EditTest requestData={requestObject}/>
-                    <div>
-                      <button className="submit-button" type="submit" onClick={() => handleEditChange()}>Submit</button>
-                      <button className="submit-button" type="submit" onClick={() => handleCancelChange()}>Cancel</button>
-                    </div>
-                    
+                    <button
+                      className="submit-button"
+                      type="submit"
+                      onClick={() => handleEditChange()}
+                    >
+                      Submit
+                    </button>
+                    <button
+                      className="submit-button"
+                      type="submit"
+                      onClick={() => handleCancelChange()}
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </div>
-              )}
+              </div>
+            )}
             <div className="mt-8">
               <div className="tabs">
                 <button
@@ -210,7 +224,6 @@ export default function AdminPage() {
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

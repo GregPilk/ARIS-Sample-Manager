@@ -13,6 +13,7 @@ import {
 import ResultsTable from "@/app/components/results-table";
 import OutboundTable from "@/app/components/outbound-table";
 import { addTestResult } from "@/app/_services/dbFunctions";
+import { formatResultData } from "../_services/dbResultsFormat";
 
 // Created By: Sarah
 // Date: 2024-06-10
@@ -30,19 +31,9 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   const [databaseData, setDatabaseData] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
   const [showSuccessfulSubmit, setShowSuccessfulSubmit] = useState(false);
+  // const [resultType, setResultType] = useState("");
 
   const getTestComponent = (testType) => {
-    //This would be used if we refactor the manual test component to be more generic
-    // case "PH/Conductivity":
-    // case "TSS":
-    //   return (
-    //     <ManualTest
-    //       record={record}
-    //       setOutbound={setOutBoundResults}
-    //       sampleID={selectedSampleID}
-    //       testType={testType}
-    //     />
-    //   );
     switch (testType) {
       case "PH/Conductivity":
         return (
@@ -64,13 +55,7 @@ const NewTest = ({ getRecord, getAllRecords }) => {
       case "Alkalinity":
       case "TICTOC":
       case "ICP":
-        return (
-          <CsvReader
-            record={record}
-            sampleID={selectedSampleID}
-            testType={testType}
-          />
-        );
+        return <CsvReader setOutbound={setOutBoundResults} />;
       default:
         return null;
     }
@@ -90,32 +75,68 @@ const NewTest = ({ getRecord, getAllRecords }) => {
     if (showSuccessfulSubmit) {
       const timer = setTimeout(() => {
         setShowSuccessfulSubmit(false);
-      }, 2000); // 2500 milliseconds = 2.5 seconds
+      }, 2000);
 
-      return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
+      return () => clearTimeout(timer);
     }
   }, [showSuccessfulSubmit]);
 
   const handleDatabasePackage = async (data) => {
-    const processedData = data.map((item) => {
-      const resultTypeKey = Object.keys(item).find((key) =>
-        key.endsWith("Results")
-      );
-      const resultType = resultTypeKey.replace("Results", "") + "Result";
-      const { testID, [resultTypeKey]: _, ...resultData } = item;
+    // console.log("Ptph " + JSON.stringify(data));
+    const containsPhOrTSS = data.some(
+      (item) =>
+        Object.keys(item).some(
+          (key) => key.includes("Ph") || key.includes("TSS")
+        ) ||
+        Object.values(item).some(
+          (value) =>
+            value.includes && (value.includes("Ph") || value.includes("TSS"))
+        )
+    );
 
-      return {
-        testID,
-        resultType,
-        resultData,
-      };
-    });
-    console.log(processedData);
+    if (containsPhOrTSS) {
+      const processedData = data.map((item) => {
+        const resultTypeKey = Object.keys(item).find((key) =>
+          key.endsWith("Results")
+        );
+        const resultType = resultTypeKey.replace("Results", "") + "Result";
+        const { testID, [resultTypeKey]: _, ...resultData } = item;
 
-    await addUserResults(processedData);
+        return {
+          testID,
+          resultType,
+          resultData,
+        };
+      });
+      // console.log(processedData);
+      await addUserResults(processedData);
+    } else {
+      const type = `${testType}Result`;
+
+      let resultTestID = null;
+      record.samples.forEach((sample) => {
+        if (sample.sampleID === selectedSampleID) {
+          sample.tests.forEach((test) => {
+            if (test.name === testType) {
+              resultTestID = test.id;
+            }
+          });
+        }
+      });
+
+      // Check if resultTestID and type are defined before proceeding
+      if (resultTestID && type && data) {
+        formatResultData(data, resultTestID, type);
+        // alert("Data saved to database");
+      } else {
+        console.error(
+          "Missing data: resultTestID, type, or csvData is undefined"
+        );
+      }
+    }
+
     setShowSuccessfulSubmit(true);
     // alert("Data submitted successfully");
-
     await refreshRecord();
   };
 
@@ -135,9 +156,9 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   const addUserResults = async (databaseData) => {
     for (const item of databaseData) {
       try {
-        console.log("this is the item", item);
+        // console.log("this is the item", item);
         await addTestResult(item.testID, item.resultType, item.resultData);
-        console.log("Test result added to database");
+        // console.log("Test result added to database");
       } catch (error) {
         console.error("Failed to add test result:", error);
         throw error;

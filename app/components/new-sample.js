@@ -8,6 +8,7 @@ const NewSampleForm = () => {
   const [errors, setErrors] = useState({});
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorFields, setErrorFields] = useState({});
+  const [showSuccessfulSubmit, setShowSuccessfulSubmit] = useState(false);
 
   useEffect(() => {
     // Initialize form values here if necessary
@@ -244,7 +245,8 @@ const NewSampleForm = () => {
     }
     console.log(formValues);
     console.log(newRecord);
-    window.alert("Form submitted successfully!");
+    // window.alert("Form submitted successfully!");
+    setShowSuccessfulSubmit(true);
     createRecord(newRecord);
     setFormValues({});
   };
@@ -272,6 +274,16 @@ const NewSampleForm = () => {
         return () => clearTimeout(timer);
       }
     }, [hasError]);
+
+    useEffect(() => {
+      if (showSuccessfulSubmit) {
+        const timer = setTimeout(() => {
+          setShowSuccessfulSubmit(false);
+        }, 2000); // 2500 milliseconds = 2.5 seconds
+
+        return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
+      }
+    }, [showSuccessfulSubmit]);
 
     if (field.type === "text" || field.type === "int") {
       return (
@@ -440,6 +452,18 @@ const NewSampleForm = () => {
             </div>
           </div>
         )}
+        {/* Modal for Success */}
+        <div
+          className={`fixed inset-x-0 bottom-0 flex justify-center transition-transform duration-300 ease-in-out transform ${
+            showSuccessfulSubmit ? "translate-y-0" : "translate-y-full"
+          }`}
+        >
+          <div className="bg-green-700 paper text-white max-h-10 w-1/5 flex justify-center items-center rounded-t-md">
+            <ul className="text-white text-xl py-2">
+              Successfully Submitted Data
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );

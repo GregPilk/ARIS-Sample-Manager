@@ -1,4 +1,3 @@
-// app/components/loginform.js
 "use client";
 
 // import { signIn } from "next-auth/react"; // Use client-side signIn

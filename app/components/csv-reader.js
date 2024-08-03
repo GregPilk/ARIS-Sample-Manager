@@ -10,33 +10,8 @@ import { formatResultData } from "../_services/dbResultsFormat";
 // Edited by: Nick
 // Date: 2024-07-16
 
-const CsvReader = ({ record, sampleID, testType }) => {
+const CsvReader = ({ setOutbound }) => {
   const [csvData, setCsvData] = useState(null);
-
-  const handleSubmit = () => {
-    const type = `${testType}Result`;
-
-    let resultTestID = null;
-    record.samples.forEach((sample) => {
-      if (sample.sampleID === sampleID) {
-        sample.tests.forEach((test) => {
-          if (test.name === testType) {
-            resultTestID = test.id;
-          }
-        });
-      }
-    });
-
-    // Check if resultTestID and type are defined before proceeding
-    if (resultTestID && type && csvData) {
-      formatResultData(csvData, resultTestID, type);
-      alert("Data saved to database");
-    } else {
-      console.error(
-        "Missing data: resultTestID, type, or csvData is undefined"
-      );
-    }
-  };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -44,13 +19,27 @@ const CsvReader = ({ record, sampleID, testType }) => {
       Papa.parse(file, {
         header: true,
         complete: (results) => {
-          console.log("Parsed CSV Data:", results.data); // Log parsed data
+          // console.log("Parsed CSV Data:", results.data); // Log parsed data
           setCsvData(results.data);
         },
         error: (error) => {
           console.error("Error while parsing CSV file:", error);
         },
       });
+    }
+  };
+
+  const handleSave = () => {
+    if (csvData) {
+      // Filter out blank rows
+      const filteredData = csvData.filter((row) => {
+        // Check if all values in the row are empty strings
+        return Object.values(row).some((value) => value.trim() !== "");
+      });
+
+      setOutbound(filteredData);
+    } else {
+      console.error("CSV data is undefined");
     }
   };
 
@@ -61,7 +50,7 @@ const CsvReader = ({ record, sampleID, testType }) => {
       </div>
       {csvData && (
         <div className="flex justify-center">
-          <button onClick={handleSubmit} className="add-button">
+          <button onClick={handleSave} className="add-button">
             Save
           </button>
           {/* <h3>Preview</h3> */}

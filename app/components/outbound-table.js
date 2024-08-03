@@ -86,6 +86,7 @@ const OutboundTable = ({ records, selectedTestType, updateRecords }) => {
                   <td key={header} className="border-r border-b border-white">
                     {editableRecordIndex === index ? (
                       <input
+                        className="w-28 overflow-scroll"
                         type="text"
                         value={tempRecord[header] || ""}
                         onChange={(e) =>

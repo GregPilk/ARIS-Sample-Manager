@@ -557,14 +557,15 @@ body::before {
 }
 
 .edit-bar {
-  height: 48px;
+  height: 40px;
   width: 200px;
+  margin-right: -12px;
   background-color: #e2e8f0;
   background-image: linear-gradient(to bottom, #e2e8f0, #585c61);
   align-items: center;
   justify-content: space-evenly;
   display: flex;
-  border-radius: 0.2rem;
+  border-radius: 12px 12px 0 0;
 }
 .edit-button {
   color: #e2e8f0;
