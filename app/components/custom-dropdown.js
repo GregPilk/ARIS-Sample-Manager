@@ -80,6 +80,7 @@ const CustomDropdown = ({ allRecords, setChainOfCustody }) => {
         onChange={(e) => setInputValue(e.target.value)}
         onFocus={() => setShowOptions(true)}
         onKeyDown={handleKeyDown}
+        onClick={(e) => e.target.select()}
         placeholder="Enter Chain of Custody"
         required
         className="custom-drop text-black"

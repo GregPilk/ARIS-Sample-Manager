@@ -52,7 +52,7 @@ const NewPH = ({ record, setOutbound, sampleID }) => {
     // Create a new object for the outboundResults
     const newOutboundResult = {
       testID: results[0].id,
-      PhConResults: "PhConResults",
+      PhConResults: "PhConResult",
       ph: phTest.ph,
       conductivity: phTest.conductivity,
     };
@@ -70,7 +70,7 @@ const NewPH = ({ record, setOutbound, sampleID }) => {
     // Reset the phTest state or handle other post-submit logic
     setPhTest({
       testID: "",
-      PhConResults: "PhConResults",
+      PhConResults: "PhConResult",
       ph: "",
       conductivity: "",
     });
@@ -170,7 +170,7 @@ const NewTSS = ({ record, setOutbound, sampleID }) => {
     // Create a new object for the outboundResults
     const newOutboundResult = {
       testID: results[0].id,
-      TSSResults: "TSSResults",
+      TSSResults: "TSSResult",
       tssInMgl: tssTest.tssInMgl,
     };
 
@@ -187,7 +187,7 @@ const NewTSS = ({ record, setOutbound, sampleID }) => {
     // Reset the tssTest state or handle other post-submit logic
     setTssTest({
       testID: "",
-      TSSResults: "TSSResults",
+      TSSResults: "TSSResult",
       tssInMgl: "",
     });
 
