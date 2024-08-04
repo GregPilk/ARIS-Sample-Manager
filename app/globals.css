@@ -31,11 +31,11 @@ body::before {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('../public/images/nw-aris-energy-730x487.png');
+  background-image: url('../public/images/labShot.png');
   /* background-repeat: no-repeat; */
-  background-size: cover;
+  background-size: 105% 112%;
   /* Adjust the opacity here */
-  opacity: 0.3;
+  opacity: 0.4;
   z-index: -1;
 }
 .nav-bar{
