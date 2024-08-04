@@ -31,9 +31,9 @@ body::before {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('../public/images/labShot.png');
+  background-image: url('../public/images/labShot2.png');
   /* background-repeat: no-repeat; */
-  background-size: 105% 112%;
+  background-size: cover;
   /* Adjust the opacity here */
   opacity: 0.4;
   z-index: -1;
