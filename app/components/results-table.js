@@ -38,7 +38,6 @@ const ResultsTable = ({
               resultPropertyName.slice(0, -1)
             );
             setResultType(fixedResultName);
-            console.log(resultType);
             if (test[resultPropertyName]) {
               results.push(...test[resultPropertyName]);
             }
@@ -63,7 +62,6 @@ const ResultsTable = ({
     if (editMode) {
       setEditableCell({ rowIndex, cellKey });
       setTempRecord({ ...results[rowIndex] });
-      console.log(tempRecord);
     }
   };
 
@@ -77,7 +75,7 @@ const ResultsTable = ({
       [editableCell.cellKey]: updatedValues[editableCell.cellKey],
     };
 
-    console.log(resultID, resultType, resultData);
+    console.log("Updating test result:", resultID, resultType, resultData);
 
     try {
       const updatedResult = await updateTestResult(
@@ -87,17 +85,9 @@ const ResultsTable = ({
       );
       console.log("Test result updated successfully:", updatedResult);
     } catch (error) {
-      console.error("AAAAA:", error);
+      console.error("Failed to update test result:", error);
     }
-    setTempRecord({});
-    setEditMode(false);
-    setEditableCell({ rowIndex: null, cellKey: null });
-  };
 
-  const saveEdits = () => {
-    if (typeof updateRecords === "function") {
-      updateRecords(editableCell.rowIndex, tempRecord);
-    }
     setTempRecord({});
     setEditMode(false);
     setEditableCell({ rowIndex: null, cellKey: null });
@@ -110,13 +100,6 @@ const ResultsTable = ({
           <div className="ml-2">
             {results.length > 0 && (
               <div className="admin-bar paper">
-                {/* <button
-                  className="edit-button"
-                  type="button"
-                  onClick={saveEdits}
-                >
-                  Save
-                </button> */}
                 <button
                   className="admin-edit-button"
                   type="button"
@@ -161,11 +144,8 @@ const ResultsTable = ({
               >
                 {headers.map((header) => (
                   <td
+                    className="border-r border-b border-white"
                     key={header}
-                    style={{
-                      borderRight: "1px solid white",
-                      borderBottom: "1px solid white",
-                    }}
                     onClick={() => handleCellClick(rowIndex, header)}
                   >
                     {editMode &&
@@ -191,7 +171,7 @@ const ResultsTable = ({
           </tbody>
         </table>
       ) : (
-        <p className="hidden">No results found for {selectedTestType}.</p>
+        <p className="hidden">No results found</p>
       )}
     </div>
   );
