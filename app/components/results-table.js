@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { updateTestResult } from "../_services/dbFunctions";
 
-const ResultsTable = ({
-  record,
-  selectedSampleType,
-  selectedTestType,
-  updateRecords,
-}) => {
+const ResultsTable = ({ record, selectedSampleType, selectedTestType }) => {
   const [editMode, setEditMode] = useState(false);
   const [editableCell, setEditableCell] = useState({
     rowIndex: null,
@@ -15,6 +10,17 @@ const ResultsTable = ({
   const [tempRecord, setTempRecord] = useState({});
   const [resultType, setResultType] = useState("");
   const [results, setResults] = useState([]);
+  const [showSuccessfulSubmit, setShowSuccessfulSubmit] = useState(false);
+
+  useEffect(() => {
+    if (showSuccessfulSubmit) {
+      const timer = setTimeout(() => {
+        setShowSuccessfulSubmit(false);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccessfulSubmit]);
 
   function capitalizeFirstLetter(string) {
     if (!string) return string;
@@ -64,7 +70,11 @@ const ResultsTable = ({
       setTempRecord({ ...results[rowIndex] });
     }
   };
-
+  const updateRecords = (index, newRecord) => {
+    const updatedResults = [...results];
+    updatedResults[index] = newRecord;
+    setResults(updatedResults);
+  };
   const submitEdits = async () => {
     if (typeof updateRecords === "function") {
       updateRecords(editableCell.rowIndex, tempRecord);
@@ -75,15 +85,9 @@ const ResultsTable = ({
       [editableCell.cellKey]: updatedValues[editableCell.cellKey],
     };
 
-    console.log("Updating test result:", resultID, resultType, resultData);
-
     try {
-      const updatedResult = await updateTestResult(
-        resultID,
-        resultType,
-        resultData
-      );
-      console.log("Test result updated successfully:", updatedResult);
+      await updateTestResult(resultID, resultType, resultData);
+      setShowSuccessfulSubmit(true);
     } catch (error) {
       console.error("Failed to update test result:", error);
     }
@@ -96,10 +100,11 @@ const ResultsTable = ({
   return (
     <div className="mt-4">
       <div className="flex w-full justify-between">
+        {/* Admin Edit Mode */}
         <div className="flex justify-start">
           <div className="ml-2">
             {results.length > 0 && (
-              <div className="admin-bar paper">
+              <div className="edit-bar paper">
                 <button
                   className="admin-edit-button"
                   type="button"
@@ -109,18 +114,22 @@ const ResultsTable = ({
                 </button>
                 <label className="font-bold flex items-center">
                   <input
+                    className="mr-2 w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-700 dark:focus:ring-blue-800 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                     type="checkbox"
                     checked={editMode}
                     onChange={() => setEditMode(!editMode)}
                   />
-                  Edit Mode
+                  Edit
                 </label>
               </div>
             )}
           </div>
         </div>
         <div>
-          <p className="hidden">Shh I'm secret</p>
+          <p className="hidden">
+            Shh I'm secret - This Section should be used for User Change
+            Requests
+          </p>
         </div>
       </div>
       {results.length > 0 ? (
@@ -173,6 +182,16 @@ const ResultsTable = ({
       ) : (
         <p className="hidden">No results found</p>
       )}
+      {/* Modal for Success */}
+      <div
+        className={`fixed inset-x-0 bottom-0 flex justify-center transition-transform duration-300 ease-in-out transform ${
+          showSuccessfulSubmit ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
+        <div className="bg-green-700 paper text-white max-h-10 w-1/4 flex justify-center items-center rounded-t-md">
+          <ul className="text-white text-xl py-2">Successfully Edited Data</ul>
+        </div>
+      </div>
     </div>
   );
 };

@@ -42,7 +42,7 @@ export const PATCH = async (request) => {
           },
         });
         break;
-      case "TSSResult":
+      case "TssResult":
         updatedResult = await prisma.tSSResult.update({
           where: { id: resultID },
           data: {
@@ -50,7 +50,7 @@ export const PATCH = async (request) => {
           },
         });
         break;
-      case "ICResult":
+      case "IcResult":
         updatedResult = await prisma.iCResult.update({
           where: { id: resultID },
           data: {
@@ -58,7 +58,7 @@ export const PATCH = async (request) => {
           },
         });
         break;
-      case "TICTOCResult":
+      case "TictocResult":
         updatedResult = await prisma.tICTOCResult.update({
           where: { id: resultID },
           data: {

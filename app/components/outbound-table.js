@@ -5,7 +5,10 @@ import React, { useState } from "react";
 // This component is used to display the results of a test before it is added to the database.
 const OutboundTable = ({ records, selectedTestType, updateRecords }) => {
   const [editMode, setEditMode] = useState(false);
-  const [editableRecordIndex, setEditableRecordIndex] = useState(null);
+  const [editableCell, setEditableCell] = useState({
+    rowIndex: null,
+    cellKey: null,
+  });
   const [tempRecord, setTempRecord] = useState({});
 
   const headers =
@@ -19,20 +22,20 @@ const OutboundTable = ({ records, selectedTestType, updateRecords }) => {
         )
       : [];
 
-  const handleRowClick = (index) => {
+  const handleCellClick = (rowIndex, cellKey) => {
     if (editMode) {
-      setEditableRecordIndex(index);
-      setTempRecord({ ...records[index] }); // Initialize tempRecord with the values of the clicked record
+      setEditableCell({ rowIndex, cellKey });
+      setTempRecord({ ...records[rowIndex] });
     }
   };
 
   const saveEdits = () => {
     if (typeof updateRecords === "function") {
-      updateRecords(editableRecordIndex, tempRecord);
+      updateRecords(editableCell.rowIndex, tempRecord);
     }
     setTempRecord({}); // Clear the temporary record
     setEditMode(false); // Turn off edit mode
-    setEditableRecordIndex(null); // Reset editable index
+    setEditableCell({ rowIndex: null, cellKey: null }); // Reset editable cell
   };
 
   return (
@@ -51,7 +54,7 @@ const OutboundTable = ({ records, selectedTestType, updateRecords }) => {
                   className="mr-2 w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-700 dark:focus:ring-blue-800 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   onChange={() => {
                     setEditMode(!editMode);
-                    setEditableRecordIndex(null); // Reset editable index when toggling mode
+                    setEditableCell({ rowIndex: null, cellKey: null });
                   }}
                 />
                 Edit
@@ -72,19 +75,24 @@ const OutboundTable = ({ records, selectedTestType, updateRecords }) => {
             </tr>
           </thead>
           <tbody>
-            {records.map((record, index) => (
+            {records.map((record, rowIndex) => (
               <tr
-                key={index}
+                key={rowIndex}
                 className={`text-center px-4 paper rounded-md ${
-                  index % 2 === 0 ? "bg-green-700" : "bg-green-900"
+                  rowIndex % 2 === 0 ? "bg-green-700" : "bg-green-900"
                 } ${editMode ? "cursor-pointer" : ""}`}
-                onClick={() => handleRowClick(index)}
               >
                 {headers.map((header) => (
-                  <td key={header} className="border-r border-b border-white">
-                    {editableRecordIndex === index ? (
+                  <td
+                    key={header}
+                    className="border-r border-b border-white"
+                    onClick={() => handleCellClick(rowIndex, header)}
+                  >
+                    {editMode &&
+                    editableCell.rowIndex === rowIndex &&
+                    editableCell.cellKey === header ? (
                       <input
-                        className="w-28 overflow-scroll"
+                        className="w-28 overflow-scroll text-black"
                         type="text"
                         value={tempRecord[header] || ""}
                         onChange={(e) =>

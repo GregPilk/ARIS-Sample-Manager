@@ -193,8 +193,6 @@ export const addTestResult = async (testID, resultType, resultData) => {
       }),
     });
 
-    console.log("Full response:", response);
-
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
@@ -235,6 +233,7 @@ export const updateTestResult = async (resultID, resultType, resultData) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        resultID,
         resultType,
         resultData,
       }),
