@@ -16,10 +16,7 @@ export default function AdminPage() {
       id: 1,
       chainOfCustody: "Chain 3",
       sampleID: "Sample 1",
-      previousResults: {
-        ph: "100",
-        conductivity: "123",
-      },
+      previousResult: "100",
       changedResult: "10",
       testType: "PH/Conductivity",
       results: {

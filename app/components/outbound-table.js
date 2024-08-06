@@ -39,7 +39,7 @@ const OutboundTable = ({ records, selectedTestType, updateRecords }) => {
     <div className="mt-8">
       <div className="flex justify-end">
         <div className="mr-4">
-          {records.length > 0 ? (
+          {records.length > 0 && (
             <div className="edit-bar paper">
               <button className="edit-button" type="button" onClick={saveEdits}>
                 Save
@@ -57,8 +57,6 @@ const OutboundTable = ({ records, selectedTestType, updateRecords }) => {
                 Edit
               </label>
             </div>
-          ) : (
-            <p className="hidden">I don't exist{selectedTestType}.</p>
           )}
         </div>
       </div>

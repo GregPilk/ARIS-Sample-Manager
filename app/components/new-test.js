@@ -256,7 +256,7 @@ const NewTest = ({ getRecord, getAllRecords }) => {
           showSuccessfulSubmit ? "translate-y-0" : "translate-y-full"
         }`}
       >
-        <div className="bg-green-700 paper text-white max-h-10 w-1/5 flex justify-center items-center rounded-t-md">
+        <div className="bg-green-700 paper text-white max-h-10 w-1/4 flex justify-center items-center rounded-t-md">
           <ul className="text-white text-xl py-2">
             Successfully Submitted Data
           </ul>
