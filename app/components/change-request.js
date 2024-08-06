@@ -16,6 +16,7 @@ export default function ChangeRequest({ requests, onAccept, onReject }) {
             <tr className="border-r border-b border-white">
               <th className="border-r border-l border-white">ID</th>
               <th className="border-r border-white">Chain of Custody</th>
+              <th className="border-r border-white">Test</th>
               <th className="border-r border-white">Sample ID</th>
               <th className="border-r border-white">Previous Result</th>
               <th className="border-r border-white">Changed Result</th>
@@ -37,6 +38,9 @@ export default function ChangeRequest({ requests, onAccept, onReject }) {
                   {request.chainOfCustody}
                 </td>
                 <td className="border-r border-b border-white">
+                  {request.testType}
+                </td>
+                <td className="border-r border-b border-white">
                   {request.sampleID}
                 </td>
                 <td className="border-r border-b border-white">
@@ -47,19 +51,19 @@ export default function ChangeRequest({ requests, onAccept, onReject }) {
                 </td>
                 <td className="border-b border-r-2 border-white">
                   <div className="flex justify-around py-2">
-                  <button
-                    className="bg-green-500 hover:bg-green-600 general-button px-1 rounded-md"
-                    onClick={() => onAccept(request)}
-                  >
-                    <MdCheckCircle className="text-2xl" />
-                  </button>
-                  <button
-                    className="bg-red-500 hover:bg-red-600  general-button  px-1 rounded-md"
-                    onClick={() => onReject(request.id)}
-                  >
-                    <MdCancel className="text-2xl" />
-                  </button>
-                </div>
+                    <button
+                      className="bg-green-500 hover:bg-green-600 general-button px-1 rounded-md"
+                      onClick={() => onAccept(request)}
+                    >
+                      <MdCheckCircle className="text-2xl" />
+                    </button>
+                    <button
+                      className="bg-red-500 hover:bg-red-600  general-button  px-1 rounded-md"
+                      onClick={() => onReject(request.id)}
+                    >
+                      <MdCancel className="text-2xl" />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

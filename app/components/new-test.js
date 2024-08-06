@@ -31,7 +31,6 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   const [databaseData, setDatabaseData] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
   const [showSuccessfulSubmit, setShowSuccessfulSubmit] = useState(false);
-  // const [resultType, setResultType] = useState("");
 
   const getTestComponent = (testType) => {
     switch (testType) {
@@ -70,6 +69,9 @@ const NewTest = ({ getRecord, getAllRecords }) => {
       setTestType("");
       setSelectedSampleID("");
     }
+    // else {
+    //   console.log(record);
+    // }
   }, [record]);
   useEffect(() => {
     if (showSuccessfulSubmit) {
@@ -82,7 +84,6 @@ const NewTest = ({ getRecord, getAllRecords }) => {
   }, [showSuccessfulSubmit]);
 
   const handleDatabasePackage = async (data) => {
-    // console.log("Ptph " + JSON.stringify(data));
     const containsPhOrTSS = data.some(
       (item) =>
         Object.keys(item).some(
@@ -256,7 +257,7 @@ const NewTest = ({ getRecord, getAllRecords }) => {
           showSuccessfulSubmit ? "translate-y-0" : "translate-y-full"
         }`}
       >
-        <div className="bg-green-700 paper text-white max-h-10 w-1/5 flex justify-center items-center rounded-t-md">
+        <div className="bg-green-700 paper text-white max-h-10 w-1/4 flex justify-center items-center rounded-t-md">
           <ul className="text-white text-xl py-2">
             Successfully Submitted Data
           </ul>
