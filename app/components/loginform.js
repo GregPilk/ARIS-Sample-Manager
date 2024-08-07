@@ -37,12 +37,15 @@ const LoginForm = () => {
 
   return (
     <div className="page-container">
-      <div className=" mt-8 px-4">
+      <div className="mt-8 px-4">
         <div className="flex min-h-screen flex-col">
           <header className="boxless-title pb-6">
             <h1>ARIS SAMPLE MANAGER</h1>
           </header>
           <div className="page-pop px-16 border border-gray-200 rounded-lg bg-white shadow-lg">
+            <div className="text-center mb-4">
+              <h2 className="text-2xl font-bold">Login</h2>
+            </div>
             <form
               className="mt-2 flex flex-col items-center"
               onSubmit={onSubmit}
@@ -84,6 +87,13 @@ const LoginForm = () => {
                 Login
               </button>
             </form>
+            <div className="text-center mt-4">
+              <p>
+                <a href="/register" className="text-blue-500 hover:underline">
+                  Register New User
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
