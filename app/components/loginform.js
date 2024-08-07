@@ -2,38 +2,34 @@
 
 // import { signIn } from "next-auth/react"; // Use client-side signIn
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
-  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter();
 
-  async function onSubmit(event) {
-    event.preventDefault();
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
     try {
-      const formData = new FormData(event.currentTarget);
-
-      // Convert FormData to plain object
-      const formObj = Object.fromEntries(formData.entries());
-
-      // Use client-side signIn method
-      const response = await signIn("credentials", {
-        user: formObj.user,
-        password: formObj.password,
+      const res = await signIn("credentials", {
+        email,
+        password,
         redirect: false,
       });
 
-      if (response.error) {
-        console.error(response.error);
-        setError(response.error.message);
-      } else {
-        router.push("/home");
+      if (res.error) {
+        setError("Invalid email or password.");
+        return;
       }
-    } catch (e) {
-      console.error(e);
-      setError("Check your Credentials");
+      router.replace("/home");
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
 
   return (
     <div className="page-container">
@@ -59,13 +55,14 @@ const LoginForm = () => {
                     htmlFor="user"
                     className="text-xl font-bold w-32 flex-shrink-0"
                   >
-                    Username:
+                    Email:
                   </label>
                   <input
+                    onChange={(e) => setEmail(e.target.value)}
                     className="border border-gray-500 rounded px-3 py-2 flex-grow"
-                    type="text"
-                    name="user"
-                    id="user"
+                    type="email"
+                    name="email"
+                    id="email"
                   />
                 </div>
                 <div className="flex items-center w-full">
@@ -76,6 +73,7 @@ const LoginForm = () => {
                     Password:
                   </label>
                   <input
+                    onChange={(e) => setPassword(e.target.value)}
                     className="border border-gray-500 rounded px-3 py-2 flex-grow"
                     type="password"
                     name="password"
@@ -87,13 +85,6 @@ const LoginForm = () => {
                 Login
               </button>
             </form>
-            <div className="text-center mt-4">
-              <p>
-                <a href="/register" className="text-blue-500 hover:underline">
-                  Register New User
-                </a>
-              </p>
-            </div>
           </div>
         </div>
       </div>
