@@ -7,13 +7,18 @@ const authOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
-      credentials: {},
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
 
       async authorize(credentials) {
         const { email, password } = credentials;
 
         try {
-          const user = await prisma.user.findUnique({ email });
+          const user = await prisma.user.findUnique({
+            where: { email: email },
+          });
 
           if (!user) {
             throw new Error("No user found");
@@ -22,12 +27,13 @@ const authOptions = {
           const passwordMatch = await bcrypt.compare(password, user.password);
 
           if (!passwordMatch) {
-            return null;
+            throw new Error("Incorrect password");
           }
 
           return user;
         } catch (error) {
-          "Error: ", error;
+          console.error("Error during authorization:", error);
+          return null;
         }
       },
     }),
