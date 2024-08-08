@@ -1,3 +1,6 @@
+// Added by: Dawson
+// Date: 2024-08-07
+// NextAuth configuration
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
@@ -7,10 +10,7 @@ const authOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
+      credentials: {},
 
       async authorize(credentials) {
         const { email, password } = credentials;

@@ -1,6 +1,8 @@
+// Added by: Dawson
+// Date: 2024-08-07
+// Login form component
 "use client";
 
-// import { signIn } from "next-auth/react"; // Use client-side signIn
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
