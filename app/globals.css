@@ -240,7 +240,7 @@ body::before {
   border: 2px solid #ccc;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 4px 8px 8px 0px rgba(49, 61, 52, 0.5);
+  box-shadow: 4px 8px 8px 0px rgba(27, 31, 28, 0.5);
 }
 
 .welcome h1, .login-form h1 {
