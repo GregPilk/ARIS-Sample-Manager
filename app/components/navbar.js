@@ -9,6 +9,8 @@ import { FaBattleNet } from "react-icons/fa";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { MdDashboardCustomize } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 // import NavigationLink from "./navbar-button";
 
 // Added by: Adam
@@ -16,8 +18,12 @@ import { GiHamburgerMenu } from "react-icons/gi";
 // This component is used to display the navigation bar at the top of the page.
 // Edited by: Greg
 // Date: 2024-07-10
+// Edited by: Dawson
+// Date: 2024-08-07
 
 export default function Navbar({ pages, onNavigate }) {
+  const { data: session } = useSession();
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -87,8 +93,7 @@ export default function Navbar({ pages, onNavigate }) {
             className="flex items-center text-white hover:text-gray-200"
           >
             <div className="flex-container nav-custom">
-              {/* {user.email || "User"} */}
-              {"User"}
+              {session.user.name || "User"}
               <div className="nav-image greg"> </div>
             </div>
 
@@ -98,7 +103,7 @@ export default function Navbar({ pages, onNavigate }) {
             <div className="absolute right-0 mt-4 w-48 bg-white rounded-md shadow-lg py-1 dropdown-menu">
               <button
                 className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                // onClick={handleLogout}
+                onClick={() => signOut()}
               >
                 Log Out
               </button>
