@@ -29,25 +29,23 @@ export default function Navbar({ pages, onNavigate }) {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
   const handleNavigate = (page) => {
     onNavigate(page);
   };
 
   const iconSwitch = (page) => {
-    var icon;
     switch (page) {
       case "New Chain of Custody":
-        return (icon = <FaFlaskVial />);
+        return <FaFlaskVial />;
       case "Find Chain of Custody":
-        return (icon = <HiDocumentSearch />);
+        return <HiDocumentSearch />;
       case "Test Data":
-        return (icon = <FaElementor />);
+        return <FaElementor />;
       case "Admin":
-        return (icon = <MdAdminPanelSettings />);
-      // case "Find Test":
-      //   return (icon = <HiDocumentSearch />);
+        return <MdAdminPanelSettings />;
       default:
-        return (icon = null);
+        return null;
     }
   };
 
@@ -100,6 +98,7 @@ export default function Navbar({ pages, onNavigate }) {
                 {session.user.name || "User"}
 
                 {/* <div className="nav-image greg"></div> */}
+
               </div>
               <GiHamburgerMenu className="scale-150 ml-4" />
             </button>
