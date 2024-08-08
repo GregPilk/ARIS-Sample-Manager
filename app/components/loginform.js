@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -77,10 +78,25 @@ const LoginForm = () => {
                   <input
                     onChange={(e) => setPassword(e.target.value)}
                     className="border border-gray-500 rounded px-3 py-2 flex-grow"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     id="password"
                   />
+                </div>
+                <div className="flex items-center mt-2 w-full">
+                  <input
+                    type="checkbox"
+                    id="show-password"
+                    checked={showPassword}
+                    onChange={(e) => setShowPassword(e.target.checked)}
+                    className="mr-2"
+                  />
+                  <label
+                    htmlFor="show-password"
+                    className="text-sm text-gray-700"
+                  >
+                    Show Password
+                  </label>
                 </div>
               </div>
               <button type="submit" className="submit-button mt-4">
