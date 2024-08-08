@@ -1,9 +1,12 @@
 "use client";
 import { useState } from "react";
 import { COCSelect } from "@/app/components/find-options";
+import jsPDF from "jspdf";
 
 // Created By: Greg
 // Date: 2024-07-15
+// Updated By: Greg
+// Date: 2024-07-29
 // Component to display in tables
 
 const DataSection = ({ title, fields }) => (
@@ -28,6 +31,67 @@ const DataSection = ({ title, fields }) => (
   </div>
 );
 
+const handlePDFPrint = (data) => {
+  const doc = new jsPDF();
+
+  doc.text("Chain of Custody Report", 10, 10);
+
+  const sectionData = [
+    {
+      title: "Report To",
+      fields: [
+        { label: "Company", value: data.reportToCompany },
+        { label: "Contact", value: data.reportToContact },
+        { label: "Phone", value: data.reportToPhone },
+        { label: "Street", value: data.reportToStreet },
+        { label: "City", value: data.reportToCity },
+        { label: "Postal", value: data.reportToPostal },
+      ],
+    },
+    {
+      title: "Invoice To",
+      fields: [
+        { label: "Same As Report", value: data.invoiceToSameAsReport },
+        { label: "Copy Of Invoice", value: data.invoiceToCopyOfInvoice },
+        { label: "Company", value: data.invoiceToCompany },
+        { label: "Contact", value: data.invoiceToContact },
+      ],
+    },
+    {
+      title: "Report / Recipients",
+      fields: [
+        { label: "Format", value: data.reportRecipientFormat },
+        { label: "Merge QC Reports", value: data.mergeQCReports },
+        { label: "Distribution", value: data.selectDistribution },
+        { label: "Email One", value: data.reportRecipientEmailOne },
+        { label: "Email Two", value: data.reportRecipientEmailTwo },
+        { label: "Email Three", value: data.reportRecipientEmailThree },
+      ],
+    },
+    {
+      title: "Invoice Recipients",
+      fields: [
+        { label: "Distribution", value: data.invoiceRecipientDistribution },
+        { label: "Email One", value: data.invoiceRecipientEmailOne },
+        { label: "Email Two", value: data.invoiceRecipientEmailTwo },
+      ],
+    },
+  ];
+
+  let yPosition = 20;
+
+  sectionData.forEach(({ title, fields }) => {
+    doc.text(title, 10, yPosition);
+    yPosition += 10;
+    fields.forEach(({ label, value }) => {
+      doc.text(`${label}: ${value}`, 10, yPosition);
+      yPosition += 10;
+    });
+  });
+
+  doc.save("chain_of_custody_report.pdf");
+};
+
 // Created By: Nick
 // Date: 2024-04-30
 // Edited By: Greg
@@ -36,10 +100,10 @@ const DataSection = ({ title, fields }) => (
 // The component will display the Chain of Custody data
 
 export default function FindSample({ page, getRecord, getAllRecords }) {
-  //an empty array that will be filled with the data from the database
+  // An empty array that will be filled with the data from the database
   const [data, setData] = useState(null);
 
-  // create a small form with one input field and a submit button
+  // Create a small form with one input field and a submit button
   return (
     <div className="page-container">
       <div className="page-pop px-80">
@@ -79,14 +143,8 @@ export default function FindSample({ page, getRecord, getAllRecords }) {
                   <DataSection
                     title="Invoice To"
                     fields={[
-                      {
-                        label: "Same As Report",
-                        value: data.invoiceToSameAsReport,
-                      },
-                      {
-                        label: "Copy Of Invoice",
-                        value: data.invoiceToCopyOfInvoice,
-                      },
+                      { label: "Same As Report", value: data.invoiceToSameAsReport },
+                      { label: "Copy Of Invoice", value: data.invoiceToCopyOfInvoice },
                       { label: "Company", value: data.invoiceToCompany },
                       { label: "Contact", value: data.invoiceToContact },
                     ]}
@@ -96,41 +154,29 @@ export default function FindSample({ page, getRecord, getAllRecords }) {
                     fields={[
                       { label: "Format", value: data.reportRecipientFormat },
                       { label: "Merge QC Reports", value: data.mergeQCReports },
-                      {
-                        label: "Distribution",
-                        value: data.selectDistribution,
-                      },
-                      {
-                        label: "Email One",
-                        value: data.reportRecipientEmailOne,
-                      },
-                      {
-                        label: "Email Two",
-                        value: data.reportRecipientEmailTwo,
-                      },
-                      {
-                        label: "Email Three",
-                        value: data.reportRecipientEmailThree,
-                      },
+                      { label: "Distribution", value: data.selectDistribution },
+                      { label: "Email One", value: data.reportRecipientEmailOne },
+                      { label: "Email Two", value: data.reportRecipientEmailTwo },
+                      { label: "Email Three", value: data.reportRecipientEmailThree },
                     ]}
                   />
                   <DataSection
                     title="Invoice Recipients"
                     fields={[
-                      {
-                        label: "Distribution",
-                        value: data.invoiceRecipientDistribution,
-                      },
-                      {
-                        label: "Email One",
-                        value: data.invoiceRecipientEmailOne,
-                      },
-                      {
-                        label: "Email Two",
-                        value: data.invoiceRecipientEmailTwo,
-                      },
+                      { label: "Distribution", value: data.invoiceRecipientDistribution },
+                      { label: "Email One", value: data.invoiceRecipientEmailOne },
+                      { label: "Email Two", value: data.invoiceRecipientEmailTwo },
                     ]}
                   />
+                </div>
+                <div className="flex justify-center p-2">
+                  <button
+                    className="add-button"
+                    type="submit"
+                    onClick={() => handlePDFPrint(data)}
+                  >
+                    Print PDF
+                  </button>
                 </div>
               </div>
             ) : (
