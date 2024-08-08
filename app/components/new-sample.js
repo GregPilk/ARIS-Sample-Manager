@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import formData from "../objects/newSample.json";
 import { createRecord } from "../_services/dbFunctions";
-const renderInputField = ({
+const RenderInputField = ({
   field,
   section,
   formValues,
@@ -395,7 +395,7 @@ const NewSampleForm = () => {
             <h2 className="m-2 text-2xl font-bold">Chain of Custody</h2>
             <div className="horizontal-fields">
               {Object.values(formData.chainOfCustody).map((field) =>
-                renderInputField({
+                RenderInputField({
                   field,
                   section: "chainOfCustody",
                   formValues,
@@ -413,7 +413,7 @@ const NewSampleForm = () => {
                 <h2 className="m-2 text-2xl font-bold">Report</h2>
                 <div className="input-fields">
                   {Object.values(formData.reportTo).map((field) =>
-                    renderInputField({
+                    RenderInputField({
                       field,
                       section: "reportTo",
                       formValues,
@@ -429,7 +429,7 @@ const NewSampleForm = () => {
                 <h2 className="m-2 text-2xl font-bold">Invoice</h2>
                 <div className="input-fields">
                   {Object.values(formData.invoiceTo).map((field) =>
-                    renderInputField({
+                    RenderInputField({
                       field,
                       section: "invoiceTo",
                       formValues,
@@ -450,7 +450,7 @@ const NewSampleForm = () => {
                   </h2>
                   <div className="column-fields">
                     {Object.values(formData.reportRecipients).map((field) =>
-                      renderInputField({
+                      RenderInputField({
                         field,
                         section: "reportRecipients",
                         formValues,
@@ -468,7 +468,7 @@ const NewSampleForm = () => {
                   <h2 className="m-2 text-2xl font-bold">Invoice Recipients</h2>
                   <div className="column-fields">
                     {Object.values(formData.invoiceRecipients).map((field) =>
-                      renderInputField({
+                      RenderInputField({
                         field,
                         section: "invoiceRecipients",
                         formValues,
