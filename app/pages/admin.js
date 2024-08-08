@@ -1,15 +1,21 @@
 "use client";
 import { useState, useEffect } from "react";
 import ChangeRequest from "../components/change-request";
-import { getRecord, getAllRecords } from "../_services/dbFunctions";
 import EditTest from "../components/edit-test";
 import { updateTestResult } from "../_services/dbFunctions";
 import ControlUser from "../components/control-user";
+import { getAllUsers } from "../_services/dbFunctions";
+import { getAllSamples } from "../_services/dbFunctions";
+import { getAllRecords } from "../_services/dbFunctions";
 
 export default function AdminPage() {
   const [changeAccept, setAccept] = useState(false);
   const [resultType, setResultType] = useState();
   const [requestObject, setRequest] = useState({});
+  const [users, setUsers] = useState([]);
+  const [samples, setSamples] = useState([]);
+  const [records, setRecords] = useState({});
+  const [samplesTests, setSamplesTests] = useState('');
 
   const [testChangeRequest, setTestChangeRequest] = useState([
     {
@@ -62,7 +68,43 @@ export default function AdminPage() {
     },
   ]);
 
+  const fetchusers = async () => {
+    const result = await getAllUsers();
+    setUsers(result);
+  };
+
+  const fetchSamples = async () => {
+    const result = await getAllSamples();
+    setSamples(result);
+  };
+
+  const fetchRecords = async () => {
+    const result = await getAllRecords();
+    setRecords(result);
+  };
+
+  const fetchSamplesTests = async () => {
+    setSamplesTests(0);
+    const samples = await getAllSamples();
+    let count = 0;
+  
+    samples.forEach(sample => {
+      sample.tests.forEach(test => {
+          if (test.PhConResult == null) {
+            count++;
+          }
+        });
+      });
+  
+    setSamplesTests(count);
+  }
+
   useEffect(() => {
+    setSamplesTests(0);
+    fetchusers();
+    fetchSamples();
+    fetchRecords();
+    fetchSamplesTests();
     switch (requestObject.testType) {
       case "TSS":
         setResultType("TSSResult");
@@ -126,30 +168,21 @@ export default function AdminPage() {
         <div className="flex mt-8">
           <div className="mr-4 admin-info paper">
             <h2 className="text-2xl py-2 font-bold">More Information</h2>
-            {/* Mock information */}
             <ul className="list-none mt-2">
-              <li>
-                <strong>Total Users:</strong> 150
-              </li>
-              <li>
-                <strong>Pending Requests:</strong> 25
-              </li>
-              <li>
+               <li>
                 <strong>System Status:</strong> Operational
               </li>
               <li>
-                <strong>Last Backup:</strong> 2024-07-20 14:35
+                <strong>Total Users:</strong> {users.length}
               </li>
               <li>
-                <strong>Active Sessions:</strong> 45
+                <strong>Total Chain of Custodies:</strong> {records.length}
               </li>
               <li>
-                <strong>Recent Logins:</strong>
-                <ul className="list-none pl-5 mt-1">
-                  <li>user1@example.com - 2024-07-21 09:15</li>
-                  <li>user2@example.com - 2024-07-21 08:45</li>
-                  <li>user3@example.com - 2024-07-21 08:30</li>
-                </ul>
+                <strong>Total Samples:</strong> {samples.length}
+              </li>
+              <li>
+                <strong>Total tests:</strong> {samplesTests}
               </li>
             </ul>
           </div>
