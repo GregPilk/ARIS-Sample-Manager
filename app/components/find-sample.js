@@ -171,7 +171,7 @@ export default function FindSample({ page, getRecord, getAllRecords }) {
                 </div>
                 <div className="flex justify-center p-2">
                   <button
-                    className="submit-button"
+                    className="add-button"
                     type="submit"
                     onClick={() => handlePDFPrint(data)}
                   >
