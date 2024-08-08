@@ -10,8 +10,10 @@ const authOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
-      credentials: {},
-
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
       async authorize(credentials) {
         const { email, password } = credentials;
 
@@ -40,6 +42,26 @@ const authOptions = {
   ],
   session: {
     strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 1 day
+  },
+  callbacks: {
+    async session({ session, token, user }) {
+      if (session?.user) {
+        // Add the role to the session
+        const dbUser = await prisma.user.findUnique({
+          where: { email: session.user.email },
+        });
+
+        session.user.role = dbUser.role; // Assuming role is a property on your user model
+      }
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role; // Adding role to the token
+      }
+      return token;
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
