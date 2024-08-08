@@ -86,31 +86,30 @@ export default function Navbar({ pages, onNavigate }) {
 
       {/* Right Section - User Information and Dropdown */}
       <div className="flex items-center space-x-4">
-        {/* {user && ( */}
-        <div className="relative">
-          <button
-            onClick={toggleDropdown}
-            className="flex items-center text-white hover:text-gray-200"
-          >
-            <div className="flex-container nav-custom">
-              {session.user.name || "User"}
-              <div className="nav-image greg"> </div>
-            </div>
-
-            <GiHamburgerMenu className=" scale-150 ml-4" />
-          </button>
-          {isDropdownOpen && (
-            <div className="absolute right-0 mt-4 w-48 bg-white rounded-md shadow-lg py-1 dropdown-menu">
-              <button
-                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={() => signOut()}
-              >
-                Log Out
-              </button>
-            </div>
-          )}
-        </div>
-        {/* )} */}
+        {session?.user && (
+          <div className="relative">
+            <button
+              onClick={toggleDropdown}
+              className="flex items-center text-white hover:text-gray-200"
+            >
+              <div className="flex-container nav-custom">
+                {session.user.name || "User"}
+                <div className="nav-image greg"></div>
+              </div>
+              <GiHamburgerMenu className="scale-150 ml-4" />
+            </button>
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-4 w-48 bg-white rounded-md shadow-lg py-1 dropdown-menu">
+                <button
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  onClick={() => signOut()}
+                >
+                  Log Out
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </nav>
   );
