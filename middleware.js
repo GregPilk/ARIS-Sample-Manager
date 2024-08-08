@@ -6,6 +6,7 @@ export { default } from "next-auth/middleware";
 export const config = {
   matcher: [
     "/home",
+    "/pages/:path*",
     "/api/auth",
     "/api/records/:path*",
     "/api/register/:path*",
