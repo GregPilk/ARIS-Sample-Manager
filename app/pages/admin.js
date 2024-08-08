@@ -89,13 +89,11 @@ export default function AdminPage() {
         resultType,
         requestObject.newResults
       );
-      console.log("Data Edit Success");
       setTestChangeRequest((prevRequests) =>
         prevRequests.filter((req) => req.id !== requestObject.id)
       );
       setAccept(false);
     } catch (error) {
-      console.log(`Failure: ${error}`);
     }
   };
 
@@ -104,13 +102,11 @@ export default function AdminPage() {
   };
 
   const handleAccept = (req) => {
-    console.log(`Accepted request with ID: ${req.id}`);
     setRequest(req);
     setAccept(true);
   };
 
   const handleReject = (id) => {
-    console.log(`Rejected request with ID: ${id}`);
     // Implement rejection logic here
     //Deletion is temporary at the moment, will come back when page is refreshed
     setTestChangeRequest((prevRequests) =>
@@ -157,9 +153,9 @@ export default function AdminPage() {
               </li>
             </ul>
           </div>
-
+          
           <div className="flex flex-col w-full">
-            <ChangeRequest
+            {/* <ChangeRequest
               requests={testChangeRequest}
               onAccept={handleAccept}
               onReject={handleReject}
@@ -186,7 +182,7 @@ export default function AdminPage() {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
             <div className="mt-8">
               <div className="tabs">
                 <button
