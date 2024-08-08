@@ -29,25 +29,23 @@ export default function Navbar({ pages, onNavigate }) {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
   const handleNavigate = (page) => {
     onNavigate(page);
   };
 
   const iconSwitch = (page) => {
-    var icon;
     switch (page) {
       case "New Chain of Custody":
-        return (icon = <FaFlaskVial />);
+        return <FaFlaskVial />;
       case "Find Chain of Custody":
-        return (icon = <HiDocumentSearch />);
+        return <HiDocumentSearch />;
       case "Test Data":
-        return (icon = <FaElementor />);
+        return <FaElementor />;
       case "Admin":
-        return (icon = <MdAdminPanelSettings />);
-      // case "Find Test":
-      //   return (icon = <HiDocumentSearch />);
+        return <MdAdminPanelSettings />;
       default:
-        return (icon = null);
+        return null;
     }
   };
 
@@ -75,11 +73,10 @@ export default function Navbar({ pages, onNavigate }) {
             onClick={() => handleNavigate(page)}
           >
             <div className="flex items-center mx-2 hover:scale-110 hover:text-gray-300">
-              <p>{iconSwitch(page)}</p>
+              {iconSwitch(page)}
               <p className="mx-2">{page}</p>
             </div>
             {page !== "Admin" && <p>|</p>}
-            {/* <p>|</p> */}
           </div>
         ))}
       </div>
@@ -93,7 +90,7 @@ export default function Navbar({ pages, onNavigate }) {
               className="flex items-center text-white hover:text-gray-200"
             >
               <div className="flex-container nav-custom">
-                {session.user.name || "User"}
+                {session.user.role || "User"}
                 <div className="nav-image greg"></div>
               </div>
               <GiHamburgerMenu className="scale-150 ml-4" />
