@@ -10,9 +10,11 @@ import AdminPage from "../pages/admin";
 import LoginForm from "../components/loginform";
 import { getRecord, getAllRecords } from "../_services/dbFunctions";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 export default function Dashboard() {
   const [selectedPageType, setSelectedPageType] = useState(null);
+  const { data: session } = useSession();
 
   const pageTypes = [
     "New Chain of Custody",
@@ -61,13 +63,27 @@ export default function Dashboard() {
               </div>
               <div className="flex justify-center">
                 <div className="page-button-container mb-16">
-                  {pageTypes.map((pageType) => (
-                    <PageButton
-                      key={pageType}
-                      page={pageType}
-                      onClick={() => setSelectedPageType(pageType)}
-                    />
-                  ))}
+                  {pageTypes
+                    .filter(
+                      (pageType) =>
+                        pageType !== "Admin" || session?.user?.role === "admin"
+                    )
+                    .map((pageType) => (
+                      <PageButton
+                        key={pageType}
+                        page={pageType}
+                        onClick={() => setSelectedPageType(pageType)}
+                      />
+                    ))}
+                  <div className="invisible-button">
+                    <button className="w-full ">
+                      <div className="flex justify-between items-center">
+                        <p className="">hidden</p>
+                        <p className="pr-2">Secret</p>
+                        <p className=""></p>
+                      </div>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

@@ -7,6 +7,7 @@ import ControlUser from "../components/control-user";
 import { getAllUsers } from "../_services/dbFunctions";
 import { getAllSamples } from "../_services/dbFunctions";
 import { getAllRecords } from "../_services/dbFunctions";
+import { useSession } from "next-auth/react";
 
 export default function AdminPage() {
   const [changeAccept, setAccept] = useState(false);
@@ -15,7 +16,8 @@ export default function AdminPage() {
   const [users, setUsers] = useState([]);
   const [samples, setSamples] = useState([]);
   const [records, setRecords] = useState({});
-  const [samplesTests, setSamplesTests] = useState('');
+  const [samplesTests, setSamplesTests] = useState("");
+  const { data: session } = useSession();
 
   const [testChangeRequest, setTestChangeRequest] = useState([
     {
@@ -87,17 +89,17 @@ export default function AdminPage() {
     setSamplesTests(0);
     const samples = await getAllSamples();
     let count = 0;
-  
-    samples.forEach(sample => {
-      sample.tests.forEach(test => {
-          if (test.PhConResult == null) {
-            count++;
-          }
-        });
+
+    samples.forEach((sample) => {
+      sample.tests.forEach((test) => {
+        if (test.PhConResult == null) {
+          count++;
+        }
       });
-  
+    });
+
     setSamplesTests(count);
-  }
+  };
 
   useEffect(() => {
     setSamplesTests(0);
@@ -135,8 +137,7 @@ export default function AdminPage() {
         prevRequests.filter((req) => req.id !== requestObject.id)
       );
       setAccept(false);
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const handleCancelChange = () => {
@@ -167,26 +168,39 @@ export default function AdminPage() {
         </div>
         <div className="flex mt-8">
           <div className="mr-4 admin-info paper">
-            <h2 className="text-2xl py-2 font-bold">More Information</h2>
-            <ul className="list-none mt-2">
-               <li>
-                <strong>System Status:</strong> Operational
-              </li>
-              <li>
-                <strong>Total Users:</strong> {users.length}
-              </li>
-              <li>
-                <strong>Total Chain of Custodies:</strong> {records.length}
-              </li>
-              <li>
-                <strong>Total Samples:</strong> {samples.length}
-              </li>
-              <li>
-                <strong>Total tests:</strong> {samplesTests}
-              </li>
-            </ul>
+            <h2 className="text-2xl py-2 font-bold text-center">
+              More Information
+            </h2>
+            <div className="ml-6">
+              <table className="table-auto mt-2">
+                <tbody>
+                  <tr className="mb-2 odd:bg-gray-200">
+                    <td className="pr-4 font-bold">System Status:</td>
+                    <td className="pr-2">Operational</td>
+                  </tr>
+                  <tr className="mb-2 odd:bg-gray-200">
+                    <td className="pr-4 font-bold">Total Users:</td>
+                    <td>{users.length}</td>
+                  </tr>
+                  <tr className="mb-2 odd:bg-gray-200">
+                    <td className="pr-4 font-bold">
+                      Total Chain of Custodies:
+                    </td>
+                    <td>{records.length}</td>
+                  </tr>
+                  <tr className="mb-2 odd:bg-gray-200">
+                    <td className="pr-4 font-bold">Total Samples:</td>
+                    <td>{samples.length}</td>
+                  </tr>
+                  <tr className="mb-2 odd:bg-gray-200">
+                    <td className="pr-4 font-bold">Total tests:</td>
+                    <td>{samplesTests}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          
+
           <div className="flex flex-col w-full">
             {/* <ChangeRequest
               requests={testChangeRequest}
@@ -216,7 +230,7 @@ export default function AdminPage() {
                 </div>
               </div>
             )} */}
-            <div className="mt-8">
+            <div className="">
               <div className="tabs">
                 <button
                   className={`tab paper ${activeTab === "add" ? "active" : ""}`}

@@ -369,7 +369,7 @@ const NewSampleForm = () => {
       },
     };
     setFormValues(demoData);
-    setSelectedTests(["PH/Conductivity", "TSS"]);
+    setSelectedTests(["PH/Conductivity", "TSS", "Alkalinity"]);
   };
 
   return (
@@ -379,7 +379,9 @@ const NewSampleForm = () => {
           <header className="title">
             <h1>New Chain of Custody</h1>
           </header>
-          <button type="button" onClick={fillDemoData}>.</button>
+          <button type="button" onClick={fillDemoData}>
+            .
+          </button>
         </div>
         <form className="mt-2" onSubmit={handleSubmit}>
           <div className="short-wide-box">
