@@ -1,6 +1,90 @@
 import React, { useState, useEffect } from "react";
 import formData from "../objects/newSample.json";
 import { createRecord } from "../_services/dbFunctions";
+const renderInputField = ({
+  field,
+  section,
+  formValues,
+  handleChange,
+  errors,
+  showSuccessfulSubmit,
+  setShowSuccessfulSubmit,
+}) => {
+  const error = errors[field.name];
+  const hasError = Boolean(error);
+  const [flashClass, setFlashClass] = useState("");
+
+  useEffect(() => {
+    if (hasError) {
+      setFlashClass("input-error");
+      const timer = setTimeout(() => {
+        setFlashClass("");
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [hasError]);
+
+  useEffect(() => {
+    if (showSuccessfulSubmit) {
+      const timer = setTimeout(() => {
+        setShowSuccessfulSubmit(false);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccessfulSubmit]);
+
+  if (field.type === "text" || field.type === "int") {
+    return (
+      <div className="flex justify-between w-72 m-2" key={field.id}>
+        <div className="text-center">
+          <label className="font-bold mr-2" htmlFor={field.id}>
+            {field.label}
+          </label>
+        </div>
+        <div className="text-right">
+          <input
+            className={`w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 pl-2 ${flashClass}`}
+            type={field.type === "int" ? "number" : field.type}
+            id={field.id}
+            name={field.name}
+            value={formValues[section]?.[field.name] || ""}
+            onChange={(e) => handleChange(e, section, field.name)}
+          />
+        </div>
+      </div>
+    );
+  } else if (field.type === "radio") {
+    return (
+      <div className="flex justify-between w-80 m-2" key={field.label}>
+        <div className="w-40">
+          <label className="font-bold mr-2" htmlFor={field.id}>
+            {field.label}
+          </label>
+        </div>
+        <div className="flex justify-around flex-grow">
+          {field.options.map((option) => (
+            <div className="flex flex-col items-center" key={option.id}>
+              <input
+                className="mx-6"
+                type="radio"
+                id={option.id}
+                name={option.name}
+                value={option.value}
+                checked={formValues[section]?.[option.name] === option.value}
+                onChange={(e) => handleChange(e, section, option.name)}
+              />
+              <label htmlFor={option.id} className="font-bold">
+                {option.label}
+              </label>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+};
 
 const NewSampleForm = () => {
   const [formValues, setFormValues] = useState({});
@@ -259,252 +343,204 @@ const NewSampleForm = () => {
     { id: "TICTOC", name: "TICTOC" },
   ];
 
-  const renderInputField = (field, section) => {
-    const error = errors[field.name];
-    const hasError = Boolean(error);
-    const [flashClass, setFlashClass] = useState("");
+  const fillDemoData = () => {
+    const demoData = {
+      chainOfCustody: {
+        chainOfCustodyCOC: "Demo COC",
+        sampleAmount: "5",
+        sampleName: "Sample",
+      },
+      reportTo: {
+        reportToCompany: "Demo Company",
+        reportToContact: "Demo Contact",
+        reportToPhone: "1234567890",
+        reportToStreet: "123 Demo St",
+        reportToCity: "Demo City",
+        reportToPostal: "12345",
+      },
+      invoiceTo: {
+        sameAsReportTo: true,
+        copyOfInvoiceWithReport: true,
+        invoiceToCompany: "Demo Invoice Company",
+        invoiceToContact: "Demo Invoice Contact",
+      },
+      reportRecipients: {
+        reportFormat: "PDF",
+        mergeReports: "Yes",
+        distribution: "Email",
+        reportRecipientEmail: "demo@report.com",
+      },
+      invoiceRecipients: {
+        invoiceDistribution: "Email",
+        invoiceRecipientEmail: "demo@invoice.com",
+      },
+    };
+    setFormValues(demoData);
+    setSelectedTests(["PH/Conductivity", "TSS", "Alkalinity"]);
   };
-  useEffect(() => {
-    if (hasError) {
-      setFlashClass("input-error");
-      const timer = setTimeout(() => {
-        setFlashClass("");
-      }, 1000); // duration of the flash animation
 
-      return () => clearTimeout(timer);
-    }
-  }, [hasError]);
-
-  useEffect(() => {
-    if (showSuccessfulSubmit) {
-      const timer = setTimeout(() => {
-        setShowSuccessfulSubmit(false);
-      }, 2000); // 2500 milliseconds = 2.5 seconds
-
-      return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
-    }
-  }, [showSuccessfulSubmit]);
-
-  if (field.type === "text" || field.type === "int") {
-    return (
-      <div className="flex justify-between w-72 m-2" key={field.id}>
-        <div className="text-center">
-          <label className="font-bold mr-2" htmlFor={field.id}>
-            {field.label}
-          </label>
+  return (
+    <div className="page-container">
+      <div className="page-pop px-16">
+        <div className="flex justify-center">
+          <header className="title">
+            <h1>New Chain of Custody</h1>
+          </header>
+          <button type="button" onClick={fillDemoData}>
+            .
+          </button>
         </div>
-        <div className="text-right">
-          <input
-            className={`w-44 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 pl-2 ${flashClass}`}
-            type={field.type === "int" ? "number" : field.type}
-            id={field.id}
-            name={field.name}
-            value={formValues[section]?.[field.name] || ""}
-            onChange={(e) => handleChange(e, section, field.name)}
-          />
-        </div>
-      </div>
-    );
-  } else if (field.type === "radio") {
-    return (
-      <div className="flex justify-between w-80 m-2" key={field.label}>
-        <div className="w-40">
-          <label className="font-bold mr-2" htmlFor={field.id}>
-            {field.label}
-          </label>
-        </div>
-        <div className="flex justify-around flex-grow">
-          {field.options.map((option) => (
-            <div className="flex flex-col items-center" key={option.id}>
-              <input
-                className="mx-6"
-                type="radio"
-                id={option.id}
-                name={option.name}
-                value={option.value}
-                checked={formValues[section]?.[option.name] === option.value}
-                onChange={(e) => handleChange(e, section, option.name)}
-              />
-              <label htmlFor={option.id} className="font-bold">
-                {option.label}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-};
-
-const fillDemoData = () => {
-  const demoData = {
-    chainOfCustody: {
-      chainOfCustodyCOC: "Demo COC",
-      sampleAmount: "5",
-      sampleName: "Sample",
-    },
-    reportTo: {
-      reportToCompany: "Demo Company",
-      reportToContact: "Demo Contact",
-      reportToPhone: "1234567890",
-      reportToStreet: "123 Demo St",
-      reportToCity: "Demo City",
-      reportToPostal: "12345",
-    },
-    invoiceTo: {
-      sameAsReportTo: true,
-      copyOfInvoiceWithReport: true,
-      invoiceToCompany: "Demo Invoice Company",
-      invoiceToContact: "Demo Invoice Contact",
-    },
-    reportRecipients: {
-      reportFormat: "PDF",
-      mergeReports: "Yes",
-      distribution: "Email",
-      reportRecipientEmail: "demo@report.com",
-    },
-    invoiceRecipients: {
-      invoiceDistribution: "Email",
-      invoiceRecipientEmail: "demo@invoice.com",
-    },
-  };
-  setFormValues(demoData);
-  setSelectedTests(["PH/Conductivity", "TSS", "Alkalinity"]);
-};
-
-return (
-  <div className="page-container">
-    <div className="page-pop px-16">
-      <div className="flex justify-center">
-        <header className="title">
-          <h1>New Chain of Custody</h1>
-        </header>
-        <button type="button" onClick={fillDemoData}>
-          .
-        </button>
-      </div>
-      <form className="mt-2" onSubmit={handleSubmit}>
-        <div className="short-wide-box">
-          <h2 className="m-2 text-2xl font-bold"> Chain of Custody</h2>
-          <div className="horizontal-fields">
-            {Object.values(formData.chainOfCustody).map((field) =>
-              renderInputField(field, "chainOfCustody")
-            )}
-          </div>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex">
-            <div className="input-box m-7">
-              <h2 className="m-2 text-2xl font-bold">Report</h2>
-              <div className="input-fields">
-                {Object.values(formData.reportTo).map((field) =>
-                  renderInputField(field, "reportTo")
-                )}
-              </div>
-            </div>
-            <div className="input-box m-7">
-              <h2 className="m-2 text-2xl font-bold">Invoice</h2>
-              <div className="input-fields">
-                {Object.values(formData.invoiceTo).map((field) =>
-                  renderInputField(field, "invoiceTo")
-                )}
-              </div>
+        <form className="mt-2" onSubmit={handleSubmit}>
+          <div className="short-wide-box">
+            <h2 className="m-2 text-2xl font-bold">Chain of Custody</h2>
+            <div className="horizontal-fields">
+              {Object.values(formData.chainOfCustody).map((field) =>
+                renderInputField({
+                  field,
+                  section: "chainOfCustody",
+                  formValues,
+                  handleChange,
+                  errors,
+                  showSuccessfulSubmit,
+                  setShowSuccessfulSubmit,
+                })
+              )}
             </div>
           </div>
-          <div className="flex justify-center">
-            <div className="flex justify-start">
-              <div className="special-box mr-7">
-                <h2 className="m-2 mt-4 text-2xl font-bold">
-                  Report Recipients
-                </h2>
-                <div className="column-fields">
-                  {Object.values(formData.reportRecipients).map((field) =>
-                    renderInputField(field, "reportRecipients")
+          <div className="flex flex-col">
+            <div className="flex">
+              <div className="input-box m-7">
+                <h2 className="m-2 text-2xl font-bold">Report</h2>
+                <div className="input-fields">
+                  {Object.values(formData.reportTo).map((field) =>
+                    renderInputField({
+                      field,
+                      section: "reportTo",
+                      formValues,
+                      handleChange,
+                      errors,
+                      showSuccessfulSubmit,
+                      setShowSuccessfulSubmit,
+                    })
+                  )}
+                </div>
+              </div>
+              <div className="input-box m-7">
+                <h2 className="m-2 text-2xl font-bold">Invoice</h2>
+                <div className="input-fields">
+                  {Object.values(formData.invoiceTo).map((field) =>
+                    renderInputField({
+                      field,
+                      section: "invoiceTo",
+                      formValues,
+                      handleChange,
+                      errors,
+                      showSuccessfulSubmit,
+                      setShowSuccessfulSubmit,
+                    })
                   )}
                 </div>
               </div>
             </div>
-            <div className="flex justify-start">
-              <div className="special-box">
-                <h2 className="m-2 text-2xl font-bold">Invoice Recipients</h2>
-                <div className="column-fields">
-                  {Object.values(formData.invoiceRecipients).map((field) =>
-                    renderInputField(field, "invoiceRecipients")
-                  )}
+            <div className="flex justify-center">
+              <div className="flex justify-start">
+                <div className="special-box mr-7">
+                  <h2 className="m-2 mt-4 text-2xl font-bold">
+                    Report Recipients
+                  </h2>
+                  <div className="column-fields">
+                    {Object.values(formData.reportRecipients).map((field) =>
+                      renderInputField({
+                        field,
+                        section: "reportRecipients",
+                        formValues,
+                        handleChange,
+                        errors,
+                        showSuccessfulSubmit,
+                        setShowSuccessfulSubmit,
+                      })
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="flex justify-start ml-7">
-              <div className="special-box mr-7">
-                <h2 className="m-2 mt-4 text-2xl font-bold">New Tests</h2>
-                <div className="">
-                  {tests.map((test) => (
-                    <div
-                      key={test.id}
-                      className="flex text-black items-center mb-4 space-x-2"
-                    >
-                      <input
-                        id={test.id}
-                        type="checkbox"
-                        value={test.name}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-700 dark:focus:ring-blue-800 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                        onChange={handleCheckboxChange}
-                        checked={selectedTests.includes(test.id)}
-                      />
-                      <label
-                        htmlFor={test.id}
-                        className="text-lg font-medium text-black"
+              <div className="flex justify-start">
+                <div className="special-box">
+                  <h2 className="m-2 text-2xl font-bold">Invoice Recipients</h2>
+                  <div className="column-fields">
+                    {Object.values(formData.invoiceRecipients).map((field) =>
+                      renderInputField({
+                        field,
+                        section: "invoiceRecipients",
+                        formValues,
+                        handleChange,
+                        errors,
+                        showSuccessfulSubmit,
+                        setShowSuccessfulSubmit,
+                      })
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-start ml-7">
+                <div className="special-box mr-7">
+                  <h2 className="m-2 mt-4 text-2xl font-bold">New Tests</h2>
+                  <div className="">
+                    {tests.map((test) => (
+                      <div
+                        key={test.id}
+                        className="flex text-black items-center mb-4 space-x-2"
                       >
-                        {test.name}
-                      </label>
-                    </div>
-                  ))}
+                        <input
+                          id={test.id}
+                          type="checkbox"
+                          value={test.name}
+                          className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-700 dark:focus:ring-blue-800 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          onChange={handleCheckboxChange}
+                          checked={selectedTests.includes(test.id)}
+                        />
+                        <label
+                          htmlFor={test.id}
+                          className="text-lg font-medium text-black"
+                        >
+                          {test.name}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          {/*Submit Button*/}
-          <div className="flex justify-center">
-            <button className="submit-button" type="submit">
-              Submit
-            </button>
-          </div>
-        </div>
-      </form>
-
-      {/* Modal for errors */}
-      {showErrorModal && (
-        <div className="modal show">
-          <div className="modal-content">
-            <div className="flex items-center justify-between pb-2">
-              <h2 className="font-bold">Errors</h2>
-              <span className="close" onClick={closeModal}>
-                &times;
-              </span>
+            {/*Submit Button*/}
+            <div className="flex justify-center">
+              <button className="submit-button" type="submit">
+                Submit
+              </button>
             </div>
-            <hr />
-            <ul className="text-red-500 py-2">
-              {Object.values(errors).map((error, index) => (
-                <li key={index}>{error}</li>
-              ))}
-            </ul>
           </div>
-        </div>
-      )}
-      {/* Modal for Success */}
-      <div
-        className={`fixed inset-x-0 bottom-0 flex justify-center transition-transform duration-300 ease-in-out transform ${
-          showSuccessfulSubmit ? "translate-y-0" : "translate-y-full"
-        }`}
-      >
-        <div className="bg-green-700 paper text-white max-h-10 w-1/5 flex justify-center items-center rounded-t-md">
-          <ul className="text-white text-xl py-2">
-            Successfully Submitted Data
-          </ul>
-        </div>
+        </form>
+
+        {/* Modal for errors */}
+        {showErrorModal && (
+          <div className="modal show">
+            <div className="modal-content">
+              <div className="flex items-center justify-between pb-2">
+                <h2 className="font-bold">Errors</h2>
+                <span className="close" onClick={closeModal}>
+                  &times;
+                </span>
+              </div>
+              <hr />
+              <ul className="text-red-500 py-2">
+                {Object.values(errors).map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default NewSampleForm;
