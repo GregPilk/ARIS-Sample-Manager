@@ -42,32 +42,31 @@ const LoginForm = () => {
             <h1>ARIS SAMPLE MANAGER</h1>
           </header>
           <div className="page-pop px-16 border border-gray-200 rounded-lg bg-white shadow-lg">
-            <div className="text-center mt-8">
-            </div>
+            <div className="text-center mt-8"></div>
             <form
               className="mt-2 flex flex-col items-center"
               onSubmit={onSubmit}
             >
-{error && (
-  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-    <div className="bg-white rounded-lg shadow-lg max-w-md w-full">
-      <div className="bg-red-500 text-white text-lg px-4 py-2 rounded-t-lg">
-        Error
-      </div>
-      <div className="px-4 py-3">
-        <p className="text-red-500 text-lg">{error}</p>
-      </div>
-      <div className="flex justify-end px-4 py-2">
-        <button
-          onClick={() => setError(null)}
-          className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+              {error && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                  <div className="bg-slate-300 rounded-lg shadow-lg max-w-md w-full">
+                    <div className="bg-red-500 text-white text-lg px-4 py-2 rounded-t-lg">
+                      Error
+                    </div>
+                    <div className="px-4 py-3">
+                      <p className="text-red-600 text-lg">{error}</p>
+                    </div>
+                    <div className="flex justify-end px-4 py-2">
+                      <button
+                        onClick={() => setError(null)}
+                        className="text-gray-200 font-bold text-md px-4 py-1 rounded-lg transition-shadow duration-300 ease-in-out bg-red-500 hover:bg-slate-600 border border-[#1a2431] shadow-sm hover:shadow-lg"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="login-box my-2 w-full max-w-md">
                 <div className="flex items-center mb-4 w-full">
