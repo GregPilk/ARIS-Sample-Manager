@@ -336,6 +336,42 @@ const NewSampleForm = () => {
     }
   };
 
+  const fillDemoData = () => {
+    const demoData = {
+      chainOfCustody: {
+        chainOfCustodyCOC: "Demo COC",
+        sampleAmount: "5",
+        sampleName: "Sample",
+      },
+      reportTo: {
+        reportToCompany: "Demo Company",
+        reportToContact: "Demo Contact",
+        reportToPhone: "1234567890",
+        reportToStreet: "123 Demo St",
+        reportToCity: "Demo City",
+        reportToPostal: "12345",
+      },
+      invoiceTo: {
+        sameAsReportTo: true,
+        copyOfInvoiceWithReport: true,
+        invoiceToCompany: "Demo Invoice Company",
+        invoiceToContact: "Demo Invoice Contact",
+      },
+      reportRecipients: {
+        reportFormat: "PDF",
+        mergeReports: "Yes",
+        distribution: "Email",
+        reportRecipientEmail: "demo@report.com",
+      },
+      invoiceRecipients: {
+        invoiceDistribution: "Email",
+        invoiceRecipientEmail: "demo@invoice.com",
+      },
+    };
+    setFormValues(demoData);
+    setSelectedTests(["PH/Conductivity", "TSS"]);
+  };
+
   return (
     <div className="page-container">
       <div className="page-pop px-16">
@@ -343,6 +379,7 @@ const NewSampleForm = () => {
           <header className="title">
             <h1>New Chain of Custody</h1>
           </header>
+          <button type="button" onClick={fillDemoData}>.</button>
         </div>
         <form className="mt-2" onSubmit={handleSubmit}>
           <div className="short-wide-box">
