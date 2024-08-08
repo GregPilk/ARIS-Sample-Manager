@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { updateTestResult } from "../_services/dbFunctions";
+import { useSession } from "next-auth/react";
 
 const ResultsTable = ({ record, selectedSampleType, selectedTestType }) => {
   const [editMode, setEditMode] = useState(false);
@@ -11,6 +12,7 @@ const ResultsTable = ({ record, selectedSampleType, selectedTestType }) => {
   const [resultType, setResultType] = useState("");
   const [results, setResults] = useState([]);
   const [showSuccessfulSubmit, setShowSuccessfulSubmit] = useState(false);
+  const { data: session } = useSession();
 
   useEffect(() => {
     if (showSuccessfulSubmit) {
@@ -100,31 +102,33 @@ const ResultsTable = ({ record, selectedSampleType, selectedTestType }) => {
   return (
     <div className="mt-4">
       <div className="flex w-full justify-between">
-        {/* Admin Edit Mode */}
-        <div className="flex justify-start">
-          <div className="ml-2">
-            {results.length > 0 && (
-              <div className="edit-bar paper">
-                <button
-                  className="admin-edit-button"
-                  type="button"
-                  onClick={submitEdits}
-                >
-                  Submit
-                </button>
-                <label className="font-bold flex items-center">
-                  <input
-                    className="mr-2 w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-700 dark:focus:ring-blue-800 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                    type="checkbox"
-                    checked={editMode}
-                    onChange={() => setEditMode(!editMode)}
-                  />
-                  Edit
-                </label>
-              </div>
-            )}
+        {session?.user?.role === "admin" && (
+          // Admin Edit Mode
+          <div className="flex justify-start">
+            <div className="ml-2">
+              {results.length > 0 && (
+                <div className="edit-bar paper">
+                  <button
+                    className="admin-edit-button"
+                    type="button"
+                    onClick={submitEdits}
+                  >
+                    Submit
+                  </button>
+                  <label className="font-bold flex items-center">
+                    <input
+                      className="mr-2 w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-700 dark:focus:ring-blue-800 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      type="checkbox"
+                      checked={editMode}
+                      onChange={() => setEditMode(!editMode)}
+                    />
+                    Edit
+                  </label>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
         <div>
           <p className="hidden">
             Shh I'm secret - This Section should be used for User Change

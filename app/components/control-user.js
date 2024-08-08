@@ -24,6 +24,15 @@ function ControlUser({ type }) {
     };
     fetchUsers();
   }, []);
+  useEffect(() => {
+    if (showSuccessModal) {
+      const timer = setTimeout(() => {
+        setShowSuccessModal(false);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccessModal]);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -32,7 +41,7 @@ function ControlUser({ type }) {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
-  
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -139,13 +148,13 @@ function ControlUser({ type }) {
         <div className="border-2 shadow-md border-white bg-slate-400 font-bold mb-2 p-2 paper rounded-md">
           {(type === "delete" || type === "edit") && (
             <div className="flex justify-center items-center mb-4">
-              <label className="w-28 font-bold" htmlFor="user-select">
+              <label className="w-44 font-bold" htmlFor="user-select">
                 Select User:
               </label>
               <select
                 id="user-select"
                 onChange={handleUserSelect}
-                className="w-1/2 rounded-md m-2"
+                className="w-full rounded-md m-2 text-center focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
               >
                 <option value="">--Select a User--</option>
                 {users.map((user) => (
@@ -163,7 +172,7 @@ function ControlUser({ type }) {
                   Name:
                 </label>
                 <input
-                  className="w-1/2 rounded-md m-2 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
+                  className="rounded-md m-2 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
                   type="text"
                   id="username"
                   value={username}
@@ -175,7 +184,7 @@ function ControlUser({ type }) {
                   Password:
                 </label>
                 <input
-                  className="w-1/2 rounded-md m-2 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
+                  className="rounded-md m-2 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
                   type="password"
                   id="password"
                   value={password}
@@ -187,11 +196,12 @@ function ControlUser({ type }) {
                   Role:
                 </label>
                 <select
-                  className="w-1/2 rounded-md m-2 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
+                  className="w-56 text-center rounded-md m-2 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
                   id="role"
                   value={role}
                   onChange={handleRoleChange}
                 >
+                  <option value="">--Select Role--</option>
                   <option value="user">User</option>
                   <option value="admin">Admin</option>
                 </select>
@@ -201,7 +211,7 @@ function ControlUser({ type }) {
                   Email:
                 </label>
                 <input
-                  className="w-1/2 rounded-md m-2 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
+                  className="rounded-md m-2 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
                   type="email"
                   id="email"
                   value={email}

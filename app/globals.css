@@ -46,7 +46,7 @@ body::before {
 .nav-custom{
   border: 2px solid #a0b6a8; /* Example border color */
   border-radius: 20px; /* Rounded border */
-  padding: 0 0px 0 10px;
+  padding: 0 10px 0 10px;
   height: 32px;
   width: auto;
 }
@@ -181,7 +181,23 @@ body::before {
   background-color: #cbd5e0;
   box-shadow: 5px 4px 6px 0px rgba(0, 0, 0, 0.2);  
 }
-
+.invisible-button {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  background-color: #e2e8f0; 
+  transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out;
+  color: #000; 
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 2rem 0.75rem; 
+  margin: 0.50rem 0.50rem; 
+  border-radius: 0.375rem; 
+  border: 1px solid #000;
+  font-size: 2rem; 
+  line-height: 2.5rem; 
+  width: 40%;
+  visibility: hidden;
+}
 .title {
   background-color: rgb(181, 184, 183);
   border-bottom: 3px groove #1a2431;
@@ -521,7 +537,7 @@ body::before {
 
 .admin-info{
   background-color: #CBD5E1;
-  align-items: center;
+  /* align-items: center; */
   display: flex;
   flex-direction: column;
   height: 77vh;

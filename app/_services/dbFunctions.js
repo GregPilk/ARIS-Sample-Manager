@@ -329,6 +329,7 @@ export const getUser = async (userID) => {
     }
 
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     console.error("Failed to fetch user:", error);

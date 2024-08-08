@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaFlaskVial } from "react-icons/fa6";
 import { HiDocumentSearch } from "react-icons/hi";
@@ -68,20 +68,24 @@ export default function Navbar({ pages, onNavigate }) {
       </div>
       {/* Middle Section - Navigation Links */}
       <div className="flex text-xl text-white items-center space-x-1 cursor-pointer">
-        {pages.map((page, index) => (
-          <div
-            className="flex items-center cursor-pointer"
-            key={index}
-            onClick={() => handleNavigate(page)}
-          >
-            <div className="flex items-center mx-2 hover:scale-110 hover:text-gray-300">
-              <p>{iconSwitch(page)}</p>
-              <p className="mx-2">{page}</p>
+        {pages
+          .filter((page) => page !== "Admin" || session?.user?.role === "admin")
+          .map((page, index) => (
+            <div
+              className="flex items-center cursor-pointer"
+              key={index}
+              onClick={() => handleNavigate(page)}
+            >
+              <div className="flex items-center mx-2 hover:scale-110 hover:text-gray-300">
+                <p>{iconSwitch(page)}</p>
+                <p className="mx-2">{page}</p>
+              </div>
+              {page !== "Admin" && session?.user?.role === "admin" && <p>|</p>}
+              {page !== "Test Data" && session?.user?.role === "user" && (
+                <p>|</p>
+              )}
             </div>
-            {page !== "Admin" && <p>|</p>}
-            {/* <p>|</p> */}
-          </div>
-        ))}
+          ))}
       </div>
 
       {/* Right Section - User Information and Dropdown */}
@@ -90,18 +94,19 @@ export default function Navbar({ pages, onNavigate }) {
           <div className="relative">
             <button
               onClick={toggleDropdown}
-              className="flex items-center text-white hover:text-gray-200"
+              className="flex items-center text-white hover:text-gray-300"
             >
               <div className="flex-container nav-custom">
                 {session.user.name || "User"}
-                <div className="nav-image greg"></div>
+
+                {/* <div className="nav-image greg"></div> */}
               </div>
               <GiHamburgerMenu className="scale-150 ml-4" />
             </button>
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-4 w-48 bg-white rounded-md shadow-lg py-1 dropdown-menu">
+              <div className="absolute right-1 mt-4 w-48 bg-white rounded-md shadow-lg py-1 dropdown-menu">
                 <button
-                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-200"
                   onClick={() => signOut()}
                 >
                   Log Out
