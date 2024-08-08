@@ -131,8 +131,7 @@ const ResultsTable = ({ record, selectedSampleType, selectedTestType }) => {
         )}
         <div>
           <p className="hidden">
-            Shh I'm secret - This Section should be used for User Change
-            Requests
+            Shh Im secret - This Section should be used for User Change Requests
           </p>
         </div>
       </div>
