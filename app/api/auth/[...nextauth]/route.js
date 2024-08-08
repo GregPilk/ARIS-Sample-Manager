@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs";
 import prisma from "@/app/libs/prismadb";
 
 const authOptions = {
+  debug: true,
   providers: [
     CredentialsProvider({
       name: "credentials",
