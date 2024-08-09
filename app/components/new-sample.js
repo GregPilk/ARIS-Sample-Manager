@@ -7,8 +7,6 @@ const RenderInputField = ({
   formValues,
   handleChange,
   errors,
-  showSuccessfulSubmit,
-  setShowSuccessfulSubmit,
 }) => {
   const error = errors[field.name];
   const hasError = Boolean(error);
@@ -24,16 +22,6 @@ const RenderInputField = ({
       return () => clearTimeout(timer);
     }
   }, [hasError]);
-
-  useEffect(() => {
-    if (showSuccessfulSubmit) {
-      const timer = setTimeout(() => {
-        setShowSuccessfulSubmit(false);
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [showSuccessfulSubmit]);
 
   if (field.type === "text" || field.type === "int") {
     return (
@@ -97,6 +85,15 @@ const NewSampleForm = () => {
   useEffect(() => {
     // Initialize form values here if necessary
   }, []);
+  useEffect(() => {
+    if (showSuccessfulSubmit) {
+      const timer = setTimeout(() => {
+        setShowSuccessfulSubmit(false);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccessfulSubmit]);
 
   const handleChange = (e, section, key) => {
     const updatedValues = { ...formValues };
@@ -271,7 +268,7 @@ const NewSampleForm = () => {
     // Create samples based on sampleAmount value
     const sampleAmount = parseInt(formValues.chainOfCustody?.sampleAmount || 0);
     if (!isNaN(sampleAmount) && sampleAmount > 0) {
-      console.log(`\nCreating ${sampleAmount} samples:`);
+      // console.log(`\nCreating ${sampleAmount} samples:`);
       for (let i = 1; i <= sampleAmount; i++) {
         const sample = {
           sampleID: "",
@@ -281,7 +278,7 @@ const NewSampleForm = () => {
 
         const sampleName = `${formValues.chainOfCustody?.sampleName}${i}`;
         sample.sampleID = sampleName;
-        console.log(`${sampleName}:`);
+        // console.log(`${sampleName}:`);
 
         selectedTests.forEach((testId) => {
           const test = tests.find((test) => test.id === testId);
@@ -327,11 +324,12 @@ const NewSampleForm = () => {
     } else {
       console.log("Invalid sample amount or not specified.");
     }
-    console.log(formValues);
-    console.log(newRecord);
+    // console.log(formValues);
+    // console.log(newRecord);
     // window.alert("Form submitted successfully!");
     setShowSuccessfulSubmit(true);
     createRecord(newRecord);
+    setSelectedTests([]);
     setFormValues({});
   };
 
@@ -401,8 +399,6 @@ const NewSampleForm = () => {
                   formValues,
                   handleChange,
                   errors,
-                  showSuccessfulSubmit,
-                  setShowSuccessfulSubmit,
                 })
               )}
             </div>
@@ -419,8 +415,6 @@ const NewSampleForm = () => {
                       formValues,
                       handleChange,
                       errors,
-                      showSuccessfulSubmit,
-                      setShowSuccessfulSubmit,
                     })
                   )}
                 </div>
@@ -435,8 +429,6 @@ const NewSampleForm = () => {
                       formValues,
                       handleChange,
                       errors,
-                      showSuccessfulSubmit,
-                      setShowSuccessfulSubmit,
                     })
                   )}
                 </div>
@@ -538,6 +530,18 @@ const NewSampleForm = () => {
             </div>
           </div>
         )}
+        {/* Modal for Success */}
+        <div
+          className={`fixed inset-x-0 bottom-0 flex justify-center transition-transform duration-300 ease-in-out transform ${
+            showSuccessfulSubmit ? "translate-y-0" : "translate-y-full"
+          }`}
+        >
+          <div className="bg-green-700 paper text-white max-h-10 w-1/4 flex justify-center items-center rounded-t-md">
+            <ul className="text-white text-xl py-2">
+              Successfully Submitted Data
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );

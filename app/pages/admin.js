@@ -252,7 +252,7 @@ export default function AdminPage() {
                   }`}
                   onClick={() => setActiveTab("edit")}
                 >
-                  Edit User
+                  Update User
                 </button>
               </div>
               <div className="tab-content w-full p-2">
